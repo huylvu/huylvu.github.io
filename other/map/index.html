@@ -3,132 +3,388 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Gallery</title>
+    <title>Huy Le Vu Map Gallery</title>
     <link rel="stylesheet" href="/style.css">
     <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
         body {
             background: #fff;
             margin: 0;
             padding: 0;
-        }
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 4px;
-            width: 100vw;
-            margin: 0;
-            padding: 0;
-        }
-        .gallery-img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 0;
-            display: block;
-        }
-        .gallery-header {
-            text-align: center;
-            margin-top: 10px;
-            margin-bottom: 4px;
-        }
-        .gallery-title {
-            font-size: 1.1rem;
-            color: #222;
-            font-weight: 300;
-        }
-        .gallery-switch {
-            margin: 8px 0 16px 0;
-            font-size: 1rem;
-        }
-        .switch-link {
-            color: #4b4b9f;
-            text-decoration: underline;
-            cursor: pointer;
-            font-weight: 300;
-        }
-        .switch-link.active {
-            color: #000;
-            text-decoration: none;
-            font-weight: 300;
-        }
-        .gallery-scroll {
+            font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-            gap: 32px;
-            padding: 0 0 12px 0;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.1);
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .center-vertical {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             width: 100vw;
+            position: relative;
+            z-index: 2;
+            padding: 0 0 40px 0;
         }
-        .gallery-scroll .gallery-img {
-            width: 100%;
-            max-width: 480px;
-            height: auto;
-            aspect-ratio: auto;
-            object-fit: contain;
-            border-radius: 0;
-            margin: 0 auto 8px auto;
+        .scroll-gallery-container {
+            width: 100vw;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border-bottom: 0 solid #eee;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 520px;
+            cursor: grab;
+            position: relative;
+            z-index: 2;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        .scroll-gallery-container:active {
+            cursor: grabbing;
+        }
+        .scroll-gallery {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+            padding: 40px 50vw 40px 50vw;
+            margin: 0;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        .scroll-img-container {
+            position: relative;
+            cursor: pointer;
+            padding: 70px 0;
+        }
+        .scroll-img {
+            height: 360px;
+            width: auto;
+            object-fit: cover;
+            border-radius: 4px;
             display: block;
+            flex-shrink: 0;
+            background: #eee;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transition: all 0.35s cubic-bezier(.22,1.2,.36,1);
+            position: relative;
+            z-index: 2;
         }
-        .gallery-scroll .img-title {
+        .scroll-img-container:hover .scroll-img {
+            transform: scale(1.15) perspective(600px) rotateY(-4deg) rotateX(2deg) translateY(-8px);
+            box-shadow: 0 16px 48px 0 rgba(0,0,0,0.2), 0 2px 12px 0 rgba(0,0,0,0.12);
+            z-index: 2;
+        }
+        .img-info {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             text-align: center;
-            color: #222;
-            font-size: 1rem;
-            font-weight: 300;
-            margin-bottom: 0;
+            width: 100%;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 12px 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            max-width: 280px;
         }
+        .img-title {
+            top: 0;
+            color: #000;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+        .img-date {
+            bottom: 0;
+            color: #666;
+            font-size: 1rem;
+        }
+        .scroll-img-container:hover .img-info {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal.show {
+            opacity: 1;
+        }
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .modal.show .modal-content {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .big-title {
+            text-align: center;
+            font-size: 3.8rem;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+            color: #1a1a1a;
+            position: absolute;
+            top: 40px;
+        }
+        @media (max-width: 900px) {
+            .scroll-img { height: 240px; }
+            .scroll-gallery-container { 
+                height: 380px;
+            }
+            .scroll-img-container { padding: 60px 0; }
+            .big-title { 
+                font-size: 2rem; 
+                margin: 0 0 15px 0;
+                top: 20px;
+            }
+            .scroll-gallery { gap: 24px; padding: 24px 40vw 24px 40vw; }
+        }
+        .scroll-gallery-container::-webkit-scrollbar { display: none; }
+        .scroll-gallery-container { scrollbar-width: none; }
     </style>
 </head>
 <body>
-    <div class="gallery-header">
-        <div class="gallery-title">Map Gallery</div>
-        <div class="gallery-switch">
-            <a href="#" id="switch-scroll" class="switch-link">Scroll</a> /
-            <a href="#" id="switch-grid" class="switch-link active">Grid</a>
+    <div class="big-title">Huy Le Vu Map Gallery</div>
+    <div class="center-vertical">
+        <div class="scroll-gallery-container" id="carousel-container">
+            <div class="scroll-gallery" id="carousel-gallery">
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/japan_climate.jpeg" alt="Japan Climate">
+                    <div class="img-info img-title">Japan Climate Map</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/france_population.jpeg" alt="France Population">
+                    <div class="img-info img-title">France Population Density</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/brazil_chorolepth.jpeg" alt="Brazil Choropleth">
+                    <div class="img-info img-title">Brazil Choropleth Map</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/iberia_landcover.jpeg" alt="Iberia Landcover">
+                    <div class="img-info img-title">Iberia Landcover</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_train.jpg" alt="Vietnam Train">
+                    <div class="img-info img-title">Vietnam Railway Network</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_fire.jpg" alt="Vietnam Fire">
+                    <div class="img-info img-title">Vietnam Fire Incidents</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_drowning.jpg" alt="Vietnam Drowning">
+                    <div class="img-info img-title">Vietnam Drowning Incidents</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_opendata.jpg" alt="Vietnam Open Data">
+                    <div class="img-info img-title">Vietnam Open Data</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_contour.png" alt="Vietnam Contour">
+                    <div class="img-info img-title">Vietnam Contour Map</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+                <div class="scroll-img-container">
+                    <img class="scroll-img" src="/other/map/image/vn_topo.png" alt="Vietnam Topo">
+                    <div class="img-info img-title">Vietnam Topographic Map</div>
+                    <div class="img-info img-date">2024</div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="gallery-grid">
-        <img class="gallery-img" src="/other/map/image/vn_contour.png" alt="Fansipan Height Contour Map">
-        <img class="gallery-img" src="/other/map/image/vn_topo.png" alt="Viet Nam Topographic Map">
+    <div id="imageModal" class="modal">
+        <img class="modal-content" id="modalImage">
     </div>
     <script>
-        const gridBtn = document.getElementById('switch-grid');
-        const scrollBtn = document.getElementById('switch-scroll');
-        const grid = document.querySelector('.gallery-grid');
-        // Tạo gallery-scroll clone từ gallery-grid
-        function toScroll() {
-            grid.style.display = 'none';
-            let scrollDiv = document.querySelector('.gallery-scroll');
-            if (!scrollDiv) {
-                scrollDiv = document.createElement('div');
-                scrollDiv.className = 'gallery-scroll';
-                grid.parentNode.insertBefore(scrollDiv, grid.nextSibling);
-                Array.from(grid.children).forEach((img, idx) => {
-                    const wrap = document.createElement('div');
-                    wrap.style.display = 'flex';
-                    wrap.style.flexDirection = 'column';
-                    wrap.style.alignItems = 'center';
-                    const clone = img.cloneNode(true);
-                    wrap.appendChild(clone);
-                    const title = document.createElement('div');
-                    title.className = 'img-title';
-                    title.innerText = 'Map ' + (idx+1);
-                    wrap.appendChild(title);
-                    scrollDiv.appendChild(wrap);
-                });
+        const container = document.getElementById('carousel-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let velocity = 0;
+        let lastX = 0;
+        let lastTime = Date.now();
+
+        container.addEventListener('mousedown', (e) => {
+            isDown = true;
+            container.style.cursor = 'grabbing';
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+            lastX = e.pageX;
+            lastTime = Date.now();
+            velocity = 0;
+        });
+
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+            container.style.cursor = 'grab';
+        });
+
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+            container.style.cursor = 'grab';
+            
+            // Áp dụng velocity khi thả chuột
+            if (Math.abs(velocity) > 0.1) {
+                applyVelocity();
             }
-            scrollDiv.style.display = 'flex';
-            gridBtn.classList.remove('active');
-            scrollBtn.classList.add('active');
+        });
+
+        container.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX);
+            container.scrollLeft = scrollLeft - walk;
+
+            // Tính toán velocity
+            const currentTime = Date.now();
+            const deltaTime = currentTime - lastTime;
+            if (deltaTime > 0) {
+                velocity = (e.pageX - lastX) / deltaTime;
+            }
+            lastX = e.pageX;
+            lastTime = currentTime;
+        });
+
+        function applyVelocity() {
+            if (Math.abs(velocity) < 0.1) return;
+            
+            container.scrollLeft -= velocity * 50;
+            velocity *= 0.95;
+
+            requestAnimationFrame(applyVelocity);
         }
-        function toGrid() {
-            grid.style.display = 'grid';
-            const scrollDiv = document.querySelector('.gallery-scroll');
-            if (scrollDiv) scrollDiv.style.display = 'none';
-            gridBtn.classList.add('active');
-            scrollBtn.classList.remove('active');
-        }
-        gridBtn.addEventListener('click', function(e) { e.preventDefault(); toGrid(); });
-        scrollBtn.addEventListener('click', function(e) { e.preventDefault(); toScroll(); });
+
+        // Touch events
+        container.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+            lastX = e.touches[0].pageX;
+            lastTime = Date.now();
+            velocity = 0;
+        });
+
+        container.addEventListener('touchend', () => {
+            isDown = false;
+            if (Math.abs(velocity) > 0.1) {
+                applyVelocity();
+            }
+        });
+
+        container.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            const x = e.touches[0].pageX - container.offsetLeft;
+            const walk = (x - startX);
+            container.scrollLeft = scrollLeft - walk;
+
+            // Tính toán velocity
+            const currentTime = Date.now();
+            const deltaTime = currentTime - lastTime;
+            if (deltaTime > 0) {
+                velocity = (e.touches[0].pageX - lastX) / deltaTime;
+            }
+            lastX = e.touches[0].pageX;
+            lastTime = currentTime;
+        });
+
+        // Thêm xử lý click để phóng to ảnh
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const imgContainers = document.querySelectorAll('.scroll-img-container');
+
+        imgContainers.forEach(container => {
+            const img = container.querySelector('.scroll-img');
+            container.addEventListener('click', (e) => {
+                if (!isDown) {  // Chỉ phóng to khi không đang kéo
+                    modalImg.src = img.src;
+                    modal.style.display = "block";
+                    // Thêm class show sau khi display block để trigger animation
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                    }, 10);
+                }
+            });
+        });
+
+        modal.addEventListener('click', () => {
+            modal.classList.remove('show');
+            // Đợi animation kết thúc rồi mới ẩn modal
+            setTimeout(() => {
+                modal.style.display = "none";
+            }, 300);
+        });
+
+        // Ngăn chặn sự kiện click khi đang kéo
+        let isDragging = false;
+        container.addEventListener('mousedown', () => {
+            isDragging = false;
+        });
+
+        container.addEventListener('mousemove', () => {
+            isDragging = true;
+        });
+
+        container.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
     </script>
 </body>
 </html> 
