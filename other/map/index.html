@@ -3,388 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huy Le Vu Map Gallery</title>
+    <title>Map Gallery — Huy Le Vu</title>
     <link rel="stylesheet" href="/style.css">
-    <style>
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-        body {
-            background: #fff;
-            margin: 0;
-            padding: 0;
-            font-family: 'San Francisco', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 50%;
-            width: 1px;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.1);
-            transform: translateX(-50%);
-            pointer-events: none;
-            z-index: 1;
-        }
-        .center-vertical {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100vw;
-            position: relative;
-            z-index: 2;
-            padding: 0 0 40px 0;
-        }
-        .scroll-gallery-container {
-            width: 100vw;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            border-bottom: 0 solid #eee;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            height: 520px;
-            cursor: grab;
-            position: relative;
-            z-index: 2;
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
-        }
-        .scroll-gallery-container:active {
-            cursor: grabbing;
-        }
-        .scroll-gallery {
-            display: flex;
-            flex-direction: row;
-            gap: 40px;
-            padding: 40px 50vw 40px 50vw;
-            margin: 0;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-        .scroll-img-container {
-            position: relative;
-            cursor: pointer;
-            padding: 70px 0;
-        }
-        .scroll-img {
-            height: 360px;
-            width: auto;
-            object-fit: cover;
-            border-radius: 4px;
-            display: block;
-            flex-shrink: 0;
-            background: #eee;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-            transition: all 0.35s cubic-bezier(.22,1.2,.36,1);
-            position: relative;
-            z-index: 2;
-        }
-        .scroll-img-container:hover .scroll-img {
-            transform: scale(1.15) perspective(600px) rotateY(-4deg) rotateX(2deg) translateY(-8px);
-            box-shadow: 0 16px 48px 0 rgba(0,0,0,0.2), 0 2px 12px 0 rgba(0,0,0,0.12);
-            z-index: 2;
-        }
-        .img-info {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            width: 100%;
-            opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
-            z-index: 3;
-            background: rgba(255, 255, 255, 0.98);
-            padding: 12px 20px;
-            border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            max-width: 280px;
-        }
-        .img-title {
-            top: 0;
-            color: #000;
-            font-weight: 600;
-            font-size: 1.2rem;
-            margin-bottom: 4px;
-        }
-        .img-date {
-            bottom: 0;
-            color: #666;
-            font-size: 1rem;
-        }
-        .scroll-img-container:hover .img-info {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.95);
-            z-index: 1000;
-            cursor: zoom-out;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .modal.show {
-            opacity: 1;
-        }
-        .modal-content {
-            max-width: 90%;
-            max-height: 90vh;
-            margin: auto;
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.9);
-            transition: transform 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        }
-        .modal.show .modal-content {
-            transform: translate(-50%, -50%) scale(1);
-        }
-        .big-title {
-            text-align: center;
-            font-size: 3.8rem;
-            font-weight: 700;
-            margin: 0 0 20px 0;
-            letter-spacing: 0.01em;
-            line-height: 1.4;
-            color: #1a1a1a;
-            position: absolute;
-            top: 40px;
-        }
-        @media (max-width: 900px) {
-            .scroll-img { height: 240px; }
-            .scroll-gallery-container { 
-                height: 380px;
-            }
-            .scroll-img-container { padding: 60px 0; }
-            .big-title { 
-                font-size: 2rem; 
-                margin: 0 0 15px 0;
-                top: 20px;
-            }
-            .scroll-gallery { gap: 24px; padding: 24px 40vw 24px 40vw; }
-        }
-        .scroll-gallery-container::-webkit-scrollbar { display: none; }
-        .scroll-gallery-container { scrollbar-width: none; }
-    </style>
+    <link rel="stylesheet" href="/gallery.css">
 </head>
-<body>
-    <div class="big-title">Huy Le Vu Map Gallery</div>
-    <div class="center-vertical">
-        <div class="scroll-gallery-container" id="carousel-container">
-            <div class="scroll-gallery" id="carousel-gallery">
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/japan_climate.jpeg" alt="Japan Climate">
-                    <div class="img-info img-title">Japan Climate Map</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/france_population.jpeg" alt="France Population">
-                    <div class="img-info img-title">France Population Density</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/brazil_chorolepth.jpeg" alt="Brazil Choropleth">
-                    <div class="img-info img-title">Brazil Choropleth Map</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/iberia_landcover.jpeg" alt="Iberia Landcover">
-                    <div class="img-info img-title">Iberia Landcover</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_train.jpg" alt="Vietnam Train">
-                    <div class="img-info img-title">Vietnam Railway Network</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_fire.jpg" alt="Vietnam Fire">
-                    <div class="img-info img-title">Vietnam Fire Incidents</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_drowning.jpg" alt="Vietnam Drowning">
-                    <div class="img-info img-title">Vietnam Drowning Incidents</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_opendata.jpg" alt="Vietnam Open Data">
-                    <div class="img-info img-title">Vietnam Open Data</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_contour.png" alt="Vietnam Contour">
-                    <div class="img-info img-title">Vietnam Contour Map</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
-                <div class="scroll-img-container">
-                    <img class="scroll-img" src="/other/map/image/vn_topo.png" alt="Vietnam Topo">
-                    <div class="img-info img-title">Vietnam Topographic Map</div>
-                    <div class="img-info img-date">2024</div>
-                </div>
+<body class="gallery-page">
+    <header class="gallery-header">
+        <a href="/" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
+        </a>
+        <h1>Map Gallery</h1>
+        <p>A collection of cartographic visualizations</p>
+    </header>
+
+    <main class="gallery">
+        <article class="gallery-item" data-index="0">
+            <img src="/other/map/image/japan_climate.jpeg" alt="Japan Climate Map">
+            <div class="info">
+                <h2 class="title">Japan Climate Map</h2>
+                <p class="description">Climate classification and temperature distribution across the Japanese archipelago.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="1">
+            <img src="/other/map/image/france_population.jpeg" alt="France Population Density">
+            <div class="info">
+                <h2 class="title">France Population Density</h2>
+                <p class="description">Population density visualization showing urban concentration patterns in France.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="2">
+            <img src="/other/map/image/brazil_chorolepth.jpeg" alt="Brazil Choropleth Map">
+            <div class="info">
+                <h2 class="title">Brazil Choropleth</h2>
+                <p class="description">Statistical choropleth map displaying regional data distribution across Brazilian states.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="3">
+            <img src="/other/map/image/iberia_landcover.jpeg" alt="Iberia Landcover">
+            <div class="info">
+                <h2 class="title">Iberia Landcover</h2>
+                <p class="description">Land use and vegetation coverage mapping of the Iberian Peninsula.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="4">
+            <img src="/other/map/image/vn_train.jpg" alt="Vietnam Railway Network">
+            <div class="info">
+                <h2 class="title">Vietnam Railway Network</h2>
+                <p class="description">Comprehensive visualization of Vietnam's railway infrastructure and connections.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="5">
+            <img src="/other/map/image/vn_fire.jpg" alt="Vietnam Fire Incidents">
+            <div class="info">
+                <h2 class="title">Vietnam Fire Incidents</h2>
+                <p class="description">Geospatial analysis of fire incident distribution and hotspots across Vietnam.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="6">
+            <img src="/other/map/image/vn_drowning.jpg" alt="Vietnam Drowning Incidents">
+            <div class="info">
+                <h2 class="title">Vietnam Drowning Incidents</h2>
+                <p class="description">Spatial mapping of drowning incidents for risk assessment and prevention planning.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="7">
+            <img src="/other/map/image/vn_opendata.jpg" alt="Vietnam Open Data">
+            <div class="info">
+                <h2 class="title">Vietnam Open Data</h2>
+                <p class="description">Open data visualization showcasing publicly available geographic information.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="8">
+            <img src="/other/map/image/vn_contour.png" alt="Vietnam Contour Map">
+            <div class="info">
+                <h2 class="title">Vietnam Contour Map</h2>
+                <p class="description">Elevation contour lines revealing the topographic relief of Vietnam.</p>
+            </div>
+        </article>
+
+        <article class="gallery-item" data-index="9">
+            <img src="/other/map/image/vn_topo.png" alt="Vietnam Topographic Map">
+            <div class="info">
+                <h2 class="title">Vietnam Topographic Map</h2>
+                <p class="description">Detailed topographic representation showing terrain features and elevations.</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close"></button>
+        <button class="lightbox-nav prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="lightbox-nav next" aria-label="Next">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <div class="lightbox-info">
+                <h3 class="title" id="lightbox-title"></h3>
+                <p class="description" id="lightbox-desc"></p>
             </div>
         </div>
     </div>
-    <div id="imageModal" class="modal">
-        <img class="modal-content" id="modalImage">
-    </div>
+
     <script>
-        const container = document.getElementById('carousel-container');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-        let velocity = 0;
-        let lastX = 0;
-        let lastTime = Date.now();
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-nav.prev');
+        const nextBtn = document.querySelector('.lightbox-nav.next');
 
-        container.addEventListener('mousedown', (e) => {
-            isDown = true;
-            container.style.cursor = 'grabbing';
-            startX = e.pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-            lastX = e.pageX;
-            lastTime = Date.now();
-            velocity = 0;
-        });
+        let currentIndex = 0;
+        const totalItems = galleryItems.length;
 
-        container.addEventListener('mouseleave', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-        });
-
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-            container.style.cursor = 'grab';
-            
-            // Áp dụng velocity khi thả chuột
-            if (Math.abs(velocity) > 0.1) {
-                applyVelocity();
-            }
-        });
-
-        container.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX);
-            container.scrollLeft = scrollLeft - walk;
-
-            // Tính toán velocity
-            const currentTime = Date.now();
-            const deltaTime = currentTime - lastTime;
-            if (deltaTime > 0) {
-                velocity = (e.pageX - lastX) / deltaTime;
-            }
-            lastX = e.pageX;
-            lastTime = currentTime;
-        });
-
-        function applyVelocity() {
-            if (Math.abs(velocity) < 0.1) return;
-            
-            container.scrollLeft -= velocity * 50;
-            velocity *= 0.95;
-
-            requestAnimationFrame(applyVelocity);
+        function getItemData(index) {
+            const item = galleryItems[index];
+            return {
+                src: item.querySelector('img').src,
+                alt: item.querySelector('img').alt,
+                title: item.querySelector('.title').textContent,
+                description: item.querySelector('.description').textContent
+            };
         }
 
-        // Touch events
-        container.addEventListener('touchstart', (e) => {
-            isDown = true;
-            startX = e.touches[0].pageX - container.offsetLeft;
-            scrollLeft = container.scrollLeft;
-            lastX = e.touches[0].pageX;
-            lastTime = Date.now();
-            velocity = 0;
+        function openLightbox(index) {
+            currentIndex = index;
+            const data = getItemData(index);
+            lightboxImg.src = data.src;
+            lightboxImg.alt = data.alt;
+            lightboxTitle.textContent = data.title;
+            lightboxDesc.textContent = data.description;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => lightbox.classList.add('show'));
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            document.body.style.overflow = '';
+            setTimeout(() => lightbox.classList.remove('active'), 300);
+        }
+
+        function navigate(direction) {
+            currentIndex = (currentIndex + direction + totalItems) % totalItems;
+            const data = getItemData(currentIndex);
+            lightboxImg.src = data.src;
+            lightboxImg.alt = data.alt;
+            lightboxTitle.textContent = data.title;
+            lightboxDesc.textContent = data.description;
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
         });
 
-        container.addEventListener('touchend', () => {
-            isDown = false;
-            if (Math.abs(velocity) > 0.1) {
-                applyVelocity();
-            }
+        closeBtn.addEventListener('click', closeLightbox);
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(-1); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigate(1); });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
         });
 
-        container.addEventListener('touchmove', (e) => {
-            if (!isDown) return;
-            const x = e.touches[0].pageX - container.offsetLeft;
-            const walk = (x - startX);
-            container.scrollLeft = scrollLeft - walk;
-
-            // Tính toán velocity
-            const currentTime = Date.now();
-            const deltaTime = currentTime - lastTime;
-            if (deltaTime > 0) {
-                velocity = (e.touches[0].pageX - lastX) / deltaTime;
-            }
-            lastX = e.touches[0].pageX;
-            lastTime = currentTime;
-        });
-
-        // Thêm xử lý click để phóng to ảnh
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const imgContainers = document.querySelectorAll('.scroll-img-container');
-
-        imgContainers.forEach(container => {
-            const img = container.querySelector('.scroll-img');
-            container.addEventListener('click', (e) => {
-                if (!isDown) {  // Chỉ phóng to khi không đang kéo
-                    modalImg.src = img.src;
-                    modal.style.display = "block";
-                    // Thêm class show sau khi display block để trigger animation
-                    setTimeout(() => {
-                        modal.classList.add('show');
-                    }, 10);
-                }
-            });
-        });
-
-        modal.addEventListener('click', () => {
-            modal.classList.remove('show');
-            // Đợi animation kết thúc rồi mới ẩn modal
-            setTimeout(() => {
-                modal.style.display = "none";
-            }, 300);
-        });
-
-        // Ngăn chặn sự kiện click khi đang kéo
-        let isDragging = false;
-        container.addEventListener('mousedown', () => {
-            isDragging = false;
-        });
-
-        container.addEventListener('mousemove', () => {
-            isDragging = true;
-        });
-
-        container.addEventListener('mouseup', () => {
-            isDragging = false;
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigate(-1);
+            if (e.key === 'ArrowRight') navigate(1);
         });
     </script>
 </body>
-</html> 
+</html>

@@ -360,13 +360,13 @@ body {
     max-width: 1100px;
     margin: 0 auto 2rem auto;
     gap: 1.5rem;
-    padding: 0 1rem;
+    padding: 1.5rem 1rem 0 1rem;
 }
 
 .main-col {
     flex: 3;
     min-width: 0;
-    max-width: 100%;
+    max-width: 560px;
 }
 
 .side-col {
@@ -402,12 +402,12 @@ body {
 .avatar-block {
     display: flex;
     justify-content: left;
-    margin-bottom: 2.2rem;
+    margin-bottom: 0.8rem;
 }
 
 .avatar-img {
     width: 100%;
-    max-width: 600px;
+    max-width: 560px;
     height: 350px;
     object-fit: cover;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);

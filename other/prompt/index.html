@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Prompt Gallery — Huy Le Vu</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/gallery.css">
+    <style>
+        /* Multi-image gallery item */
+        .gallery-item .images {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .gallery-item .images img {
+            width: 100%;
+            height: auto;
+            display: none;
+            border-radius: 8px;
+        }
+
+        .gallery-item .images img.active {
+            display: block;
+        }
+
+        .gallery-item .image-nav {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .gallery-item .image-nav span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .gallery-item .image-nav span.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+
+        .gallery-item .image-count {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        /* Prompt display */
+        .gallery-item .description {
+            font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+            font-size: 0.8rem;
+            background: #f5f5f5;
+            padding: 12px 14px;
+            border-radius: 6px;
+            border-left: 3px solid #333;
+            white-space: pre-wrap;
+            word-break: break-word;
+            max-height: 120px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gallery-item .description::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, #f5f5f5);
+        }
+
+        .prompt-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #999;
+            margin-bottom: 6px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Lightbox - Fixed layout */
+        .lightbox-content {
+            display: flex;
+            flex-direction: row;
+            align-items: stretch;
+            max-width: 95vw;
+            max-height: 90vh;
+            gap: 24px;
+        }
+
+        .lightbox-image-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .lightbox-content > img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-image-nav {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .lightbox-image-nav span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-image-nav span.active {
+            background: #fff;
+            transform: scale(1.2);
+        }
+
+        .lightbox-info {
+            width: 360px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .lightbox-info .title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #fff;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .lightbox-info .prompt-label {
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+        }
+
+        .lightbox-info .description {
+            font-family: 'SF Mono', 'Menlo', 'Monaco', monospace;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            text-align: left;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: rgba(255,255,255,0.85);
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            margin-top: 16px;
+            padding: 12px 20px;
+            background: #fff;
+            border: none;
+            color: #1a1a1a;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .copy-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .copy-btn.copied {
+            background: #4caf50;
+            color: #fff;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .lightbox-content {
+                flex-direction: column;
+                max-height: 95vh;
+                overflow-y: auto;
+                padding: 20px;
+            }
+
+            .lightbox-content > img {
+                max-height: 50vh;
+            }
+
+            .lightbox-info {
+                width: 100%;
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body class="gallery-page">
+    <header class="gallery-header">
+        <a href="/" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Home
+        </a>
+        <h1>GPT Prompt Gallery</h1>
+        <p>Images created with AI prompts — click to view and copy prompt</p>
+    </header>
+
+    <main class="gallery">
+        <!-- City Weather Isometric -->
+        <article class="gallery-item" data-index="0">
+            <div class="images">
+                <img src="/other/prompt/image/promt_hanoi.png" alt="Hanoi" class="active">
+                <img src="/other/prompt/image/promt_hochiminh.png" alt="Ho Chi Minh">
+                <span class="image-count">2 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">City Weather Isometric</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">CITY=[Hà Nội, Việt Nam] Present a clear, 45° top-down isometric miniature 3D cartoon scene of [CITY], featuring its most iconic landmarks and architectural elements. Use soft, refined textures with realistic PBR materials and gentle, lifelike lighting and shadows. Integrate the current weather conditions directly into the city environment to create an immersive atmospheric mood.
+Use a clean, minimalistic composition with a soft, solid-colored background. At the top-center, place the title "[CITY]" in large bold text, a prominent weather icon beneath it, then the date (small text) and temperature (medium text).
+All text must be centered with consistent spacing, and may subtly overlap the tops of the buildings. Square 1080x1080 dimension.</p>
+            </div>
+        </article>
+
+        <!-- Career / Life Path Diorama -->
+        <article class="gallery-item" data-index="1">
+            <div class="images">
+                <img src="/other/prompt/image/LifePath_1.jpeg" alt="Life Path Diorama 1" class="active">
+                <img src="/other/prompt/image/LifePath_2.jpeg" alt="Life Path Diorama 2">
+                <span class="image-count">2 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Career / Life Path Diorama</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Create a clear, 45° top-down isometric miniature 3D diorama representing the career path [CAREER NAME].
+
+Use soft refined textures, realistic PBR materials, and gentle lifelike lighting.
+
+Design a winding path across a raised base with key milestones: [MILESTONE 1], [MILESTONE 2], [MILESTONE 3].
+
+Include tiny stylized people progressing along the path (no facial details).
+
+Use a clean solid [BACKGROUND COLOR] background.
+
+At the top-center, display [CAREER NAME] in large bold text, beneath it show a motivational subtitle, and place a minimal career-related icon below.
+
+All text must automatically match the background contrast (white or black).</p>
+            </div>
+        </article>
+
+        <!-- How It Works Educational Dioramas -->
+        <article class="gallery-item" data-index="2">
+            <div class="images">
+                <img src="/other/prompt/image/howitwork_1.jpeg" alt="How It Works 1" class="active">
+                <img src="/other/prompt/image/howitwork_2.jpeg" alt="How It Works 2">
+                <img src="/other/prompt/image/howitwork_3.jpeg" alt="How It Works 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">"How It Works" Educational Dioramas</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Create a clear, 45° top-down isometric miniature 3D educational diorama explaining [PROCESS / CONCEPT].
+
+Use soft refined textures, realistic PBR materials, and gentle lifelike lighting.
+
+Build a stepped or layered diorama base showing each stage of the process with subtle arrows or paths.
+
+Include tiny stylized figures interacting with each stage (no facial details).
+
+Use a clean solid [BACKGROUND COLOR] background.
+
+At the top-center, display [PROCESS NAME] in large bold text, directly beneath it show a short explanation subtitle, and place a minimal symbolic icon below.
+
+All text must automatically match the background contrast (white or black).</p>
+            </div>
+        </article>
+
+        <!-- Micro World Discovery -->
+        <article class="gallery-item" data-index="3">
+            <div class="images">
+                <img src="/other/prompt/image/micro_1.jpeg" alt="Micro World 1" class="active">
+                <img src="/other/prompt/image/micro_@.jpeg" alt="Micro World 2">
+                <span class="image-count">2 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Micro World Discovery</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">[PRODUCT] transformed into a colossal structure within a miniature world, tiny people interacting with it, ladders, walkways, scale contrast, soft atmospheric haze, playful yet premium storytelling.</p>
+            </div>
+        </article>
+
+        <!-- Countries | Isometric Landmarks -->
+        <article class="gallery-item" data-index="4">
+            <div class="images">
+                <img src="/other/prompt/image/country_1.jpeg" alt="Country Landmarks 1" class="active">
+                <img src="/other/prompt/image/country_2.jpeg" alt="Country Landmarks 2">
+                <span class="image-count">2 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Countries | Isometric Landmarks</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">A clean, minimal 3D isometric diorama depicting a curated collection of iconic landmarks from [COUNTRY NAME], arranged as a cohesive miniature architectural set. Each landmark is thoughtfully simplified and stylized while remaining instantly recognizable, unified through consistent scale, geometry, and a restrained material palette.
+
+The landmarks sit on a smooth concrete base with softly rounded edges, evoking a premium architectural model aesthetic. Realistic materials, subtle surface imperfections, and soft studio lighting enhance depth and realism. The overall composition is balanced and uncluttered, presented against a neutral background.
+
+At the top center of the composition, clean minimalist typography displays the title "[COUNTRY NAME]", seamlessly integrated into the scene without overpowering the diorama.
+
+Ultra-high detail, modern isometric perspective, miniature architectural model style.</p>
+            </div>
+        </article>
+
+        <!-- Commercial Building Slice -->
+        <article class="gallery-item" data-index="5">
+            <div class="images">
+                <img src="/other/prompt/image/building_1.jpeg" alt="Building Slice 1" class="active">
+                <img src="/other/prompt/image/building_2.jpeg" alt="Building Slice 2">
+                <img src="/other/prompt/image/building_3.jpeg" alt="Building Slice 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Commercial Building Slice</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">A clean, minimal 3D isometric diorama of a [BUILDING TYPE] section, featuring [INTERIOR / EXTERIOR ELEMENTS] visible in a [CUTAWAY / OPEN STYLE], simple [STRUCTURAL FRAME], subtle [INFORMATIONAL SIGNAGE], smooth [MATERIAL FINISH], soft studio lighting, realistic materials, rounded edges, miniature architectural model style, high detail, neutral background.</p>
+            </div>
+        </article>
+
+        <!-- Object-Based Miniature Cities -->
+        <article class="gallery-item" data-index="6">
+            <div class="images">
+                <img src="/other/prompt/image/miniature_1.jpeg" alt="Miniature City 1" class="active">
+                <img src="/other/prompt/image/miniature_2.jpeg" alt="Miniature City 2">
+                <img src="/other/prompt/image/miniature_3.jpeg" alt="Miniature City 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Object-Based Miniature Cities</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Create a stylized miniature 3D diorama viewed from a 45-degree angled perspective, emphasizing careful scale, clean geometry, and fine craftsmanship.
+
+A [OBJECT] serves as the central base of the composition. From within or above this object, a miniature interpretation of [LOCATION NAME] emerges naturally, forming a compact, self-contained world.
+
+The scene highlights recognizable landmarks, terrain features, or symbolic structures associated with [LOCATION NAME], arranged harmoniously and rendered with precise detail.
+
+Miniature roads, paths, or environmental elements flow through the scene, with tiny vehicles, figures, or subtle motion cues adding realism and life.
+
+Use cinematic lighting, soft highlights, and selective depth-of-field blur to create a magical, dreamlike atmosphere.
+
+Balance playful isometric styling with realistic materials and lighting, achieving a polished, premium diorama look.
+
+Highly detailed, cohesive composition with an 8K cinematic finish, refined miniature-world aesthetic.</p>
+            </div>
+        </article>
+
+        <!-- Daily Ritual Icons -->
+        <article class="gallery-item" data-index="7">
+            <div class="images">
+                <img src="/other/prompt/image/ritual_1.jpeg" alt="Ritual Icons 1" class="active">
+                <img src="/other/prompt/image/ritual_2.jpeg" alt="Ritual Icons 2">
+                <img src="/other/prompt/image/ritual_3.jpeg" alt="Ritual Icons 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Daily Ritual Icons</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Create a collection of icons representing [ROUTINE / PROCESS / HABITS], with each icon depicting one specific routine step and clearly labeled by name.
+
+They belong together as a single cohesive theme. The background is pure white.
+
+Place the title "[ROUTINE NAME]" at the top center of the image, aligned symmetrically above the grid, using a clean, minimal typography style that complements the icon design without overpowering it.
+
+Icons are rendered in a friendly, modern 3D style, featuring smooth gradients and soft shadows.
+
+Maintain consistent proportions, color harmony, materials, and typography across all icons and labels so the set feels unified and easy to read.</p>
+            </div>
+        </article>
+
+        <!-- The Ultimate Food Hero Shot -->
+        <article class="gallery-item" data-index="8">
+            <div class="images">
+                <img src="/other/prompt/image/foodshot_1.jpeg" alt="Food Hero Shot 1" class="active">
+                <img src="/other/prompt/image/foodshot_2.jpeg" alt="Food Hero Shot 2">
+                <img src="/other/prompt/image/foodshot_3.jpeg" alt="Food Hero Shot 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">The Ultimate Food Hero Shot</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">[FOOD NAME], premium food advertising photography on a white seamless background.
+
+High-key studio lighting with soft directional highlights emphasizing form, texture, and freshness.
+
+Floating, stacked composition with subtle levitation for dynamic depth, creating a clean, modern hero shot.
+
+Ingredients and natural garnishes associated with [FOOD NAME] gently suspended mid-air, minimal and intentional.
+
+Clean, minimalist layout with strong visual focus on the hero product.
+
+Crisp yet soft contact shadow grounding the composition.
+
+Ultra-realistic macro product photography look, 100mm lens aesthetic, f/8 aperture for full sharp focus.
+
+Subtle surface textures and natural imperfections clearly visible.
+
+Editorial-grade commercial styling, luxury food branding aesthetic.
+
+Photorealistic, 8K ultra-high resolution.</p>
+            </div>
+        </article>
+
+        <!-- Product as Architecture -->
+        <article class="gallery-item" data-index="9">
+            <div class="images">
+                <img src="/other/prompt/image/Architecture_1.jpeg" alt="Product Architecture 1" class="active">
+                <img src="/other/prompt/image/Architecture_@.jpeg" alt="Product Architecture 2">
+                <img src="/other/prompt/image/Architecture_3.jpeg" alt="Product Architecture 3">
+                <img src="/other/prompt/image/Architecture_4.jpeg" alt="Product Architecture 4">
+                <span class="image-count">4 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Product as Architecture</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">A dreamlike miniature urban scene where an oversized [BRAND PRODUCT] is reimagined as a charming café, blending product design with architecture in a playful yet premium way.
+
+The product forms the upper structure of the building, while the ground level transforms into a cozy café storefront, glowing with warm, inviting light.
+
+Transparent glass windows reveal a detailed miniature interior with tiny tables, stools, and subtle décor, emphasizing craftsmanship and scale.
+
+The surrounding street is thoughtfully styled with delicate street lamps, small urban details, and clean pavement, creating a welcoming neighborhood atmosphere.
+
+Soft, cinematic lighting enhances the whimsical mood, with gentle highlights and natural shadows.
+
+Ultra-detailed, hyperrealistic miniature rendering, premium advertising aesthetic, surreal yet believable scale, refined art direction, high resolution.</p>
+            </div>
+        </article>
+
+        <!-- City as a Planet -->
+        <article class="gallery-item" data-index="10">
+            <div class="images">
+                <img src="/other/prompt/image/cityplan_1.jpeg" alt="City Planet 1" class="active">
+                <img src="/other/prompt/image/cityplan_2.jpeg" alt="City Planet 2">
+                <img src="/other/prompt/image/cityplan_3.jpeg" alt="City Planet 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">City as a Planet</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Create a hyperrealistic, surreal spherical panorama of [CITY NAME], with its most iconic landmarks and architecture seamlessly curving around the top of a planet-like surface, forming a cohesive miniature world.
+
+Integrate sleek, modern 3D typography spelling "[CITY NAME]" naturally into the urban landscape, harmonized with the environment rather than floating unnaturally.
+
+The scene is viewed from a top-down, orbiting perspective, emphasizing the tiny-planet effect and spherical distortion while maintaining architectural clarity.
+
+Soft, natural daylight filters through a partly cloudy sky, casting gentle, realistic shadows across lush greenery, streets, trees, and buildings.
+
+The background transitions smoothly into a dramatic, swirling sky, enhancing the surreal atmosphere without overpowering the city.
+
+Use a natural yet vivid color palette — crisp greens, soft blues, and muted earth tones appropriate to [CITY NAME].
+
+Render in a polished, photorealistic style with fine architectural detail, realistic textures, atmospheric depth, and high visual fidelity.</p>
+            </div>
+        </article>
+
+        <!-- City Ribbon -->
+        <article class="gallery-item" data-index="11">
+            <div class="images">
+                <img src="/other/prompt/image/ribbon_1.jpeg" alt="City Ribbon 1" class="active">
+                <img src="/other/prompt/image/ribbon_2.jpeg" alt="City Ribbon 2">
+                <img src="/other/prompt/image/ribbon_3.png" alt="City Ribbon 3">
+                <img src="/other/prompt/image/ribbon_4.jpeg" alt="City Ribbon 4">
+                <span class="image-count">4 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">City Ribbon</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">A silk ribbon unfurls diagonally across the canvas, twisting gently in mid-air. Within the folds of the ribbon exists a miniature sculpted city of [CITY], carved as a 3D bas-relief emerging from woven fabric textures.
+
+Inside the ribbon: Landmarks, streets, and skyline rhythms of [CITY], flowing naturally with the ribbon's curvature, layered in subtle depth.
+
+Style: Fabric realism fused with sculptural relief. Soft highlights, tactile folds, elegant poster design.
+
+Color palette: Derived from the national flag of [COUNTRY], woven seamlessly into the fabric tones.
+
+View & background: Top-down minimalist layout, off-white museum paper texture, strong negative space.
+
+Typography: Title: "[CITY] UNFOLDED" Refined serif subtitle with poetic geographic language.
+
+Composition rules: All architectural detail remains strictly inside the ribbon shape. Ultra-detailed, HDR, gallery-grade, 8K poster aesthetic.</p>
+            </div>
+        </article>
+
+        <!-- Minimal Ink Gesture Sketch -->
+        <article class="gallery-item" data-index="12">
+            <div class="images">
+                <img src="/other/prompt/image/Sketch_1.jpeg" alt="Ink Sketch 1" class="active">
+                <img src="/other/prompt/image/Sketch_2.jpeg" alt="Ink Sketch 2">
+                <img src="/other/prompt/image/Sketch_3.jpeg" alt="Ink Sketch 3">
+                <span class="image-count">3 images</span>
+                <div class="image-nav"></div>
+            </div>
+            <div class="info">
+                <h2 class="title">Minimal Ink Gesture Sketch</h2>
+                <p class="prompt-label">Prompt</p>
+                <p class="description">Minimal ink gesture sketch of [SUBJECT], single continuous black line on warm off-white paper, mid-motion capture, strong line-weight variation, broken dry-brush gaps, a few ink splatters, 70% negative space, off-center composition with a large clean area for layout, ground implied by one faint line, no color, no crosshatching, no realistic shading, no detailed rendering, raw 5-minute artist draft feel.
+
+Pro tip: make SUBJECT action-specific for instant elevation, like sprinter exploding off the blocks or ballerina landing a jump or street photographer raising the camera.</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" aria-label="Close"></button>
+        <button class="lightbox-nav prev" aria-label="Previous">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="lightbox-nav next" aria-label="Next">
+            <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+        <div class="lightbox-content">
+            <div class="lightbox-image-section">
+                <img id="lightbox-img" src="" alt="">
+                <div class="lightbox-image-nav" id="lightbox-image-nav"></div>
+            </div>
+            <div class="lightbox-info">
+                <h3 class="title" id="lightbox-title"></h3>
+                <p class="prompt-label">Prompt</p>
+                <p class="description" id="lightbox-desc"></p>
+                <button class="copy-btn" id="copy-btn">Copy Prompt</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxDesc = document.getElementById('lightbox-desc');
+        const lightboxImageNav = document.getElementById('lightbox-image-nav');
+        const copyBtn = document.getElementById('copy-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const closeBtn = document.querySelector('.lightbox-close');
+        const prevBtn = document.querySelector('.lightbox-nav.prev');
+        const nextBtn = document.querySelector('.lightbox-nav.next');
+
+        let currentIndex = 0;
+        let currentImageIndex = 0;
+        let currentImages = [];
+        const totalItems = galleryItems.length;
+
+        // Initialize image navigation for gallery items
+        galleryItems.forEach(item => {
+            const images = item.querySelectorAll('.images img');
+            const nav = item.querySelector('.image-nav');
+            const countSpan = item.querySelector('.image-count');
+            
+            // Fix: ensure only first image has active class
+            images.forEach((img, i) => {
+                if (i === 0) img.classList.add('active');
+                else img.classList.remove('active');
+            });
+            
+            if (images.length > 1) {
+                countSpan.textContent = `${images.length} images`;
+                images.forEach((img, i) => {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        images.forEach(im => im.classList.remove('active'));
+                        nav.querySelectorAll('span').forEach(d => d.classList.remove('active'));
+                        img.classList.add('active');
+                        dot.classList.add('active');
+                    });
+                    nav.appendChild(dot);
+                });
+            } else {
+                nav.style.display = 'none';
+            }
+        });
+
+        function getItemData(index) {
+            const item = galleryItems[index];
+            const images = Array.from(item.querySelectorAll('.images img')).map(img => ({
+                src: img.src,
+                alt: img.alt
+            }));
+            return {
+                images: images,
+                title: item.querySelector('.title').textContent,
+                description: item.querySelector('.description').textContent
+            };
+        }
+
+        function updateLightboxImage() {
+            if (currentImages.length > 0) {
+                lightboxImg.src = currentImages[currentImageIndex].src;
+                lightboxImg.alt = currentImages[currentImageIndex].alt;
+                
+                // Update dots
+                lightboxImageNav.querySelectorAll('span').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === currentImageIndex);
+                });
+            }
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            currentImageIndex = 0;
+            const data = getItemData(index);
+            currentImages = data.images;
+            
+            lightboxTitle.textContent = data.title;
+            lightboxDesc.textContent = data.description;
+            
+            // Build image navigation
+            lightboxImageNav.innerHTML = '';
+            if (currentImages.length > 1) {
+                currentImages.forEach((img, i) => {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentImageIndex = i;
+                        updateLightboxImage();
+                    });
+                    lightboxImageNav.appendChild(dot);
+                });
+            }
+            
+            updateLightboxImage();
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => lightbox.classList.add('show'));
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+            document.body.style.overflow = '';
+            setTimeout(() => lightbox.classList.remove('active'), 300);
+        }
+
+        // Navigate between images in the same prompt
+        function navigateImage(direction) {
+            if (currentImages.length <= 1) return;
+            currentImageIndex = (currentImageIndex + direction + currentImages.length) % currentImages.length;
+            updateLightboxImage();
+        }
+
+        // Navigate between prompts
+        function navigatePrompt(direction) {
+            if (totalItems <= 1) return;
+            currentIndex = (currentIndex + direction + totalItems) % totalItems;
+            currentImageIndex = 0;
+            const data = getItemData(currentIndex);
+            currentImages = data.images;
+            
+            lightboxTitle.textContent = data.title;
+            lightboxDesc.textContent = data.description;
+            
+            // Rebuild image navigation
+            lightboxImageNav.innerHTML = '';
+            if (currentImages.length > 1) {
+                currentImages.forEach((img, i) => {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dot.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        currentImageIndex = i;
+                        updateLightboxImage();
+                    });
+                    lightboxImageNav.appendChild(dot);
+                });
+            }
+            
+            updateLightboxImage();
+            copyBtn.textContent = 'Copy Prompt';
+            copyBtn.classList.remove('copied');
+        }
+
+        // Copy prompt
+        copyBtn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            try {
+                await navigator.clipboard.writeText(lightboxDesc.textContent);
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy Prompt';
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                copyBtn.textContent = 'Failed to copy';
+            }
+        });
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+
+        closeBtn.addEventListener('click', closeLightbox);
+        
+        // Prev/Next buttons navigate between IMAGES (not prompts)
+        prevBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateImage(-1); });
+        nextBtn.addEventListener('click', (e) => { e.stopPropagation(); navigateImage(1); });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            // Left/Right: navigate images within same prompt
+            if (e.key === 'ArrowLeft') navigateImage(-1);
+            if (e.key === 'ArrowRight') navigateImage(1);
+            // Up/Down: navigate between prompts
+            if (e.key === 'ArrowUp') navigatePrompt(-1);
+            if (e.key === 'ArrowDown') navigatePrompt(1);
+        });
+    </script>
+</body>
+</html>
