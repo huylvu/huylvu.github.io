@@ -99,10 +99,28 @@
       "organization": "Development and Policies Research Center - DEPOCEN",
       "org_url": "https://depocen.org/en/",
       "items": [
-        { "year": "2024-2028", "title": "Disability Project 5 rounds - Team Member - CRS, USAID" },
-        { "year": "2025", "title": "Tobacco Price Survey - Team Member - Economics for Health" },
-        { "year": "2024", "title": "Viet Nam Multi Sector Assessment of the Typhoon Yagi Macroeconomic Impact - Team Leader - UNDP" },
-        { "year": "2024", "title": "Evaluating open data portals in Vietnam - Team Member - WorldBank" },
+        { 
+          "year": "2026", 
+          "title": "Trade efficiency and food safety for agricultural and perishable goods - Team Member - LINC",
+          "description": "Conducting interviews with over 400 enterprises in the supply and value chains related to perishable agricultural products. The project is currently ongoing."
+        },
+        { 
+          "year": "2024-2026", 
+          "title": "Disability Project 5 rounds - Team Member - CRS, USAID",
+          "description": "We evaluate the impact of intervention policies by CRS and USAID on the quality of life of persons with disabilities in Binh Phuoc and Dong Nai provinces. In this project, my responsibilities included: translating questionnaires, acting as a quantitative enumerator, supporting quantitative interviews, analyzing data, and writing reports. This was my first experience participating in fieldwork, witnessing the lives of persons with disabilities, and conversing with doctors and local leaders to deeply understand their living conditions. Thanks to Mr. Huan for guiding me extensively on conducting fieldwork and gaining other social experiences; Quynh and Mr. Anh Tu for accompanying me as enumerators, and other team members for their support and help."
+        },
+        { "year": "2025", 
+          "title": "Tobacco Price Survey round 1 - Team Member - Economics for Health" ,
+          "description": "In response to the government's draft law on increasing tobacco taxes, our research team conducted a survey on the prices of tobacco products prior to these policy changes. We interviewed over 400 tobacco retail stores in Hanoi and Ho Chi Minh City. This was my first experience with the process of developing a sampling frame and conducting back-checks. Additionally, I compiled a comprehensive list of tobacco products in Vietnam, including names, barcodes, and images. I utilized the survey data to develop the Tobacco Atlas of Viet Nam - an integrated mapping dashboard using R."
+        },
+        { "year": "2024", 
+          "title": "Viet Nam Multi Sector Assessment of the Typhoon Yagi Macroeconomic Impact - Team Leader - UNDP", 
+          "description": "We conducted an assessment of Typhoon Yagi's impact on GDP, labor, and other sectors in Vietnam, utilizing the rapid assessment framework commonly used for natural disasters provided by UNDP."
+        },
+        { "year": "2024", 
+          "title": "Evaluating open data portals in Vietnam - Team Member - WorldBank", 
+          "description": "The research team developed a benchmark to evaluate open data portals in Vietnam. Subsequently, we assessed nearly 40 active data portals in Vietnam, including provincial and national portals. This study also surveyed experts and users regarding their demand for open data, thereby providing an overview of open data usage needs in Vietnam."
+        },
         { "year": "2024", "title": "Role of Access to Finance in SME Development in Viet Nam - Team Member - ADB" }
       ]
     },

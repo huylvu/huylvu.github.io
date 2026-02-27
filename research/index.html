@@ -136,15 +136,62 @@
 
     // Helper: render a project organization
     function renderProject(project) {
-        const items = project.items.map(item => 
-            `<p class="project-item"><span class="project-year">${item.year}:</span> ${item.title}</p>`
-        ).join('');
+        const items = project.items.map(item => {
+            let content = item.description || item.abstract;
+            let descHtml = '';
+            let itemClass = "project-item";
+            let inlineStyle = "";
+            let indicator = "";
+
+            if (content) {
+                itemClass += " project-toggle";
+                inlineStyle = "cursor: pointer;";
+                indicator = `<span class="toggle-indicator" style="display:inline-block; margin-left: 4px; font-size: 0.75em; color: #888; transition: transform 0.3s ease;">▼</span>`;
+                descHtml = `
+                <div class="project-desc-content" style="max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.4s ease, opacity 0.4s ease; margin-left: 1.2rem; font-size: 0.95rem; color: #444; text-align: justify;">
+                    <p style="margin: 0.3rem 0 0.5rem 0;">${content}</p>
+                </div>`;
+            }
+
+            return `
+            <div style="margin-bottom: 0.5rem;">
+                <p class="${itemClass}" style="${inlineStyle} margin-bottom: 0.2rem;" ${content ? 'title="Click để xem chi tiết"' : ''}>
+                    <span class="project-year">${item.year}:</span> ${item.title}${indicator}
+                </p>
+                ${descHtml}
+            </div>`;
+        }).join('');
 
         return `
             <div class="paper-item">
                 <a class="project-org-link" href="${project.org_url}">${project.organization}</a>
                 <div class="paper-details">${items}</div>
             </div>`;
+    }
+
+    // Initialize project toggles
+    function initProjectToggles() {
+        document.querySelectorAll('.project-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                if (!content || !content.classList.contains('project-desc-content')) return;
+                
+                const indicator = this.querySelector('.toggle-indicator');
+                const isExpanded = content.classList.contains('open');
+                
+                if (isExpanded) {
+                    content.style.maxHeight = '0px';
+                    content.style.opacity = '0';
+                    content.classList.remove('open');
+                    if (indicator) indicator.style.transform = 'rotate(0deg)';
+                } else {
+                    content.classList.add('open');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    content.style.opacity = '1';
+                    if (indicator) indicator.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
     }
 
     // Initialize abstract toggles
@@ -157,14 +204,15 @@
                 if (!content) return;
                 
                 const expanded = this.getAttribute('aria-expanded') === 'true';
+                const label = this.getAttribute('data-label') || 'Abstract';
                 
                 if (expanded) {
-                    this.textContent = '+ Abstract';
+                    this.textContent = '+ ' + label;
                     this.setAttribute('aria-expanded', 'false');
                     content.style.maxHeight = null;
                     content.classList.remove('open');
                 } else {
-                    this.textContent = '− Abstract';
+                    this.textContent = '− ' + label;
                     this.setAttribute('aria-expanded', 'true');
                     content.classList.add('open');
                     content.style.maxHeight = content.scrollHeight + 'px';
@@ -209,6 +257,7 @@
 
             // Initialize toggles after content is loaded
             initAbstractToggles();
+            initProjectToggles();
         })
         .catch(error => {
             console.error('Error loading research data:', error);
