@@ -1,8 +1,144 @@
+/* ═══════════════════════════════════════════
+   CSS Custom Properties — Light / Dark theme
+   Light = default. Dark activated via [data-theme="dark"] on <html>
+   ═══════════════════════════════════════════ */
+:root {
+    --bg: #fff;
+    --text: #222;
+    --text-secondary: #555;
+    --text-muted: #666;
+    --link: #0000FF;
+    --link-hover: #0000CC;
+    --heading: #111;
+    --name-color: black;
+    --journal: #222;
+    --abstract-text: #222;
+    --abstract-toggle: #000;
+    --card-bg: #fff;
+    --card-border: #eee;
+    --card-shadow: rgba(0,0,0,0.02);
+    --card-hover-shadow: rgba(0,0,0,0.06);
+    --code-bg: #f6f8fa;
+    --code-border: #eaeef2;
+    --code-text: inherit;
+    --code-inline: inherit;
+    --blockquote-bg: #fbfbfb;
+    --blockquote-border: #e0e0e0;
+    --blockquote-text: #444;
+    --tag-bg: #f5f7ff;
+    --tag-border: #e6e9ff;
+    --tag-text: #4656b8;
+    --badge-bg: #f6f6f6;
+    --badge-text: #333;
+    --badge-border: #ececec;
+    --chip-bg: #fafafa;
+    --chip-border: #e6e6e6;
+    --chip-text: #333;
+    --chip-active-bg: #111;
+    --chip-active-text: #fff;
+    --chip-active-border: #111;
+    --back-bg: #fafafa;
+    --back-border: #e6e6e6;
+    --back-text: #111;
+    --back-hover-bg: #f0f0f0;
+    --side-name: #222;
+    --papers-title: #222;
+    --project-link: #222;
+    --project-marker: #555;
+    --post-title: #111;
+    --post-meta: #555;
+    --post-dot: #999;
+    --post-summary: #333;
+    --post-content: #222;
+    --intro-bg: #fff;
+    --intro-shadow: rgba(0,0,0,0.04);
+    --intro-border: transparent;
+    --profile-right-bg: #fff;
+    --profile-right-shadow: rgba(0,0,0,0.04);
+    --profile-right-border: transparent;
+    --avatar-bg: #fff;
+    --hero-shadow: rgba(0,0,0,0.12);
+    --footer-text: #666;
+}
+
+[data-theme="dark"] {
+    --bg: #0a0a0f;
+    --text: #d0d0d0;
+    --text-secondary: #999;
+    --text-muted: #888;
+    --link: #c8956c;
+    --link-hover: #e0b08a;
+    --heading: #e8e0d8;
+    --name-color: #e0e0e0;
+    --journal: #b8b8b8;
+    --abstract-text: #b0b0b0;
+    --abstract-toggle: #c8956c;
+    --card-bg: rgba(255,255,255,0.04);
+    --card-border: rgba(255,255,255,0.08);
+    --card-shadow: rgba(0,0,0,0.15);
+    --card-hover-shadow: rgba(200,149,108,0.1);
+    --code-bg: rgba(255,255,255,0.04);
+    --code-border: rgba(255,255,255,0.08);
+    --code-text: #c8c8c8;
+    --code-inline: #d4a574;
+    --blockquote-bg: rgba(255,255,255,0.03);
+    --blockquote-border: rgba(200,149,108,0.4);
+    --blockquote-text: #999;
+    --tag-bg: rgba(200,149,108,0.1);
+    --tag-border: rgba(200,149,108,0.25);
+    --tag-text: #c8956c;
+    --badge-bg: rgba(255,255,255,0.06);
+    --badge-text: #b0b0b0;
+    --badge-border: rgba(255,255,255,0.1);
+    --chip-bg: rgba(255,255,255,0.05);
+    --chip-border: rgba(255,255,255,0.12);
+    --chip-text: #b0b0b0;
+    --chip-active-bg: #c8956c;
+    --chip-active-text: #0a0a0f;
+    --chip-active-border: #c8956c;
+    --back-bg: rgba(255,255,255,0.05);
+    --back-border: rgba(255,255,255,0.12);
+    --back-text: #c8956c;
+    --back-hover-bg: rgba(200,149,108,0.12);
+    --side-name: #e8e0d8;
+    --papers-title: #e8e0d8;
+    --project-link: #d0d0d0;
+    --project-marker: #888;
+    --post-title: #e0e0e0;
+    --post-meta: #888;
+    --post-dot: #666;
+    --post-summary: #b0b0b0;
+    --post-content: #c8c8c8;
+    --intro-bg: rgba(255,255,255,0.04);
+    --intro-shadow: rgba(0,0,0,0.2);
+    --intro-border: rgba(255,255,255,0.06);
+    --profile-right-bg: rgba(255,255,255,0.04);
+    --profile-right-shadow: rgba(0,0,0,0.2);
+    --profile-right-border: rgba(255,255,255,0.06);
+    --avatar-bg: #0a0a0f;
+    --hero-shadow: rgba(0,0,0,0.4);
+    --footer-text: #888;
+}
+
+/* ═══════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════ */
 html {
     overflow-y: scroll;
     font-family: 'Georgia', 'Times New Roman', Times, serif;
     font-weight: 300;
 }
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', 'Times New Roman', Times, serif;
+    font-size: 1.08rem;
+    margin: 0 0 0 10rem;
+    padding: 0;
+    transition: background 0.5s ease, color 0.4s ease;
+}
+
 div.container {
     max-width: 550px;
     margin: 1rem auto 0 auto;
@@ -10,71 +146,97 @@ div.container {
     font-size: 1.05rem;
     line-height: 1.4rem;
 }
+
 div.picture-container {
     text-align: center;
     margin: 2rem auto;
     overflow: hidden;
     position: relative;
 }
+
 img {
     max-width: 250px;
 }
+
 @media (max-width: 768px) {
     img {
         max-width: 200px;
     }
 }
+
+/* ═══════════════════════════════════════════
+   Links
+   ═══════════════════════════════════════════ */
 a {
-    color: #0000FF;
+    color: var(--link);
     text-decoration: none;
-    transition: text-decoration 0.2s;
+    transition: text-decoration 0.2s, color 0.2s;
 }
+
 a:hover, a:active {
     text-decoration: underline;
+    color: var(--link-hover);
 }
+
+/* ═══════════════════════════════════════════
+   Name / Nav
+   ═══════════════════════════════════════════ */
 p.name {
     font-weight: 600;
     font-size: 1.1rem;
     text-align: center;
     margin-bottom: 0;
 }
-p.name a{
-    color: black;
+
+p.name a {
+    color: var(--name-color);
     text-decoration: none;
 }
+
 p.nav {
     font-size: .95rem;
     text-align: center;
     margin-top: 0;
 }
+
 .active {
-    color: black;
+    color: var(--name-color);
     text-decoration: none;
 }
+
 div.separator {
     height: 1rem;
 }
+
 .intro p {
     text-align: justify;
 }
+
+/* ═══════════════════════════════════════════
+   Papers
+   ═══════════════════════════════════════════ */
 .papers-list {
     margin: 0;
     padding: 0;
 }
+
 .paper-item {
     margin-bottom: 20px;
     font-size: 1.04rem;
 }
+
 .paper-item a {
-    color: #0000FF;
+    color: var(--link);
     font-weight: normal;
     text-decoration: none;
     font-size: 1.08rem;
     display: inline;
 }
+
 .paper-item a:hover, .paper-item a:active {
     text-decoration: underline;
 }
+
 .paper-details {
     margin-top: 4px;
     font-size: 1rem;
@@ -83,12 +245,13 @@ div.separator {
 
 .journal {
     font-weight: bold;
+    color: var(--journal);
 }
 
 .project-org-link {
     font-size: 1.1rem;
     font-weight: bold;
-    color: #222;
+    color: var(--project-link);
     text-decoration: none;
     display: block;
     margin-bottom: 4px;
@@ -109,7 +272,7 @@ div.separator {
     content: "+";
     position: absolute;
     left: 0;
-    color: #555;
+    color: var(--project-marker);
     font-weight: bold;
 }
 
@@ -117,7 +280,9 @@ div.separator {
     font-weight: bold;
 }
 
-/* Abstract toggle UI */
+/* ═══════════════════════════════════════════
+   Abstract toggle
+   ═══════════════════════════════════════════ */
 .abstract-row {
     margin-top: 8px;
 }
@@ -129,7 +294,7 @@ div.separator {
     font-family: inherit;
     text-decoration: none;
     background: transparent;
-    color: #000000;
+    color: var(--abstract-toggle);
     line-height: 1.3;
     cursor: pointer;
     text-align: left;
@@ -155,37 +320,50 @@ div.separator {
 .abstract-content {
     margin-top: 8px;
     padding-left: 0;
-    color: #222;
+    color: var(--abstract-text);
     line-height: 1.6;
     text-align: justify;
     overflow: hidden;
     max-height: 0;
     opacity: 0;
     transform: translateY(-10px);
-    transition: max-height 0.4s ease-in-out, 
+    transition: max-height 0.4s ease-in-out,
                 opacity 0.4s ease-in-out,
                 transform 0.4s ease-in-out;
 }
+
 .abstract-content.open {
     opacity: 1;
     transform: translateY(0);
 }
+
 .papers-block {
     margin-top: 32px;
 }
+
+.papers-title {
+    color: var(--papers-title);
+}
+
 .papers-block.other-interest .papers-title .papers-list .paper-item {
     font-size: 0.95rem;
     margin-bottom: 4px;
 }
+
 .other-interest-list {
     margin: 0;
     padding: 0;
 }
+
 .other-interest-item {
     font-size: 0.95rem;
     margin-bottom: 3px;
     line-height: 1.3;
 }
+
+/* ═══════════════════════════════════════════
+   Profile layouts
+   ═══════════════════════════════════════════ */
 .profile-container {
     display: flex;
     justify-content: space-between;
@@ -208,7 +386,6 @@ div.separator {
         flex-direction: column-reverse;
         align-items: center;
     }
-    
     .profile-container .picture-container {
         margin-bottom: 1rem;
     }
@@ -256,9 +433,10 @@ div.separator {
     margin: 0 auto 2.5rem auto;
     text-align: center;
     padding: 1.5rem 1rem 1.5rem 1rem;
-    background: #fff;
+    background: var(--intro-bg);
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 12px var(--intro-shadow);
+    border: 1px solid var(--intro-border);
 }
 
 .intro-block .name {
@@ -292,9 +470,10 @@ div.separator {
     flex: 0 0 180px;
     max-width: 200px;
     min-width: 140px;
-    background: #fff;
+    background: var(--profile-right-bg);
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 12px var(--profile-right-shadow);
+    border: 1px solid var(--profile-right-border);
     padding: 1.5rem 1rem;
     text-align: right;
     margin-top: 2rem;
@@ -322,6 +501,9 @@ div.separator {
     }
 }
 
+/* ═══════════════════════════════════════════
+   Main layout
+   ═══════════════════════════════════════════ */
 .main-row {
     display: flex;
     justify-content: center;
@@ -334,15 +516,6 @@ div.separator {
 .main-left {
     flex: 4;
     min-width: 0;
-}
-
-body {
-    background: #fff;
-    color: #222;
-    font-family: 'Georgia', 'Times New Roman', Times, serif;
-    font-size: 1.08rem;
-    margin: 0 0 0 10rem;
-    padding: 0rem;
 }
 
 .banner img {
@@ -361,6 +534,8 @@ body {
     margin: 0 auto 2rem auto;
     gap: 1.5rem;
     padding: 1.5rem 1rem 0 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .main-col {
@@ -373,7 +548,7 @@ body {
     flex: 1;
     min-width: 400px;
     max-width: 520px;
-    margin-top: 0rem;
+    margin-top: 0;
 }
 
 .side-info {
@@ -386,6 +561,7 @@ body {
     font-size: 1.4rem;
     font-weight: 500;
     margin-bottom: 0.8rem;
+    color: var(--side-name);
 }
 
 @media (max-width: 1100px) {
@@ -399,6 +575,9 @@ body {
     }
 }
 
+/* ═══════════════════════════════════════════
+   Avatar / Hero banner
+   ═══════════════════════════════════════════ */
 .avatar-block {
     display: flex;
     justify-content: left;
@@ -411,10 +590,117 @@ body {
     height: 350px;
     object-fit: cover;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    background: #fff;
+    background: var(--avatar-bg);
 }
 
-/* Blog UI */
+.hero-banner {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    height: 350px;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 24px var(--hero-shadow);
+    border: 1px solid var(--card-border);
+}
+
+.hero-img {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .hero-banner {
+        height: 220px;
+    }
+}
+
+/* ═══════════════════════════════════════════
+   Event Horizon full-page background (dark mode only)
+   ═══════════════════════════════════════════ */
+#eh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    border: none;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    background: #0a0a0f;
+}
+
+[data-theme="dark"] #eh-bg {
+    opacity: 1;
+}
+
+[data-theme="dark"] body {
+    background: transparent;
+}
+
+[data-theme="dark"] .hero-banner {
+    background: transparent;
+    box-shadow: none;
+    border-color: transparent;
+}
+
+[data-theme="dark"] .hero-banner .hero-img {
+    visibility: hidden;
+}
+
+/* ═══════════════════════════════════════════
+   Theme toggle button
+   ═══════════════════════════════════════════ */
+.theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--chip-border);
+    background: var(--card-bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: background 0.3s, border-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+.theme-toggle .icon-sun,
+.theme-toggle .icon-moon {
+    transition: opacity 0.3s;
+}
+
+.theme-toggle .icon-moon {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+    display: none;
+}
+
+[data-theme="dark"] .theme-toggle .icon-moon {
+    display: inline;
+}
+
+/* ═══════════════════════════════════════════
+   Blog UI
+   ═══════════════════════════════════════════ */
 .blog-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -428,16 +714,16 @@ body {
 }
 
 .post-card {
-    background: #fff;
-    border: 1px solid #eee;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     border-radius: 12px;
     padding: 14px 16px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 2px var(--card-shadow);
     transition: box-shadow 0.2s ease, transform 0.05s ease;
 }
 
 .post-card:hover {
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    box-shadow: 0 6px 18px var(--card-hover-shadow);
 }
 
 .post-card a.card-link {
@@ -453,7 +739,7 @@ body {
 }
 
 .post-title a {
-    color: #111;
+    color: var(--post-title);
     text-decoration: none;
 }
 
@@ -462,29 +748,29 @@ body {
 }
 
 .post-meta {
-    color: #555;
+    color: var(--post-meta);
     font-size: 0.95rem;
     line-height: 1.4;
     margin: 0 0 6px 0;
 }
 
 .post-meta .dot::before {
-    content: "·";
+    content: "\b7";
     margin: 0 6px;
-    color: #999;
+    color: var(--post-dot);
 }
 
 .post-summary {
-    color: #333;
+    color: var(--post-summary);
     margin: 6px 0 0 0;
     line-height: 1.6;
 }
 
 .tag {
     display: inline-block;
-    background: #f5f7ff;
-    border: 1px solid #e6e9ff;
-    color: #4656b8;
+    background: var(--tag-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--tag-text);
     border-radius: 999px;
     padding: 2px 8px;
     font-size: 0.82rem;
@@ -493,9 +779,9 @@ body {
 
 .topic-badge {
     display: inline-block;
-    background: #f6f6f6;
-    color: #333;
-    border: 1px solid #ececec;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    border: 1px solid var(--badge-border);
     border-radius: 999px;
     padding: 2px 8px;
     font-size: 0.82rem;
@@ -514,18 +800,18 @@ body {
     display: inline-block;
     border-radius: 999px;
     padding: 6px 12px;
-    border: 1px solid #e6e6e6;
-    background: #fafafa;
-    color: #333;
+    border: 1px solid var(--chip-border);
+    background: var(--chip-bg);
+    color: var(--chip-text);
     font-size: 0.92rem;
     cursor: pointer;
     user-select: none;
 }
 
 .filter-chip.active {
-    background: #111;
-    color: #fff;
-    border-color: #111;
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
+    border-color: var(--chip-active-border);
 }
 
 /* Single post */
@@ -535,7 +821,7 @@ body {
 
 .post-content {
     line-height: 1.8;
-    color: #222;
+    color: var(--post-content);
 }
 
 .post-content h1, .post-content h2, .post-content h3 {
@@ -543,26 +829,28 @@ body {
 }
 
 .post-content pre {
-    background: #f6f8fa;
-    border: 1px solid #eaeef2;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
     border-radius: 8px;
     padding: 12px;
     overflow-x: auto;
+    color: var(--code-text);
 }
 
 .post-content code {
-    background: #f6f8fa;
-    border: 1px solid #eaeef2;
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
     border-radius: 4px;
     padding: 0 4px;
+    color: var(--code-inline);
 }
 
 .post-content blockquote {
-    border-left: 3px solid #e0e0e0;
+    border-left: 3px solid var(--blockquote-border);
     margin: 0;
     padding: 6px 12px;
-    color: #444;
-    background: #fbfbfb;
+    color: var(--blockquote-text);
+    background: var(--blockquote-bg);
 }
 
 .post-content img {
@@ -580,9 +868,9 @@ body {
 
 .back-link {
     display: inline-block;
-    border: 1px solid #e6e6e6;
-    background: #fafafa;
-    color: #111;
+    border: 1px solid var(--back-border);
+    background: var(--back-bg);
+    color: var(--back-text);
     border-radius: 999px;
     padding: 8px 12px;
     font-size: 0.95rem;
@@ -591,7 +879,7 @@ body {
 
 .back-link:hover {
     text-decoration: none;
-    background: #f0f0f0;
+    background: var(--back-hover-bg);
 }
 
 /* Collapsible lectures inside blog post content */
@@ -605,17 +893,14 @@ body {
     padding: 0;
 }
 
-/* Hide default disclosure marker (Chrome/Safari/Edge) */
 .post-content summary::-webkit-details-marker {
     display: none;
 }
 
-/* Hide default marker (Firefox/standard) */
 .post-content summary::marker {
     content: '';
 }
 
-/* Make the heading inline and non-breaking into a new block line */
 .post-content summary h1,
 .post-content summary h2,
 .post-content summary h3,
@@ -626,7 +911,6 @@ body {
     margin: 0;
 }
 
-/* Subtle affordance on hover */
 .post-content summary:hover h1,
 .post-content summary:hover h2,
 .post-content summary:hover h3,
@@ -636,7 +920,6 @@ body {
     text-decoration: underline;
 }
 
-/* Spacing between title and revealed content */
 .post-content details[open] > summary + * {
     margin-top: 8px;
 }
