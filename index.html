@@ -33,6 +33,9 @@
         <span class="icon-sun">&#9788;</span>
         <span class="icon-moon">&#9790;</span>
     </button>
+    <audio id="bg-music" loop preload="auto">
+        <source src="/audio/space-ambient.mp3" type="audio/mpeg">
+    </audio>
     <div class="main-wrapper">
         <div class="main-col">
             <div class="hero-banner">
@@ -136,16 +139,43 @@
             });
         }
 
-        /* ── Theme toggle ── */
+        /* ── Theme toggle + dark mode music ── */
         var btn = document.getElementById('theme-toggle');
+        var bgMusic = document.getElementById('bg-music');
+
+        function playDarkMusic() {
+            if (!bgMusic) return;
+            bgMusic.volume = 0.35;
+            var p = bgMusic.play();
+            if (p && typeof p.catch === 'function') p.catch(function() {});
+        }
+
+        function pauseDarkMusic() {
+            if (!bgMusic) return;
+            bgMusic.pause();
+            bgMusic.currentTime = 0;
+        }
+
+        if (bgMusic) {
+            // Browser may block autoplay with sound until user interacts once.
+            document.addEventListener('click', function unlockMusic() {
+                if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                    playDarkMusic();
+                }
+                document.removeEventListener('click', unlockMusic);
+            }, { once: true });
+        }
+
         btn.addEventListener('click', function() {
             var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
             if (isDark) {
                 document.documentElement.removeAttribute('data-theme');
                 localStorage.setItem('theme', 'light');
+                pauseDarkMusic();
             } else {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 localStorage.setItem('theme', 'dark');
+                playDarkMusic();
             }
             syncBhPosition();
         });
@@ -184,6 +214,9 @@
             sendParam('ROTATION_SPEED', 0.8);
             syncBhPosition();
         });
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            playDarkMusic();
+        }
         syncBhPosition();
     })();
     </script>
