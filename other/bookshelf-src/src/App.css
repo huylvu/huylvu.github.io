@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&family=Caveat:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #386AF5;
+  color: #e0e0e0;
+  font-family: 'Space Grotesk', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Night sky background */
+.night-sky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 40px 80px;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Heading */
+.shelf-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.heading-super {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 8px;
+}
+
+.heading-main {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 0.95;
+  color: #fff;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+/* Shelf */
+.shelf {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.bookshelf-layout {
+  width: 100%;
+  max-width: 1250px;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.shelves-column {
+  max-height: 74vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.shelf-block {
+  margin-bottom: 18px;
+}
+
+.shelf-label {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 6px 8px;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.books-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  padding: 0 20px;
+  padding-top: 40px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.books-row::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-ledge {
+  height: 8px;
+  background: linear-gradient(to bottom, #2a3a6a, #1a2a4a);
+  border-radius: 0 0 2px 2px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.03) inset;
+}
+
+.shelf-shadow {
+  height: 30px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+}
+
+/* Book Wrapper — holds spine + stickers */
+.book-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+}
+
+.selected-book .book-spine {
+  transform: translateY(-10px);
+  box-shadow:
+    1px 0 0 rgba(255, 255, 255, 0.1) inset,
+    -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+    0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Stickers peeking from behind spines ── */
+/* Stickers — inside spine, half-clipped at edge */
+.spine-sticker {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.sticker-right {
+  right: -12px;
+}
+
+.sticker-left {
+  left: -12px;
+}
+
+.sticker-emoji {
+  font-size: 20px;
+  line-height: 1;
+  display: block;
+  background: white;
+  padding: 5px;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Static noise texture on every spine */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  opacity: 0.25;
+  mix-blend-mode: overlay;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+/* Per-spine hover sparkles — overflows outside spine */
+.hover-sparkle-canvas {
+  position: absolute;
+  bottom: 0;
+  left: -15px;
+  z-index: 20;
+  pointer-events: none;
+}
+
+/* Single wandering sparkle canvas — covers the books row */
+.wandering-sparkle-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 15;
+  pointer-events: none;
+}
+
+/* Book Spine */
+.book-spine {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 4px 12px;
+  border-radius: 2px 3px 1px 1px;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+              box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow:
+    1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    -1px 0 0 rgba(0, 0, 0, 0.2) inset;
+  transform-origin: bottom center;
+}
+
+.paper-detail {
+  position: sticky;
+  top: 12px;
+  background: rgba(20, 28, 54, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  padding: 16px 16px 18px;
+  backdrop-filter: blur(3px);
+  line-height: 1.5;
+}
+
+.paper-detail h3 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.paper-detail h4 {
+  margin: 12px 0 6px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.paper-meta {
+  color: rgba(255, 255, 255, 0.78);
+  margin-bottom: 8px;
+}
+
+.paper-type {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.book-wrapper:hover .book-spine {
+  transform: translateY(-16px) rotateX(-4deg) scale(1.02);
+  z-index: 10;
+  box-shadow:
+    1px 0 0 rgba(255, 255, 255, 0.1) inset,
+    -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Stars — always at top */
+.spine-stars {
+  font-size: 6px;
+  letter-spacing: 0.02em;
+  writing-mode: horizontal-tb;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 4px;
+}
+
+/* Title — centered in remaining space */
+.spine-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+/* Author — always at bottom */
+.spine-author {
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  flex-shrink: 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 40px 16px 60px;
+  }
+
+  .bookshelf-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .shelves-column {
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .paper-detail {
+    position: static;
+  }
+
+  .books-row {
+    padding: 0 8px;
+    padding-top: 40px;
+  }
+}
