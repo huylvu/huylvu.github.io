@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta
             name="description"
-            content="A minimal tracker for following researchers by field, department, and selected work."
+            content="A galaxy-style tracker for following researchers by field, department, and selected work."
         >
         <title>Research Experts I Follow</title>
         <link rel="icon" type="image/jpeg" href="/avt.jpg">
@@ -27,12 +27,11 @@
                 <header class="hero">
                     <div class="hero-copy">
                         <a class="back-link" href="/">Back to home</a>
-                        <p class="eyebrow">Expert tracker</p>
+                        <p class="eyebrow">Galaxy expert tracker</p>
                         <h1>Research Experts I Follow</h1>
                         <p class="intro">
-                            A calmer page for following experts I care about. Search by name,
-                            field, department, or selected work without dragging the rest of the
-                            bookmark bar into view.
+                            A calmer way to track researchers I care about. Each star is one person:
+                            filter, scan, and open a profile without dragging through a long list.
                         </p>
                     </div>
 
@@ -44,50 +43,60 @@
                     </div>
                 </header>
 
-                <section class="control-bar" aria-label="Expert search tools">
-                    <label class="search-shell" for="expert-search">
-                        <span class="search-label">Search</span>
-                        <input
-                            id="expert-search"
-                            type="search"
-                            placeholder="Name, field, department, summary, or paper title"
-                            autocomplete="off"
-                        >
-                    </label>
-
+                <section class="control-bar" aria-label="Expert tracker status">
                     <div class="control-meta">
                         <p class="meta-line" id="expert-summary">Loading expert directory...</p>
                         <p class="meta-line" id="expert-updated">Checking last refresh...</p>
-                        <p class="meta-line">Press <kbd>/</kbd> to focus search.</p>
+                        <p class="meta-line" id="galaxy-hint">Click a star or a result chip to open the profile.</p>
                     </div>
                 </section>
 
                 <nav class="field-filters" id="field-filters" aria-label="Field filters"></nav>
 
                 <section class="workspace" aria-live="polite">
-                    <aside class="results-panel">
+                    <section class="galaxy-panel" aria-labelledby="galaxy-title">
                         <div class="panel-head">
-                            <p class="panel-label">Experts</p>
-                            <p class="panel-caption">A filtered list for quick scanning.</p>
+                            <div>
+                                <p class="panel-label">Galaxy view</p>
+                                <p class="panel-caption" id="galaxy-title">
+                                    Stars drift lightly, but their home positions stay stable across reloads.
+                                </p>
+                            </div>
+                            <p class="panel-meta" id="galaxy-meta">Preparing scene...</p>
                         </div>
-                        <div class="expert-list" id="expert-list"></div>
-                    </aside>
 
-                    <section class="detail-panel" id="expert-detail">
-                        <div class="empty-detail">
-                            <p>Select an expert to open the profile view.</p>
+                        <div class="galaxy-stage" id="galaxy-stage">
+                            <svg
+                                class="galaxy-map"
+                                id="galaxy-map"
+                                viewBox="0 0 1000 780"
+                                role="img"
+                                aria-label="Galaxy explorer of research experts"
+                            ></svg>
+                            <div class="galaxy-empty" id="galaxy-empty" hidden>
+                                <p>No expert matched this field filter.</p>
+                                <p class="empty-note">Switch back to all fields or pick a different field.</p>
+                            </div>
+                        </div>
+
+                        <div class="result-rail-shell">
+                            <div class="result-rail-head">
+                                <p class="panel-label">Quick results</p>
+                                <p class="panel-caption">A compact fallback for fast selection.</p>
+                            </div>
+                            <div class="result-rail" id="result-rail" aria-label="Filtered expert results"></div>
                         </div>
                     </section>
+
+                    <aside class="detail-panel" id="expert-detail" aria-live="polite" aria-label="Selected expert profile">
+                        <div class="empty-detail">
+                            <p>Select a star to open the profile view.</p>
+                            <p class="empty-note">The inspector stays pinned on desktop and becomes a sheet on mobile.</p>
+                        </div>
+                    </aside>
                 </section>
 
-                <template id="empty-state-template">
-                    <div class="empty-state">
-                        <p>No expert matched this search.</p>
-                        <p class="empty-note">
-                            Try another keyword or switch back to all fields.
-                        </p>
-                    </div>
-                </template>
+                <div class="detail-overlay" id="detail-overlay" hidden></div>
 
                 <footer class="page-footer">
                     <p>Tracked data lives in <code>/other/research-experts/experts-data.js</code>.</p>
