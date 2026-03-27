@@ -1,0 +1,5 @@
+.DS_Store
+other/bookshelf-src/.claude/
+other/bookshelf-src/dist/
+other/bookshelf-src/node_modules/
+other/research-experts/bookmarks-private.js

@@ -1,0 +1,189 @@
+{
+    "entries": {
+        "ABOUT ME | mysite": {
+            "canonicalName": "Xavier Jaravel"
+        },
+        "Abi Adams - Labor, appli micro": {
+            "canonicalName": "Abi Adams",
+            "officialSite": "https://abiadams.com/",
+            "affiliation": "Professor of Economics, Northwestern University",
+            "department": "Economics, Northwestern University",
+            "summary": "Labour and applied microeconomist working on gender violence, work, and family economics.",
+            "fields": [
+                "Labor",
+                "Development",
+                "Organization / Personnel",
+                "Public Economics"
+            ],
+            "papers": [
+                {
+                    "title": "The Economic Impact of Rape",
+                    "url": "https://ifs.org.uk/publications/economic-impacts-rape"
+                },
+                {
+                    "title": "Firm Concentration & Job Design: The Case of Schedule Flexible Work Arrangements",
+                    "url": "https://ifs.org.uk/publications/firm-concentration-job-design-case-schedule-flexible-work-arrangements"
+                },
+                {
+                    "title": "Birth Timing & Spacing by Skill: Implications for Estimating the Intergenerational Transmission of Advantage",
+                    "url": "https://cepr.org/publications/dp19324"
+                },
+                {
+                    "title": "Revealed Beliefs and the Marriage Market Return to Education",
+                    "url": "https://www.dropbox.com/scl/fi/0o4wgt7zjy19c48ikc478/full_draft.pdf?rlkey=4vexkosvxk1gx9i3jsxidv7yz&dl=0"
+                }
+            ],
+            "status": "manual"
+        },
+        "Clare Balboni": {
+            "canonicalName": "Clare Balboni",
+            "department": "Department of Economics, London School of Economics and Political Science",
+            "papers": [
+                {
+                    "title": "The Origins and Control of Forest Fires in the Tropics",
+                    "url": "https://www.dropbox.com/scl/fi/tz1afkd8haqlbeqx5rk6b/Forest_Fires_Paper.pdf?rlkey=hatnmq879rwq9unqgmzgp202j&dl=0"
+                },
+                {
+                    "title": "Using Markets to Adapt to Climate Change",
+                    "url": "https://www.science.org/doi/10.1126/science.aea7431"
+                },
+                {
+                    "title": "Spatial Environmental Economics",
+                    "url": "https://www.dropbox.com/scl/fi/yp3kqyoymh847uucqux0g/Spatial_Environmental_Economics.pdf?rlkey=b77i2ipatgbqj0zfvc0sws8pg"
+                },
+                {
+                    "title": "In Harm's Way? Infrastructure Investments and the Persistence of Coastal Cities",
+                    "url": "https://www.aeaweb.org/articles?id=10.1257/aer.20191943"
+                }
+            ]
+        },
+        "Ana Maria Santacreu - Home": {
+            "canonicalName": "Ana Maria Santacreu"
+        },
+        "Andrew Kao - Andrew Kao": {
+            "canonicalName": "Andrew Kao"
+        },
+        "Công trình của Tien Manh Vu": {
+            "canonicalName": "Tien Manh Vu",
+            "officialSite": "https://sites.google.com/view/tienmanhvu/home"
+        },
+        "Ernest Liu": {
+            "canonicalName": "Ernest Liu",
+            "officialSite": "https://ernestliu.scholar.princeton.edu/home",
+            "affiliation": "Associate Professor of Economics, Princeton University",
+            "department": "Department of Economics, Princeton University",
+            "summary": "Research on networks, growth, trade, finance, and macro-development.",
+            "fields": [
+                "Trade",
+                "Finance",
+                "Macro",
+                "Innovation / Productivity"
+            ],
+            "papers": [
+                {
+                    "title": "Judicial Independence, Local Protectionism, and Economic Integration: Evidence from China",
+                    "url": "https://ernestliu.scholar.princeton.edu/sites/g/files/toruqf4426/files/documents/judicial_independence_1206.pdf"
+                }
+            ],
+            "sourcePages": [
+                "https://ernestliu.scholar.princeton.edu/home",
+                "https://ernestliu.scholar.princeton.edu/sites/g/files/toruqf4426/files/documents/judicial_independence_1206.pdf"
+            ],
+            "status": "manual"
+        },
+        "Glen Waddell - Personal Website": {
+            "canonicalName": "Glen Waddell"
+        },
+        "Home": {
+            "canonicalName": "Benjamin Marx",
+            "officialSite": "https://sites.google.com/view/bmarx/home?authuser=0"
+        },
+        "Huayu Xu - Trang cá nhân": {
+            "canonicalName": "Huayu Xu",
+            "officialSite": "https://sites.google.com/umich.edu/huayu"
+        },
+        "Ina Simonovska - Home": {
+            "canonicalName": "Ina Simonovska"
+        },
+        "Jonathan Roth - DID super": {
+            "canonicalName": "Jonathan Roth"
+        },
+        "Kaicheng Luo - Kaicheng Luo": {
+            "canonicalName": "Kaicheng Luo"
+        },
+        "Maoyong Fan - Research": {
+            "canonicalName": "Maoyong Fan",
+            "officialSite": "https://sites.google.com/site/maoyongfan/"
+        },
+        "Michael Gechter | Assistant Professor of Economics, Walton College of Business, University of Arkansas": {
+            "canonicalName": "Michael Gechter"
+        },
+        "Michael Greenstone - Research and Publications": {
+            "canonicalName": "Michael Greenstone"
+        },
+        "Naijia Guo (郭乃嘉) - Research": {
+            "canonicalName": "Naijia Guo",
+            "officialSite": "https://sites.google.com/view/naijia-guo/home"
+        },
+        "Nghiên cứu của Selim Gulesci": {
+            "canonicalName": "Selim Gulesci",
+            "officialSite": "https://sites.google.com/view/selimgulesci/home"
+        },
+        "Oriana Bandiera": {
+            "canonicalName": "Oriana Bandiera",
+            "officialSite": "https://orianabandiera.github.io/",
+            "department": "Department of Economics, London School of Economics and Political Science"
+        },
+        "Pedro H. C. Sant'Anna - Causal": {
+            "canonicalName": "Pedro H. C. Sant'Anna"
+        },
+        "Prashant Garg - Using LLMs Guides": {
+            "canonicalName": "Prashant Garg",
+            "officialSite": "https://www.prashantgarg.org/"
+        },
+        "Research - Maximilian Kasy": {
+            "canonicalName": "Maximilian Kasy"
+        },
+        "Research - SARA LOWES": {
+            "canonicalName": "Sara Lowes"
+        },
+        "Research — Teevrat Garg": {
+            "canonicalName": "Teevrat Garg"
+        },
+        "Ricardo Dahis | Homepage": {
+            "canonicalName": "Ricardo Dahis"
+        },
+        "SHAODA WANG (王绍达) - Home": {
+            "canonicalName": "Shaoda Wang"
+        },
+        "Supreet Kaur - Labor, Behavior": {
+            "canonicalName": "Supreet Kaur"
+        },
+        "Thomas Drechsel - Personal Website": {
+            "canonicalName": "Thomas Drechsel",
+            "officialSite": "https://www.econ.umd.edu/facultyprofile/drechsel/thomas"
+        },
+        "Valerio Nispi Landi Webpage": {
+            "canonicalName": "Valerio Nispi Landi"
+        },
+        "Trang chủ của Chenting": {
+            "canonicalName": "Ting Chen",
+            "officialSite": "https://www.chenting.info/"
+        },
+        "Vincent Rollet - Research": {
+            "canonicalName": "Vincent Rollet",
+            "officialSite": "https://sites.google.com/site/vjrollet/"
+        },
+        "Welcome! - Matthias Weigand": {
+            "canonicalName": "Matthias Weigand"
+        },
+        "Welcome to my homepage !": {
+            "canonicalName": "Rocco Macchiavello",
+            "officialSite": "https://sites.google.com/site/roccomacchiavello/"
+        },
+        "Wei Huang (黄炜) · Homepage": {
+            "canonicalName": "Wei Huang",
+            "officialSite": "https://huangweipku.com/"
+        }
+    }
+}
