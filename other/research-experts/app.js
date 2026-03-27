@@ -1,9 +1,7 @@
 (function() {
     var SVG_NS = 'http://www.w3.org/2000/svg';
     var directory = window.EXPERT_DIRECTORY || { experts: [], fields: [], generatedAt: '' };
-    var summaryLine = document.getElementById('expert-summary');
-    var updatedLine = document.getElementById('expert-updated');
-    var galaxyHint = document.getElementById('galaxy-hint');
+    var searchInput = document.getElementById('expert-search');
     var galaxyMeta = document.getElementById('galaxy-meta');
     var heroStats = document.getElementById('hero-stats');
     var filterRoot = document.getElementById('field-filters');
@@ -17,6 +15,7 @@
     var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     var state = {
+        query: '',
         field: 'All',
         activeId: '',
         detailOpen: false,
@@ -105,6 +104,21 @@
         return value.slice(0, maxLength - 1).trim() + '…';
     }
 
+    function searchableBlob(expert) {
+        return [
+            expert.name || '',
+            expert.affiliation || '',
+            expert.department || '',
+            expert.summary || '',
+            (expert.fields || []).join(' '),
+            (expert.papers || []).map(function(paper) { return paper.title; }).join(' ')
+        ].join(' ').toLowerCase();
+    }
+
+    function matchesQuery(expert, query) {
+        return !query || searchableBlob(expert).indexOf(query) !== -1;
+    }
+
     function getFieldColor(field) {
         return fieldPalette[field] || fieldPalette.General;
     }
@@ -147,8 +161,10 @@
     }
 
     function getFilteredExperts() {
+        var query = state.query.trim().toLowerCase();
         return directory.experts.filter(function(expert) {
-            return state.field === 'All' || (expert.fields || []).indexOf(state.field) !== -1;
+            var matchesField = state.field === 'All' || (expert.fields || []).indexOf(state.field) !== -1;
+            return matchesField && matchesQuery(expert, query);
         });
     }
 
@@ -222,9 +238,13 @@
     }
 
     function renderFilters() {
-        var counts = { All: directory.experts.length };
+        var query = state.query.trim().toLowerCase();
+        var queryMatches = directory.experts.filter(function(expert) {
+            return matchesQuery(expert, query);
+        });
+        var counts = { All: queryMatches.length };
 
-        directory.experts.forEach(function(expert) {
+        queryMatches.forEach(function(expert) {
             (expert.fields || []).forEach(function(field) {
                 counts[field] = (counts[field] || 0) + 1;
             });
@@ -245,11 +265,11 @@
     }
 
     function renderMeta(filteredExperts) {
-        summaryLine.textContent = filteredExperts.length + ' of ' + directory.experts.length + ' experts visible';
-        updatedLine.textContent = 'Last refreshed ' + formatDate(directory.generatedAt);
-        galaxyHint.textContent = state.field === 'All'
-            ? 'Filter by field, then click a star or a result chip to open the profile.'
-            : 'Filtered to ' + state.field + '.';
+        var query = state.query.trim();
+        if (query) {
+            galaxyMeta.textContent = filteredExperts.length + ' stars for "' + query + '"';
+            return;
+        }
         galaxyMeta.textContent = filteredExperts.length + ' stars in view';
     }
 
@@ -643,6 +663,13 @@
                 closeMobileDetail();
             }
         });
+
+        if (searchInput) {
+            searchInput.addEventListener('input', function(event) {
+                state.query = event.target.value;
+                render();
+            });
+        }
 
         if (themeToggle) {
             themeToggle.addEventListener('click', function() {
