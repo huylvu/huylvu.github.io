@@ -3,13 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="A small collection of apps and interactive tools by Huy Le Vu, starting with the Energy Checking atlas."
+    >
     <title>My App</title>
+    <link rel="icon" type="image/jpeg" href="/avt.jpg">
     <link rel="stylesheet" href="/style.css">
+    <script>
+    (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+    <style>
+    .apps-shell {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
+    }
+
+    .apps-hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        align-items: flex-start;
+        margin-bottom: 28px;
+    }
+
+    .back-link {
+        display: inline-block;
+        margin-bottom: 14px;
+        font-size: 0.96rem;
+    }
+
+    .apps-kicker {
+        margin: 0 0 8px;
+        font-size: 0.75rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    .apps-title {
+        margin: 0 0 12px;
+        color: var(--heading);
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 1.05;
+    }
+
+    .apps-intro {
+        max-width: 640px;
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+
+    .theme-toggle-inline {
+        border: 1px solid var(--card-border);
+        background: var(--card-bg);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 10px 16px;
+        cursor: pointer;
+        font: inherit;
+        box-shadow: 0 8px 24px var(--card-shadow);
+    }
+
+    .app-grid {
+        display: grid;
+        gap: 22px;
+    }
+
+    .app-card {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding: 24px;
+        border: 1px solid var(--card-border);
+        border-radius: 24px;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)),
+            var(--card-bg);
+        box-shadow: 0 20px 50px var(--card-shadow);
+        transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .app-card:hover,
+    .app-card:focus-within {
+        transform: translateY(-3px);
+        box-shadow: 0 24px 60px var(--card-hover-shadow);
+        border-color: var(--link);
+    }
+
+    .app-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .app-label {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--badge-bg);
+        border: 1px solid var(--badge-border);
+        color: var(--badge-text);
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .app-status {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 0.8rem;
+    }
+
+    .app-status-private {
+        background: #fff5f5;
+        border-color: #ffd7d7;
+        color: #b04545;
+    }
+
+    .app-status-public {
+        background: #f4f8ff;
+        border-color: #d9e6ff;
+        color: #3258a8;
+    }
+
+    .app-name {
+        margin: 0;
+        font-size: 1.5rem;
+        line-height: 1.2;
+        color: var(--heading);
+    }
+
+    .app-summary {
+        margin: 0;
+        color: var(--text-secondary);
+        line-height: 1.65;
+    }
+
+    .app-points {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .app-points span {
+        padding: 7px 11px;
+        border-radius: 999px;
+        border: 1px solid var(--chip-border);
+        background: var(--chip-bg);
+        color: var(--chip-text);
+        font-size: 0.86rem;
+    }
+
+    .app-media-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .app-shot {
+        margin: 0;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid var(--card-border);
+        background: var(--card-bg);
+    }
+
+    .app-shot img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        aspect-ratio: 16 / 10;
+    }
+
+    .app-shot figcaption {
+        padding: 10px 12px 12px;
+        color: var(--text-muted);
+        font-size: 0.86rem;
+        line-height: 1.45;
+    }
+
+    .app-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+        margin-top: auto;
+    }
+
+    .app-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: var(--chip-active-bg);
+        color: var(--chip-active-text);
+        border: 1px solid var(--chip-active-border);
+        text-decoration: none;
+        font-size: 0.96rem;
+        font-weight: 600;
+    }
+
+    .app-link:hover,
+    .app-link:active {
+        color: var(--chip-active-text);
+        text-decoration: none;
+    }
+
+    .app-note,
+    .app-cta {
+        margin-top: auto;
+        color: var(--text-muted);
+        line-height: 1.55;
+    }
+
+    @media (max-width: 720px) {
+        body {
+            margin: 0;
+        }
+
+        .apps-shell {
+            padding-top: 28px;
+        }
+
+        .apps-hero {
+            flex-direction: column;
+        }
+
+        .app-media-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>My App</h1>
-        <p>Trang này sẽ được cập nhật nội dung về các app cho tobacco control.</p>
-    </div>
+    <main class="apps-shell">
+        <section class="apps-hero">
+            <div>
+                <a class="back-link" href="/">Back to home</a>
+                <p class="apps-kicker">Interactive projects</p>
+                <h1 class="apps-title">My App</h1>
+                <p class="apps-intro">
+                    A small shelf for the interactive tools I build. Some are public and live on this site;
+                    some stay private for internal work but still deserve a short project note. I keep the
+                    public link here when it is open, and use screenshots when an app is meant for internal use only.
+                </p>
+            </div>
+            <button class="theme-toggle-inline" id="theme-toggle" type="button" aria-label="Toggle color theme">
+                Theme
+            </button>
+        </section>
+
+        <section class="app-grid" aria-label="Project apps">
+            <article class="app-card">
+                <div class="app-badges">
+                    <span class="app-label">Energy checking</span>
+                    <span class="app-status app-status-public">Public</span>
+                    <span class="app-status">On-site</span>
+                </div>
+                <div>
+                    <h2 class="app-name">Vietnam Grid Atlas</h2>
+                    <p class="app-summary">
+                        An interactive map for checking generation assets and grid infrastructure in one
+                        place. Open the atlas to filter plants, inspect locations, and move between the
+                        plant layer, transmission backbone, substations, and data centers.
+                    </p>
+                </div>
+                <div class="app-points" aria-hidden="true">
+                    <span>Plants</span>
+                    <span>Transmission lines</span>
+                    <span>Substations</span>
+                    <span>Data centers</span>
+                </div>
+                <div class="app-actions">
+                    <a class="app-link" href="/other/energy-checking/">Open app</a>
+                    <div class="app-note">A public map-first tool hosted directly on this website.</div>
+                </div>
+            </article>
+
+            <article class="app-card">
+                <div class="app-badges">
+                    <span class="app-label">Tax simulation</span>
+                    <span class="app-status app-status-private">Private</span>
+                    <span class="app-status">Internal tool</span>
+                </div>
+                <div>
+                    <h2 class="app-name">The Tax Simulation App</h2>
+                    <p class="app-summary">
+                        A DEPOCEN internal app built to simulate tobacco-tax scenarios across the base year
+                        and the following five years. It helps researchers and policymakers compare how
+                        specific tax paths can affect cigarette consumption, retail price, tax revenue,
+                        smoking prevalence, and smoking-related deaths.
+                    </p>
+                </div>
+                <div class="app-points" aria-hidden="true">
+                    <span>Scenario builder</span>
+                    <span>Saved simulations</span>
+                    <span>Comparison charts</span>
+                    <span>Policy analysis</span>
+                </div>
+                <div class="app-media-grid">
+                    <figure class="app-shot">
+                        <img src="/other/app/images/tax-simulation-intro.jpg" alt="Introduction screen of the Tax Simulation App">
+                        <figcaption>Intro page with project framing and the main policy outcomes tracked by the model.</figcaption>
+                    </figure>
+                    <figure class="app-shot">
+                        <img src="/other/app/images/tax-simulation-analysis.jpg" alt="Comparison plot inside the Tax Simulation App">
+                        <figcaption>Scenario analysis view for comparing simulated consumption and related outcomes over time.</figcaption>
+                    </figure>
+                </div>
+                <div class="app-note">
+                    Private internal app. This page shows the project profile and screenshots only; the working tool is not publicly linked.
+                </div>
+            </article>
+
+            <article class="app-card">
+                <div class="app-badges">
+                    <span class="app-label">Tobacco mapping</span>
+                    <span class="app-status app-status-private">Private</span>
+                    <span class="app-status">Internal tool</span>
+                </div>
+                <div>
+                    <h2 class="app-name">Tobacco Mapping 2025</h2>
+                    <p class="app-summary">
+                        An internal mapping app for exploring tobacco retailers in Hanoi and Ho Chi Minh City.
+                        It combines store locations, product and brand availability, prices, and retail
+                        characteristics so users can search shops and inspect the local retail environment in detail.
+                    </p>
+                </div>
+                <div class="app-points" aria-hidden="true">
+                    <span>Store map</span>
+                    <span>Retailer filters</span>
+                    <span>Product and price lists</span>
+                    <span>Hanoi and HCMC</span>
+                </div>
+                <div class="app-media-grid">
+                    <figure class="app-shot">
+                        <img src="/other/app/images/tobacco-mapping-overview.jpg" alt="Overview screen of Tobacco Mapping 2025">
+                        <figcaption>Overview page introducing the mapping workflow for tobacco retailers and available product data.</figcaption>
+                    </figure>
+                    <figure class="app-shot">
+                        <img src="/other/app/images/tobacco-mapping-filters.jpg" alt="Filter and popup screen in Tobacco Mapping 2025">
+                        <figcaption>Map view with location filters, store attributes, and popup-level product-price inspection.</figcaption>
+                    </figure>
+                </div>
+                <div class="app-note">
+                    Private internal app. Public visitors can view the summary here, while the operational version stays inside the project workflow.
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script>
+    (function() {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+
+        btn.addEventListener('click', function() {
+            var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    })();
+    </script>
 </body>
-</html> 
+</html>
