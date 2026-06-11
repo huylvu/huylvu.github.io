@@ -3112,3 +3112,13 @@ a.lab-card h3::after {
         opacity: 0.95;
     }
 }
+
+.nav-studio {
+    color: var(--accent) !important;
+}
+
+.nav-studio::after {
+    content: "•";
+    margin-left: 5px;
+    color: var(--amber);
+}
