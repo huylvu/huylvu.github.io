@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ai-mind-site",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4329", "--directory", "/Users/levuhuy/Documents/GitHub/huylvu.github.io"],
+      "port": 4329
+    }
+  ]
+}
