@@ -2,191 +2,191 @@ window.AI_MIND_DATA = {
     generatedAt: '2026-06-10',
     principles: [
         {
-            title: 'Treat the agent as a research operator',
-            text: 'Give it a task contract, source boundaries, acceptance checks, and permission limits. Do not rely on a clever prompt to carry an unclear workflow.'
+            title: { en: 'Treat the agent as a research operator', vi: 'Xem tác nhân AI như một người vận hành nghiên cứu' },
+            text: { en: 'Give it a task contract, source boundaries, acceptance checks, and permission limits. Do not rely on a clever prompt to carry an unclear workflow.', vi: 'Hãy giao cho nó một bản nhiệm vụ, ranh giới nguồn, tiêu chí nghiệm thu và giới hạn quyền. Đừng trông chờ một câu lệnh khéo léo cứu một quy trình chưa rõ ràng.' }
         },
         {
-            title: 'Start from evidence, not literature theater',
-            text: 'For empirical economics, audit data, sample, variables, identification, and outputs before asking the agent to write a story.'
+            title: { en: 'Start from evidence, not literature theater', vi: 'Bắt đầu từ bằng chứng, không phải màn trình diễn văn liệu' },
+            text: { en: 'For empirical economics, audit data, sample, variables, identification, and outputs before asking the agent to write a story.', vi: 'Với kinh tế học thực nghiệm, hãy kiểm toán dữ liệu, mẫu, biến, chiến lược nhận diện và kết quả trước khi yêu cầu tác nhân AI viết câu chuyện.' }
         },
         {
-            title: 'Make context a system',
-            text: 'Keep wiki pages, repo instructions, source catalogs, skills, and memory thin but connected. The point is retrieval discipline, not hoarding notes.'
+            title: { en: 'Make context a system', vi: 'Biến ngữ cảnh thành một hệ thống' },
+            text: { en: 'Keep wiki pages, repo instructions, source catalogs, skills, and memory thin but connected. The point is retrieval discipline, not hoarding notes.', vi: 'Giữ trang wiki, chỉ dẫn kho mã, danh mục nguồn, kỹ năng và trí nhớ gọn nhưng liên kết với nhau. Mục tiêu là truy xuất có kỷ luật, không phải tích trữ ghi chú.' }
         },
         {
-            title: 'Verify before polishing',
-            text: 'Every agent output needs a check: code run, table match, citation check, source trace, screenshot, or a clearly stated residual risk.'
+            title: { en: 'Verify before polishing', vi: 'Kiểm chứng trước khi trau chuốt' },
+            text: { en: 'Every agent output needs a check: code run, table match, citation check, source trace, screenshot, or a clearly stated residual risk.', vi: 'Mọi đầu ra của tác nhân AI đều cần một phép kiểm: chạy mã, đối chiếu bảng, kiểm tra trích dẫn, truy nguồn, ảnh chụp hoặc nêu rõ rủi ro còn lại.' }
         }
     ],
     modules: [
         {
             id: 'chatbot-agent',
-            title: { en: 'From chatbot to research agent', vi: 'Từ chatbot đến AI research agent' },
+            title: { en: 'From chatbot to research agent', vi: 'Từ chatbot đến tác nhân nghiên cứu AI' },
             stage: { en: 'Foundation', vi: 'Nền tảng' },
             image: '/docs/ai-mind/assets/part-covers/part-00-chatbot-agent.png',
-            promise: { en: 'Separate chat, custom assistants, IDE helpers, and full workspace agents so learners know what changed and why it matters.', vi: 'Phân biệt chatbot, custom assistant, IDE helper và agent làm việc trực tiếp trong workspace để hiểu đúng sức mạnh và rủi ro.' },
+            promise: { en: 'Separate chat, custom assistants, IDE helpers, and full workspace agents so learners know what changed and why it matters.', vi: 'Phân biệt trò chuyện AI, trợ lý tùy chỉnh, công cụ hỗ trợ trong môi trường lập trình và tác nhân làm việc trực tiếp trong không gian dự án để hiểu đúng sức mạnh và rủi ro.' },
             outcomes: [
-                { en: 'Explain why agents are different from chatbots', vi: 'Giải thích AI agent khác chatbot ở điểm nào' },
-                { en: 'Identify the agent control surface: files, tools, permissions, memory, and actions', vi: 'Nhận diện control surface: file, tool, permission, memory và action' },
-                { en: 'Decide when a task needs an agent instead of a chat window', vi: 'Biết khi nào cần agent thay vì chỉ dùng cửa sổ chat' }
+                { en: 'Explain why agents are different from chatbots', vi: 'Giải thích tác nhân AI khác chatbot ở điểm nào' },
+                { en: 'Identify the agent control surface: files, tools, permissions, memory, and actions', vi: 'Nhận diện các điểm điều khiển tác nhân: tệp, công cụ, quyền truy cập, trí nhớ và hành động' },
+                { en: 'Decide when a task needs an agent instead of a chat window', vi: 'Biết khi nào đầu việc cần tác nhân AI thay vì chỉ dùng cửa sổ trò chuyện' }
             ],
-            exercise: { en: 'Map three real research tasks into chatbot-only, assistant, and workspace-agent versions.', vi: 'Chọn ba tác vụ nghiên cứu thật và map thành ba phiên bản: chatbot, assistant, và workspace agent.' }
+            exercise: { en: 'Map three real research tasks into chatbot-only, assistant, and workspace-agent versions.', vi: 'Chọn ba đầu việc nghiên cứu thật và ánh xạ thành ba phiên bản: chỉ dùng chatbot, dùng trợ lý và dùng tác nhân trong không gian dự án.' }
         },
         {
             id: 'control-philosophy',
             title: { en: 'Control philosophy: delegate without outsourcing understanding', vi: 'Triết lý kiểm soát: giao việc nhưng không giao mất hiểu biết' },
             stage: { en: 'Mindset', vi: 'Tư duy' },
             image: '/docs/ai-mind/assets/part-covers/part-01-control-philosophy.png',
-            promise: { en: 'Build the course stance: AI is a research companion and operator, not a replacement for domain judgment.', vi: 'Xây tư thế học chính: AI là bạn đồng hành và operator nghiên cứu, không thay thế judgment của người làm nghiên cứu.' },
+            promise: { en: 'Build the course stance: AI is a research companion and operator, not a replacement for domain judgment.', vi: 'Xác lập quan điểm của khóa học: AI là bạn đồng hành và người vận hành nghiên cứu, không thay thế phán đoán chuyên môn.' },
             outcomes: [
                 { en: 'Separate delegation from abdication', vi: 'Phân biệt giao việc với buông quyền kiểm soát' },
-                { en: 'Keep human ownership over claims, evidence, and interpretation', vi: 'Giữ quyền sở hữu của con người với claim, evidence và diễn giải' },
-                { en: 'Use the agent as the first tutor for setup and self-learning', vi: 'Dùng agent như người hướng dẫn đầu tiên khi tự học và setup' }
+                { en: 'Keep human ownership over claims, evidence, and interpretation', vi: 'Giữ quyền chịu trách nhiệm của con người với luận điểm, bằng chứng và diễn giải' },
+                { en: 'Use the agent as the first tutor for setup and self-learning', vi: 'Dùng tác nhân AI như người hướng dẫn đầu tiên khi cài đặt và tự học' }
             ],
-            exercise: { en: 'Write a one-page control charter for your own agent: what it may do, what it must ask, and what you will always verify.', vi: 'Viết một control charter một trang: agent được làm gì, phải hỏi gì, và phần nào anh/chị luôn tự verify.' }
+            exercise: { en: 'Write a one-page control charter for your own agent: what it may do, what it must ask, and what you will always verify.', vi: 'Viết một bản quy ước kiểm soát dài một trang: tác nhân được làm gì, phải hỏi gì và phần nào anh luôn tự kiểm chứng.' }
         },
         {
             id: 'setup-orientation',
-            title: { en: 'Setup, orientation, permissions, and sandboxes', vi: 'Setup, định hướng, permission và sandbox' },
+            title: { en: 'Setup, orientation, permissions, and sandboxes', vi: 'Cài đặt, định hướng, quyền truy cập và vùng cách ly' },
             stage: { en: 'Setup', vi: 'Cài đặt' },
             image: '/docs/ai-mind/assets/part-covers/part-02-setup-orientation.png',
-            promise: { en: 'Use Codex as the main setup example, then compare Claude Code and Antigravity so tool changes do not break the mental model.', vi: 'Lấy Codex làm ví dụ chính, sau đó so sánh Claude Code và Antigravity để dù đổi tool vẫn giữ được mental model.' },
+            promise: { en: 'Use Codex as the main setup example, then compare Claude Code and Antigravity so tool changes do not break the mental model.', vi: 'Lấy Codex làm ví dụ cài đặt chính, sau đó so sánh Claude Code và Antigravity để dù đổi công cụ vẫn giữ được mô hình tư duy.' },
             outcomes: [
-                { en: 'Create project instructions and safe workspace boundaries', vi: 'Tạo instruction dự án và ranh giới workspace an toàn' },
-                { en: 'Understand permissions, terminals, logs, and file-edit flows', vi: 'Hiểu permission, terminal, log và flow chỉnh sửa file' },
+                { en: 'Create project instructions and safe workspace boundaries', vi: 'Tạo chỉ dẫn dự án và ranh giới không gian làm việc an toàn' },
+                { en: 'Understand permissions, terminals, logs, and file-edit flows', vi: 'Hiểu quyền truy cập, cửa sổ lệnh, nhật ký và luồng chỉnh sửa tệp' },
                 { en: 'Explain where Claude Code and Antigravity differ from Codex', vi: 'Giải thích khác biệt chính giữa Claude Code, Antigravity và Codex' }
             ],
-            exercise: { en: 'Set up a dummy research repo with AGENTS.md, logs folder, data boundary, and a no-secrets rule.', vi: 'Setup một repo nghiên cứu giả với AGENTS.md, thư mục logs, ranh giới data, và rule không đụng secrets.' }
+            exercise: { en: 'Set up a dummy research repo with AGENTS.md, logs folder, data boundary, and a no-secrets rule.', vi: 'Cài đặt một kho mã nghiên cứu giả với AGENTS.md, thư mục nhật ký, ranh giới dữ liệu và quy tắc không đụng tới thông tin bí mật.' }
         },
         {
             id: 'wiki-memory',
-            title: { en: 'Wiki memory and portable second brain', vi: 'Wiki memory và second brain dùng được qua nhiều agent' },
+            title: { en: 'Wiki memory and portable second brain', vi: 'Trí nhớ wiki và bộ não thứ hai có thể mang theo' },
             stage: { en: 'Memory', vi: 'Trí nhớ' },
             image: '/docs/ai-mind/assets/part-covers/part-03-wiki-memory.png',
-            promise: { en: 'Turn scattered notes into a library-like memory system that works across Codex, Claude Code, Obsidian, NotebookLM, and future agents.', vi: 'Biến note rải rác thành hệ memory giống thư viện, dùng được với Codex, Claude Code, Obsidian, NotebookLM và agent tương lai.' },
+            promise: { en: 'Turn scattered notes into a library-like memory system that works across Codex, Claude Code, Obsidian, NotebookLM, and future agents.', vi: 'Biến ghi chú rải rác thành hệ thống trí nhớ dạng thư viện, dùng được với Codex, Claude Code, Obsidian, NotebookLM và các tác nhân tương lai.' },
             outcomes: [
-                { en: 'Separate private corpus, wiki, memory index, and public outputs', vi: 'Tách private corpus, wiki, memory index và public output' },
-                { en: 'Design retrieval paths instead of forcing the agent to reread everything', vi: 'Thiết kế đường truy xuất thay vì bắt agent đọc lại cả thư viện' },
-                { en: 'Create update routines for long-term self-learning', vi: 'Tạo routine cập nhật để agent và người dùng cùng học lâu dài' }
+                { en: 'Separate private corpus, wiki, memory index, and public outputs', vi: 'Tách kho tư liệu riêng, wiki, chỉ mục trí nhớ và đầu ra công khai' },
+                { en: 'Design retrieval paths instead of forcing the agent to reread everything', vi: 'Thiết kế đường truy xuất thay vì bắt tác nhân đọc lại cả thư viện' },
+                { en: 'Create update routines for long-term self-learning', vi: 'Tạo nhịp cập nhật để tác nhân và người dùng cùng học lâu dài' }
             ],
-            exercise: { en: 'Build a three-level memory map for one project: index page, source page, and reusable fact card.', vi: 'Xây memory map ba tầng cho một dự án: index page, source page, và fact card tái sử dụng.' }
+            exercise: { en: 'Build a three-level memory map for one project: index page, source page, and reusable fact card.', vi: 'Xây bản đồ trí nhớ ba tầng cho một dự án: trang chỉ mục, trang nguồn và thẻ dữ kiện có thể tái sử dụng.' }
         },
         {
             id: 'skills',
-            title: { en: 'Skills as reusable research workflows', vi: 'Skill như workflow nghiên cứu tái sử dụng' },
-            stage: { en: 'Skills', vi: 'Skill' },
+            title: { en: 'Skills as reusable research workflows', vi: 'Kỹ năng như quy trình nghiên cứu tái sử dụng' },
+            stage: { en: 'Skills', vi: 'Kỹ năng' },
             image: '/docs/ai-mind/assets/part-covers/part-04-skills.png',
-            promise: { en: 'Convert repeated research judgment into explicit skills for idea generation, literature, data, results, writing, and review.', vi: 'Biến judgment lặp lại trong nghiên cứu thành skill rõ ràng cho ý tưởng, literature, data, result, writing và review.' },
+            promise: { en: 'Convert repeated research judgment into explicit skills for idea generation, literature, data, results, writing, and review.', vi: 'Biến phán đoán lặp lại trong nghiên cứu thành kỹ năng rõ ràng cho ý tưởng, văn liệu, dữ liệu, kết quả, viết và rà soát.' },
             outcomes: [
-                { en: 'Distinguish prompts, rules, skills, and full agents', vi: 'Phân biệt prompt, rule, skill và full agent' },
-                { en: 'Read and write a skill template with triggers, inputs, workflow, and verification', vi: 'Đọc và viết template skill gồm trigger, input, workflow và verification' },
-                { en: 'Build five skills along an empirical research pipeline', vi: 'Xây năm skill đi dọc pipeline nghiên cứu empirical' }
+                { en: 'Distinguish prompts, rules, skills, and full agents', vi: 'Phân biệt yêu cầu, quy tắc, kỹ năng và tác nhân hoàn chỉnh' },
+                { en: 'Read and write a skill template with triggers, inputs, workflow, and verification', vi: 'Đọc và viết khuôn kỹ năng gồm điều kiện kích hoạt, đầu vào, quy trình và bước kiểm chứng' },
+                { en: 'Build five skills along an empirical research pipeline', vi: 'Xây năm kỹ năng dọc theo quy trình nghiên cứu thực nghiệm' }
             ],
-            exercise: { en: 'Draft one skill for result-table review and one skill for source-to-dataset crawling.', vi: 'Viết một skill review bảng kết quả và một skill crawl source-to-dataset.' }
+            exercise: { en: 'Draft one skill for result-table review and one skill for source-to-dataset crawling.', vi: 'Viết một kỹ năng rà soát bảng kết quả và một kỹ năng thu thập từ nguồn thành bộ dữ liệu.' }
         },
         {
             id: 'connectors-tools',
-            title: { en: 'Plugins, MCP, Zotero, NotebookLM, Gmail, and Drive', vi: 'Plugin, MCP, Zotero, NotebookLM, Gmail và Drive' },
+            title: { en: 'Plugins, MCP, Zotero, NotebookLM, Gmail, and Drive', vi: 'Tiện ích, MCP, Zotero, NotebookLM, Gmail và Drive' },
             stage: { en: 'Connectors', vi: 'Kết nối' },
             image: '/docs/ai-mind/assets/part-covers/part-05-connectors-tools.png',
-            promise: { en: 'Teach connectors as workflow infrastructure, not shiny add-ons: every connection needs a use case, permission model, and failure mode.', vi: 'Dạy connector như hạ tầng workflow, không phải đồ chơi mới: mỗi kết nối cần use case, permission model và failure mode.' },
+            promise: { en: 'Teach connectors as workflow infrastructure, not shiny add-ons: every connection needs a use case, permission model, and failure mode.', vi: 'Dạy kết nối như hạ tầng quy trình, không phải đồ chơi mới: mỗi kết nối cần tình huống sử dụng, mô hình quyền truy cập và kiểu sai hỏng.' },
             outcomes: [
-                { en: 'Choose connectors by bottleneck: papers, files, email, calendar, browser, or databases', vi: 'Chọn connector theo bottleneck: paper, file, email, calendar, browser hoặc database' },
-                { en: 'Use Zotero and NotebookLM for paper-grounded work', vi: 'Dùng Zotero và NotebookLM cho công việc bám paper' },
-                { en: 'Design Gmail/Drive routines without leaking private data', vi: 'Thiết kế routine Gmail/Drive mà không rò rỉ dữ liệu riêng tư' }
+                { en: 'Choose connectors by bottleneck: papers, files, email, calendar, browser, or databases', vi: 'Chọn kết nối theo điểm nghẽn: bài nghiên cứu, tệp, thư điện tử, lịch, trình duyệt hoặc cơ sở dữ liệu' },
+                { en: 'Use Zotero and NotebookLM for paper-grounded work', vi: 'Dùng Zotero và NotebookLM cho công việc bám sát bài nghiên cứu' },
+                { en: 'Design Gmail/Drive routines without leaking private data', vi: 'Thiết kế nhịp làm việc Gmail/Drive mà không rò rỉ dữ liệu riêng tư' }
             ],
-            exercise: { en: 'Design a connector map for a literature review sprint and list what the agent may never send outside the machine.', vi: 'Thiết kế connector map cho một sprint literature review và liệt kê dữ liệu agent không bao giờ được gửi ra ngoài.' }
+            exercise: { en: 'Design a connector map for a literature review sprint and list what the agent may never send outside the machine.', vi: 'Thiết kế bản đồ kết nối cho một đợt tổng quan văn liệu và liệt kê dữ liệu tác nhân không bao giờ được gửi ra ngoài máy.' }
         },
         {
             id: 'applied-research',
-            title: { en: 'Applied research modules from empty folder to research output', vi: 'Module applied: từ thư mục trống đến output nghiên cứu' },
+            title: { en: 'Applied research modules from empty folder to research output', vi: 'Thực hành nghiên cứu: từ thư mục trống đến đầu ra hoàn chỉnh' },
             stage: { en: 'Applied', vi: 'Thực hành' },
             image: '/docs/ai-mind/assets/part-covers/part-06-applied-research.png',
-            promise: { en: 'Adapt the Paul Goldsmith-Pinkham style spine: setup, data, scraping, databases, writing, skills, sandboxes, and O-ring verification.', vi: 'Dựa theo khung thực hành kiểu Paul Goldsmith-Pinkham: setup, data, scraping, database, writing, skills, sandbox và O-ring verification.' },
+            promise: { en: 'Adapt the Paul Goldsmith-Pinkham style spine: setup, data, scraping, databases, writing, skills, sandboxes, and O-ring verification.', vi: 'Dựa theo khung thực hành của Paul Goldsmith-Pinkham: cài đặt, dữ liệu, thu thập web, cơ sở dữ liệu, viết, kỹ năng, vùng cách ly và kiểm chứng theo chuỗi O-ring.' },
             outcomes: [
-                { en: 'Run empty-folder-to-figure workflows', vi: 'Chạy workflow từ thư mục trống đến figure' },
-                { en: 'Convert source pages into structured datasets', vi: 'Biến source page thành structured dataset' },
-                { en: 'Tie writing and verification to empirical outputs', vi: 'Gắn writing và verification với output empirical' }
+                { en: 'Run empty-folder-to-figure workflows', vi: 'Chạy quy trình từ thư mục trống đến biểu đồ' },
+                { en: 'Convert source pages into structured datasets', vi: 'Biến trang nguồn thành bộ dữ liệu có cấu trúc' },
+                { en: 'Tie writing and verification to empirical outputs', vi: 'Gắn phần viết và kiểm chứng với đầu ra thực nghiệm' }
             ],
-            exercise: { en: 'Create a reproducible mini-project: source, raw data, script, figure, memo, and verification checklist.', vi: 'Tạo mini-project tái lập được: source, raw data, script, figure, memo và checklist verification.' }
+            exercise: { en: 'Create a reproducible mini-project: source, raw data, script, figure, memo, and verification checklist.', vi: 'Tạo dự án nhỏ có thể tái lập: nguồn, dữ liệu gốc, mã lệnh, biểu đồ, bản ghi nhớ và danh sách kiểm chứng.' }
         },
         {
             id: 'project-workflows',
-            title: { en: 'Research project operations and consulting workflows', vi: 'Vận hành dự án nghiên cứu và workflow tư vấn' },
+            title: { en: 'Research project operations and consulting workflows', vi: 'Vận hành dự án nghiên cứu và quy trình tư vấn' },
             stage: { en: 'Operations', vi: 'Vận hành' },
             image: '/docs/ai-mind/assets/part-covers/part-07-project-workflows.png',
-            promise: { en: 'Show how agents can reduce manual coordination in team projects: data refresh, error reports, assignment, reminders, and delivery tracking.', vi: 'Cho thấy agent có thể giảm việc thủ công trong dự án team: cập nhật data, báo lỗi, phân công, nhắc việc và tracking deliverable.' },
+            promise: { en: 'Show how agents can reduce manual coordination in team projects: data refresh, error reports, assignment, reminders, and delivery tracking.', vi: 'Cho thấy tác nhân AI có thể giảm việc điều phối thủ công trong dự án nhóm: cập nhật dữ liệu, báo lỗi, phân công, nhắc việc và theo dõi sản phẩm bàn giao.' },
             outcomes: [
-                { en: 'Redesign daily data checks with API scripts and scheduled summaries', vi: 'Thiết kế lại daily data check bằng API script và summary tự động' },
-                { en: 'Turn QA errors into owner-deadline-task records', vi: 'Biến lỗi QA thành task có owner và deadline' },
-                { en: 'Define the human role in approval, interpretation, and escalation', vi: 'Định nghĩa vai trò con người trong approval, interpretation và escalation' }
+                { en: 'Redesign daily data checks with API scripts and scheduled summaries', vi: 'Thiết kế lại kiểm tra dữ liệu hằng ngày bằng mã API và bản tóm tắt theo lịch' },
+                { en: 'Turn QA errors into owner-deadline-task records', vi: 'Biến lỗi kiểm tra chất lượng thành đầu việc có người phụ trách và hạn xử lý' },
+                { en: 'Define the human role in approval, interpretation, and escalation', vi: 'Xác định vai trò con người trong phê duyệt, diễn giải và chuyển cấp' }
             ],
-            exercise: { en: 'Build a 9am project operations workflow for one real data pipeline.', vi: 'Thiết kế workflow vận hành 9h sáng cho một pipeline data thật.' }
+            exercise: { en: 'Build a 9am project operations workflow for one real data pipeline.', vi: 'Thiết kế quy trình vận hành lúc 9 giờ sáng cho một luồng dữ liệu thật.' }
         },
         {
             id: 'automation-routines',
-            title: { en: 'Automation, routines, and autonomous modes', vi: 'Automation, routine và chế độ tự động' },
+            title: { en: 'Automation, routines, and autonomous modes', vi: 'Tự động hoá, nhịp làm việc và chế độ tự vận hành' },
             stage: { en: 'Automation', vi: 'Tự động hóa' },
             image: '/docs/ai-mind/assets/part-covers/part-08-automation-routines.png',
-            promise: { en: 'Explain routines and autonomous agent modes as bounded loops with triggers, stop rules, alerts, and human review.', vi: 'Giải thích routine và autonomous mode như vòng lặp có trigger, stop rule, alert và human review.' },
+            promise: { en: 'Explain routines and autonomous agent modes as bounded loops with triggers, stop rules, alerts, and human review.', vi: 'Giải thích nhịp làm việc và chế độ tác nhân tự vận hành như vòng lặp có điều kiện kích hoạt, quy tắc dừng, cảnh báo và rà soát của con người.' },
             outcomes: [
-                { en: 'Identify tasks safe enough for automation', vi: 'Nhận diện task đủ an toàn để tự động hóa' },
-                { en: 'Set checkpoints, logs, notifications, and rollback paths', vi: 'Đặt checkpoint, log, notification và rollback path' },
-                { en: 'Avoid silent failure in unattended agent work', vi: 'Tránh lỗi âm thầm trong tác vụ agent chạy tự động' }
+                { en: 'Identify tasks safe enough for automation', vi: 'Nhận diện đầu việc đủ an toàn để tự động hoá' },
+                { en: 'Set checkpoints, logs, notifications, and rollback paths', vi: 'Đặt điểm dừng, nhật ký, thông báo và đường quay lui' },
+                { en: 'Avoid silent failure in unattended agent work', vi: 'Tránh lỗi âm thầm trong công việc tác nhân chạy không có người giám sát' }
             ],
-            exercise: { en: 'Write an automation spec with trigger, inputs, output, error cases, and escalation rule.', vi: 'Viết automation spec gồm trigger, input, output, lỗi thường gặp và rule escalation.' }
+            exercise: { en: 'Write an automation spec with trigger, inputs, output, error cases, and escalation rule.', vi: 'Viết đặc tả tự động hoá gồm điều kiện kích hoạt, đầu vào, đầu ra, trường hợp lỗi và quy tắc chuyển cấp.' }
         },
         {
             id: 'crawling-data',
-            title: { en: 'Crawling data with AI agents', vi: 'Crawl dữ liệu bằng AI agent' },
-            stage: { en: 'Crawling', vi: 'Crawl dữ liệu' },
+            title: { en: 'Crawling data with AI agents', vi: 'Thu thập dữ liệu bằng tác nhân AI' },
+            stage: { en: 'Crawling', vi: 'Thu thập dữ liệu' },
             image: '/docs/ai-mind/assets/part-covers/part-09-crawling-data.png',
-            promise: { en: 'Teach crawling as a reproducible research pipeline: source discovery, schema, extraction, checkpointing, QA, and refresh.', vi: 'Dạy crawling như pipeline nghiên cứu tái lập được: tìm source, schema, extraction, checkpoint, QA và refresh.' },
+            promise: { en: 'Teach crawling as a reproducible research pipeline: source discovery, schema, extraction, checkpointing, QA, and refresh.', vi: 'Dạy thu thập web như một quy trình nghiên cứu có thể tái lập: tìm nguồn, thiết kế cấu trúc dữ liệu, trích xuất, đặt điểm dừng, kiểm tra chất lượng và cập nhật.' },
             outcomes: [
-                { en: 'Choose between browser crawl, API pull, HTML parse, and manual source capture', vi: 'Chọn giữa browser crawl, API pull, HTML parse và manual source capture' },
-                { en: 'Design checkpoints and evidence logs', vi: 'Thiết kế checkpoint và evidence log' },
-                { en: 'Convert crawler output into research-ready tables', vi: 'Biến output crawler thành bảng dùng được cho nghiên cứu' }
+                { en: 'Choose between browser crawl, API pull, HTML parse, and manual source capture', vi: 'Chọn giữa thu thập bằng trình duyệt, lấy qua API, phân tích HTML và ghi nhận nguồn thủ công' },
+                { en: 'Design checkpoints and evidence logs', vi: 'Thiết kế điểm dừng và nhật ký bằng chứng' },
+                { en: 'Convert crawler output into research-ready tables', vi: 'Biến đầu ra thu thập thành bảng sẵn sàng cho nghiên cứu' }
             ],
-            exercise: { en: 'Create a crawler plan for one public source, including schema, retry rules, and validation sample.', vi: 'Lập crawler plan cho một nguồn public, gồm schema, retry rule và sample validation.' }
+            exercise: { en: 'Create a crawler plan for one public source, including schema, retry rules, and validation sample.', vi: 'Lập kế hoạch thu thập cho một nguồn công khai, gồm cấu trúc dữ liệu, quy tắc thử lại và mẫu kiểm tra.' }
         },
         {
             id: 'case-studies',
-            title: { en: 'Case studies from Huy’s projects', vi: 'Case study từ các dự án của Huy' },
-            stage: { en: 'Cases', vi: 'Case study' },
+            title: { en: 'Case studies from Huy’s projects', vi: 'Tình huống nghiên cứu từ các dự án của Huy' },
+            stage: { en: 'Cases', vi: 'Tình huống' },
             image: '/docs/ai-mind/assets/part-covers/part-10-case-studies.png',
-            promise: { en: 'Ground the course in real artifacts: Grid Atlas, Lietsi crawler, patent crawler, and KOICA map/crosswalk workflows.', vi: 'Neo khoá học vào artifact thật: Grid Atlas, Lietsi crawler, patent crawler và workflow map/crosswalk KOICA.' },
+            promise: { en: 'Ground the course in real artifacts: Grid Atlas, Lietsi crawler, patent crawler, and KOICA map/crosswalk workflows.', vi: 'Neo khoá học vào sản phẩm thật: Grid Atlas, công cụ thu thập Lietsi, công cụ thu thập bằng sáng chế và quy trình bản đồ/đối chiếu KOICA.' },
             outcomes: [
-                { en: 'Translate local project experience into teachable workflows', vi: 'Chuyển kinh nghiệm dự án trên máy thành workflow dạy được' },
-                { en: 'Show screenshots and outputs as evidence, not decoration', vi: 'Dùng screenshot và output như evidence, không chỉ trang trí' },
-                { en: 'Explain what the agent did and what the human still owned', vi: 'Giải thích agent làm phần nào và con người vẫn chịu trách nhiệm phần nào' }
+                { en: 'Translate local project experience into teachable workflows', vi: 'Chuyển kinh nghiệm dự án trên máy thành quy trình có thể giảng dạy' },
+                { en: 'Show screenshots and outputs as evidence, not decoration', vi: 'Dùng ảnh chụp và đầu ra như bằng chứng, không chỉ để trang trí' },
+                { en: 'Explain what the agent did and what the human still owned', vi: 'Giải thích tác nhân làm phần nào và con người vẫn chịu trách nhiệm phần nào' }
             ],
-            exercise: { en: 'Select one personal project and turn it into a teaching case: problem, workflow, agent role, human checks, and final artifact.', vi: 'Chọn một dự án cá nhân và biến thành case dạy học: vấn đề, workflow, vai trò agent, human check và artifact cuối.' }
+            exercise: { en: 'Select one personal project and turn it into a teaching case: problem, workflow, agent role, human checks, and final artifact.', vi: 'Chọn một dự án cá nhân và biến thành tình huống dạy học: vấn đề, quy trình, vai trò tác nhân, bước kiểm tra của con người và sản phẩm cuối.' }
         },
         {
             id: 'teaching-sequence',
-            title: { en: 'Teaching sequence and cohort design', vi: 'Thiết kế sequence dạy học và cohort' },
+            title: { en: 'Teaching sequence and cohort design', vi: 'Thiết kế trình tự dạy học và lớp học' },
             stage: { en: 'Teaching', vi: 'Giảng dạy' },
             image: '/docs/ai-mind/assets/part-covers/part-11-teaching-sequence.png',
-            promise: { en: 'Turn the manual into a teachable syllabus with lectures, labs, readings, assignments, and project milestones.', vi: 'Biến manual thành syllabus có lecture, lab, reading, assignment và milestone dự án.' },
+            promise: { en: 'Turn the manual into a teachable syllabus with lectures, labs, readings, assignments, and project milestones.', vi: 'Biến giáo trình thành chương trình học có bài giảng, thực hành, bài đọc, bài tập và mốc dự án.' },
             outcomes: [
-                { en: 'Sequence concepts before tool-specific details', vi: 'Xếp concept trước chi tiết theo tool' },
-                { en: 'Balance mindset, setup, skill design, applied labs, and project work', vi: 'Cân bằng mindset, setup, skill design, applied lab và project work' },
-                { en: 'Define outputs students can submit and verify', vi: 'Định nghĩa output học viên có thể nộp và verify' }
+                { en: 'Sequence concepts before tool-specific details', vi: 'Xếp khái niệm trước chi tiết riêng của từng công cụ' },
+                { en: 'Balance mindset, setup, skill design, applied labs, and project work', vi: 'Cân bằng tư duy, cài đặt, thiết kế kỹ năng, bài thực hành ứng dụng và công việc dự án' },
+                { en: 'Define outputs students can submit and verify', vi: 'Định nghĩa đầu ra học viên có thể nộp và kiểm chứng' }
             ],
             exercise: { en: 'Create a four-week and an eight-week version of the course.', vi: 'Tạo phiên bản khóa học 4 tuần và 8 tuần.' }
         },
         {
             id: 'instructor-notes',
-            title: { en: 'Instructor notes, risks, and public/private boundaries', vi: 'Ghi chú giảng viên, rủi ro và ranh giới public/private' },
+            title: { en: 'Instructor notes, risks, and public/private boundaries', vi: 'Ghi chú giảng viên, rủi ro và ranh giới công khai/riêng tư' },
             stage: { en: 'Instructor', vi: 'Giảng viên' },
             image: '/docs/ai-mind/assets/part-covers/part-12-instructor-notes.png',
-            promise: { en: 'Protect the course from hype, copyright leakage, privacy mistakes, and unsupported research claims.', vi: 'Bảo vệ khóa học khỏi hype, rò rỉ copyright, lỗi riêng tư và claim nghiên cứu không đủ evidence.' },
+            promise: { en: 'Protect the course from hype, copyright leakage, privacy mistakes, and unsupported research claims.', vi: 'Bảo vệ khóa học khỏi thổi phồng, rò rỉ bản quyền, lỗi riêng tư và luận điểm nghiên cứu không đủ bằng chứng.' },
             outcomes: [
-                { en: 'Keep full text and transcripts in the private corpus only', vi: 'Giữ full text và transcript chỉ trong private corpus' },
-                { en: 'Teach students to cite, summarize, and verify safely', vi: 'Dạy học viên cite, summarize và verify an toàn' },
-                { en: 'Maintain a living source atlas and update routine', vi: 'Duy trì source atlas sống và routine cập nhật' }
+                { en: 'Keep full text and transcripts in the private corpus only', vi: 'Chỉ giữ toàn văn và bản chép lời trong kho tư liệu riêng' },
+                { en: 'Teach students to cite, summarize, and verify safely', vi: 'Dạy học viên trích dẫn, tóm tắt và kiểm chứng an toàn' },
+                { en: 'Maintain a living source atlas and update routine', vi: 'Duy trì bản đồ nguồn sống và nhịp cập nhật' }
             ],
-            exercise: { en: 'Audit one course handout for source safety, privacy risk, and unsupported claims.', vi: 'Audit một handout theo ba tiêu chí: source safety, privacy risk và unsupported claims.' }
+            exercise: { en: 'Audit one course handout for source safety, privacy risk, and unsupported claims.', vi: 'Rà soát một tài liệu phát tay theo ba tiêu chí: an toàn nguồn, rủi ro riêng tư và luận điểm thiếu bằng chứng.' }
         }
     ],
     library: [

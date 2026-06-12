@@ -1,430 +1,1114 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta
-            name="description"
-            content="Control Your AI Mind is a course and knowledge hub for economists and researchers learning agentic AI workflows."
-        >
-        <title>Control Your AI Mind</title>
-        <link rel="icon" type="image/jpeg" href="/avt.jpg">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap">
-        <link rel="stylesheet" href="/other/ai-mind/styles.css">
-        <script>
-        (function() {
-            var saved = localStorage.getItem('theme');
-            if (saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            } else if (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        })();
-        </script>
-    </head>
-    <body>
-        <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
-        <div class="easter-toast" id="easter-toast" role="status" aria-live="polite">Control mode unlocked.</div>
-        <main class="mind-shell">
-            <nav class="top-nav" aria-label="AI Mind navigation">
-                <a class="brand-link" href="/">
-                    <span class="brand-mark">CY<br>AI</span>
-                    <span>Control Your AI Mind</span>
-                </a>
-                <div class="nav-links">
-                    <a class="active" href="/other/ai-mind/">Home</a>
-                    <a href="#course">Course</a>
-                    <a href="#library">Library</a>
-                    <a href="#sources">Sources</a>
-                    <a class="nav-studio" href="/other/ai-mind/studio/">Studio</a>
-                    <div class="lang-switch" aria-label="Language switcher">
-                        <button class="active" id="lang-en" type="button" data-lang="en">EN</button>
-                        <button id="lang-vi" type="button" data-lang="vi">VN</button>
-                    </div>
-                    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme">Theme</button>
-                </div>
-            </nav>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Control Your AI Mind — bước vào phòng điều khiển</title>
+<meta name="description" content="Chọn vai của bạn — Economic Researcher hay Project Implementer — và xem AI agent đang thay đổi cách bạn làm việc như thế nào. Rồi học cách điều khiển chúng.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✱</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<script>
+(function(){
+  var t = localStorage.getItem('theme');
+  if(!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+<style>
+/* ============ TOKENS (match AI-mind hub) ============ */
+:root{
+  --bg:#FAF9F5; --soft:#F5F4ED; --card:#FFFFFF; --oat:#E3DACC;
+  --ink:#141413; --t2:#3D3D3A; --t3:#73726C;
+  --bd:rgba(20,20,19,.13); --clay:#C15F3C; --clay2:#D97757; --sage:#4F7259;
+  --shadow:rgba(20,20,19,.14); --hi:rgba(193,95,60,.1);
+  --serif:"Source Serif 4",Georgia,serif; --sans:"Instrument Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; --hand:"Caveat","Source Serif 4",cursive;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+[data-theme="dark"]{
+  --bg:#141413; --soft:#1E1D1B; --card:#232220; --oat:#3A3733;
+  --ink:#FAF9F5; --t2:#D6D3CB; --t3:#A3A096;
+  --bd:rgba(250,249,245,.15); --clay:#D97757; --clay2:#E08D67; --sage:#8CB89A;
+  --shadow:rgba(0,0,0,.5); --hi:rgba(217,119,87,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--serif);
+  font-size:17px; line-height:1.6; overflow:hidden;
+  -webkit-font-smoothing:antialiased; transition:background .5s ease,color .5s ease;
+}
+::selection{background:var(--clay); color:#fff}
+button{font:inherit; color:inherit; background:none; border:none; cursor:pointer}
+a{color:inherit}
+.mono{font-family:var(--mono)}
+:focus-visible{outline:2px solid var(--clay); outline-offset:3px}
+@media(max-width:880px){ body{overflow-y:auto} }
 
-            <section class="hero" aria-labelledby="hero-title">
-                <div class="hero-copy">
-                    <h1 id="hero-title">Control Your AI Mind</h1>
-                    <p class="hero-subtitle">Agentic workflows for economists and research people.</p>
-                    <p class="hero-text">
-                        Learn to design, run, and verify AI agent workflows for economic research.
-                        Build agents that read, code, retrieve, analyze, and write under your control.
-                    </p>
-                    <div class="audience-row" aria-label="Target audience">
-                        <p>For economists, researchers, and policy minds</p>
-                        <div>
-                            <span>Applied economists</span>
-                            <span>Research assistants</span>
-                            <span>PhD applicants</span>
-                            <span>Policy researchers</span>
-                        </div>
-                    </div>
-                    <div class="hero-actions">
-                        <a class="primary-action" href="#course">Start with the map</a>
-                        <a class="secondary-action" href="#library">Open library</a>
-                        <button class="manual-action" type="button" data-manual-access>Read manual</button>
-                    </div>
-                </div>
+/* ============ SCENES ============ */
+.scene{
+  position:fixed; inset:0; opacity:0; pointer-events:none; visibility:hidden;
+  transition:opacity .55s var(--ease), visibility 0s linear .55s;
+  display:flex; flex-direction:column; overflow-y:auto;
+}
+.scene.on{opacity:1; pointer-events:auto; visibility:visible; transition:opacity .55s var(--ease)}
+@media(max-width:880px){ .scene{position:relative; inset:auto; min-height:100svh; display:none} .scene.on{display:flex} }
 
-                <aside class="mind-map orbit-map" aria-label="Agentic research workflow map">
-                    <svg class="orbit-lines" viewBox="0 0 760 560" aria-hidden="true">
-                        <defs>
-                            <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
-                                <path d="M0,0 L6,3 L0,6" fill="none" stroke="currentColor" stroke-width="1.6"></path>
-                            </marker>
-                        </defs>
-                        <path class="planet-orbit orbit-one" d="M380 92 C540 92 668 205 668 281 C668 397 540 474 380 474 C220 474 92 397 92 281 C92 165 220 92 380 92 Z"></path>
-                        <path class="planet-orbit orbit-two" d="M380 140 C488 140 578 202 578 281 C578 360 488 421 380 421 C272 421 182 360 182 281 C182 202 272 140 380 140 Z"></path>
-                        <line x1="380" y1="280" x2="380" y2="92"></line>
-                        <line x1="380" y1="280" x2="610" y2="202"></line>
-                        <line x1="380" y1="280" x2="608" y2="362"></line>
-                        <line x1="380" y1="280" x2="380" y2="474"></line>
-                        <line x1="380" y1="280" x2="152" y2="362"></line>
-                        <line x1="380" y1="280" x2="150" y2="202"></line>
-                        <path class="dotted" d="M418 95 C512 105 585 142 635 192" marker-end="url(#arrowhead)"></path>
-                        <path class="dotted" d="M640 232 C665 276 662 319 632 358" marker-end="url(#arrowhead)"></path>
-                        <path class="dotted" d="M585 397 C535 452 474 475 405 474" marker-end="url(#arrowhead)"></path>
-                        <path class="dotted" d="M346 474 C274 468 218 440 172 392" marker-end="url(#arrowhead)"></path>
-                        <path class="dotted" d="M150 322 C130 278 134 236 158 202" marker-end="url(#arrowhead)"></path>
-                        <path class="dotted" d="M196 168 C244 118 300 94 356 92" marker-end="url(#arrowhead)"></path>
-                    </svg>
+/* ============ TOPBAR ============ */
+.topbar{
+  position:fixed; top:0; left:0; right:0; z-index:80;
+  display:flex; align-items:center; gap:14px; padding:14px clamp(16px,3vw,34px);
+  font-family:var(--mono); font-size:12px;
+  opacity:0; pointer-events:none; transition:opacity .5s var(--ease);
+  background:linear-gradient(180deg,var(--bg) 30%,transparent);
+}
+.topbar.on{opacity:1; pointer-events:auto}
+.brand{display:flex; align-items:center; gap:8px; font-weight:700; letter-spacing:.08em; text-decoration:none; font-size:12px}
+.brand .ast{color:var(--clay); display:inline-block; transition:transform .6s var(--ease); font-size:15px}
+.brand:hover .ast{transform:rotate(180deg)}
+.tb-right{margin-left:auto; display:flex; gap:8px; align-items:center}
+.tb-btn{
+  border:1px solid var(--bd); border-radius:8px; padding:6px 11px; font-family:var(--mono);
+  font-size:11px; color:var(--t3); transition:.25s; white-space:nowrap; text-decoration:none;
+}
+.tb-btn:hover{border-color:var(--clay); color:var(--ink)}
+.tb-btn.solid{background:var(--clay); color:#fff; border-color:var(--clay); font-weight:700}
+.tb-btn.solid:hover{background:var(--clay2)}
+.role-chip{border-style:dashed}
+.role-chip b{color:var(--clay)}
+@media(max-width:640px){ .tb-hide{display:none} }
 
-                    <div class="map-core">
-                        <span class="brain-icon" aria-hidden="true">AI</span>
-                        <strong>Control<br>Your<br>AI Mind</strong>
-                    </div>
+/* ============ BOOT ============ */
+#boot{background:#0F0E0D; color:#FAF9F5; cursor:pointer; align-items:center; justify-content:center}
+.boot-inner{width:min(640px,90vw); text-align:left}
+.boot-kicker{font-family:var(--mono); font-size:11px; letter-spacing:.28em; color:#A3A096; margin-bottom:26px}
+.boot-mark{font-family:var(--serif); font-weight:500; font-size:clamp(2rem,6vw,3.6rem); line-height:1.08; letter-spacing:-.01em; margin-bottom:34px}
+.boot-mark .bw{display:inline-block; opacity:0; transform:translateY(.6em); animation:bw .8s var(--ease) forwards}
+.boot-mark .acc{color:#D97757; font-style:italic}
+@keyframes bw{to{opacity:1; transform:none}}
+.boot-lines{font-family:var(--mono); font-size:12.5px; line-height:2.1; min-height:132px; color:#D6D3CB}
+.boot-lines .bl{display:block; opacity:0; transform:translateX(-6px); transition:.4s var(--ease)}
+.boot-lines .bl.on{opacity:1; transform:none}
+.boot-lines .ok{color:#8CB89A}
+.boot-lines .dim{color:#73726C}
+.boot-bar{height:2px; background:rgba(250,249,245,.14); border-radius:2px; margin:26px 0 12px; overflow:hidden}
+.boot-fill{height:100%; width:0%; background:#D97757; transition:width .3s linear}
+.boot-foot{display:flex; justify-content:space-between; font-family:var(--mono); font-size:11px; color:#73726C}
+.boot-skip{letter-spacing:.12em; animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.4}}
 
-                    <article class="orbit-item item-context">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"></path><path d="M14 3v5h5"></path><path d="M10 13h6M10 17h6"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Context</h3>
-                            <ul>
-                                <li>Define the problem</li>
-                                <li>Gather background</li>
-                                <li>Set constraints</li>
-                            </ul>
-                        </div>
-                    </article>
+/* ============ ROLES ============ */
+#roles{align-items:center; justify-content:center; padding:86px clamp(16px,4vw,40px) 40px}
+.roles-head{text-align:center; margin-bottom:clamp(22px,4vh,40px)}
+.roles-kicker{font-family:var(--mono); font-size:11.5px; letter-spacing:.24em; color:var(--clay); text-transform:uppercase; margin-bottom:14px}
+.roles-head h1{font-size:clamp(1.7rem,4.4vw,3rem); font-weight:500; letter-spacing:-.01em; max-width:22ch; margin-inline:auto; line-height:1.15}
+.roles-head h1 em{color:var(--clay); font-style:italic}
+.roles-grid{display:flex; gap:clamp(12px,2vw,22px); width:min(1060px,100%)}
+.role-card{
+  flex:1; text-align:left; background:var(--card); border:1px solid var(--bd); border-radius:18px;
+  padding:clamp(20px,3vw,34px); position:relative; overflow:hidden;
+  transition:flex .5s var(--ease), transform .35s var(--ease), box-shadow .35s, border-color .3s;
+  box-shadow:0 10px 36px -22px var(--shadow); min-height:clamp(300px,44vh,420px);
+  display:flex; flex-direction:column;
+}
+.role-card:hover{flex:1.28; border-color:var(--clay); transform:translateY(-4px); box-shadow:0 30px 60px -28px var(--shadow)}
+.role-card::before{
+  content:""; position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-2deg);
+  width:92px; height:24px; background:var(--oat); opacity:.9; border-radius:2px;
+}
+.role-tag{font-family:var(--mono); font-size:11px; color:var(--t3); letter-spacing:.1em; margin-bottom:14px}
+.role-tag b{color:var(--clay); font-weight:500}
+.role-card h2{font-size:clamp(1.35rem,2.5vw,1.9rem); font-weight:600; line-height:1.15; margin-bottom:10px}
+.role-card p{font-family:var(--sans); font-size:.92rem; color:var(--t3); max-width:34ch; line-height:1.55}
+.role-art{margin-top:auto; padding-top:18px}
+.role-art svg{width:100%; height:96px; display:block}
+.role-art .pt{fill:var(--clay); opacity:0; animation:ptIn .5s var(--ease) forwards}
+@keyframes ptIn{from{opacity:0; transform:translateY(6px)}to{opacity:.85; transform:none}}
+.role-art .fitline{stroke:var(--sage); stroke-width:2; fill:none; stroke-dasharray:340; stroke-dashoffset:340; animation:drawln 1.6s var(--ease) .9s forwards}
+@keyframes drawln{to{stroke-dashoffset:0}}
+.role-art .gbar{fill:var(--sage); opacity:.85; transform:scaleX(0); transform-origin:left; animation:gbar .9s var(--ease) forwards}
+@keyframes gbar{to{transform:scaleX(1)}}
+.role-art .gdot{fill:var(--clay)}
+.role-go{
+  position:absolute; right:22px; bottom:20px; font-family:var(--mono); font-size:12px;
+  color:var(--clay); opacity:0; transform:translateX(-8px); transition:.35s var(--ease);
+}
+.role-card:hover .role-go{opacity:1; transform:none}
+.role-key{position:absolute; top:18px; right:18px; font-family:var(--mono); font-size:10px; color:var(--t3); border:1px solid var(--bd); border-radius:5px; padding:2px 7px}
+.roles-foot{margin-top:clamp(18px,3.5vh,34px); font-family:var(--mono); font-size:12px; color:var(--t3)}
+.roles-foot a{color:var(--t2); text-decoration:none; border-bottom:1px dashed var(--t3)}
+.roles-foot a:hover{color:var(--clay); border-color:var(--clay)}
+@media(max-width:880px){
+  #roles{padding-top:76px}
+  .roles-grid{flex-direction:column}
+  .role-card{min-height:auto}
+  .role-card:hover{flex:1}
+  .role-art svg{height:72px}
+  .role-key{display:none}
+}
 
-                    <article class="orbit-item item-memory">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="7" ry="3"></ellipse><path d="M5 5v7c0 1.7 3.1 3 7 3s7-1.3 7-3V5"></path><path d="M5 12v7c0 1.7 3.1 3 7 3s7-1.3 7-3v-7"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Memory</h3>
-                            <ul>
-                                <li>Store & retrieve</li>
-                                <li>Version knowledge</li>
-                                <li>Long-term recall</li>
-                            </ul>
-                        </div>
-                    </article>
+/* ============ SHOWCASE ============ */
+#show{padding:86px clamp(16px,4vw,44px) 30px; justify-content:center}
+.show-grid{
+  display:grid; grid-template-columns:minmax(300px,420px) 1fr; gap:clamp(24px,4vw,60px);
+  width:min(1160px,100%); margin-inline:auto; align-items:center; flex:1;
+}
+.show-copy .v-tag{font-family:var(--mono); font-size:11.5px; letter-spacing:.2em; color:var(--clay); text-transform:uppercase; margin-bottom:16px; display:block}
+.show-copy h2{font-size:clamp(1.55rem,3.2vw,2.5rem); font-weight:500; line-height:1.14; letter-spacing:-.01em; margin-bottom:14px; min-height:2.3em}
+.show-copy .v-line{font-family:var(--sans); font-size:.96rem; color:var(--t3); max-width:38ch; margin-bottom:18px; line-height:1.6}
+.agent-pill{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11.5px;
+  border:1px solid var(--bd); border-radius:99px; padding:6px 13px; color:var(--t2);
+}
+.agent-pill::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--sage); animation:pulse 1.8s infinite}
+.v-fade{opacity:0; transform:translateY(14px); transition:.55s var(--ease)}
+.v-fade.on{opacity:1; transform:none}
+/* stage window */
+.swin{
+  background:var(--card); border:1px solid var(--bd); border-radius:14px; overflow:hidden;
+  box-shadow:0 30px 70px -30px var(--shadow); width:100%; max-width:640px; margin-left:auto;
+}
+.swin-bar{display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--bd); background:var(--soft)}
+.dot3{display:flex; gap:5px}
+.dot3 i{width:9px; height:9px; border-radius:50%; background:var(--bd); display:block}
+.dot3 i:first-child{background:var(--clay)}
+.swin-t{font-family:var(--mono); font-size:11px; color:var(--t3); letter-spacing:.06em}
+.swin-body{padding:clamp(14px,2vw,22px); min-height:300px; max-height:min(52vh,430px); overflow:hidden; position:relative; font-family:var(--mono); font-size:12.5px}
+@media(max-width:880px){
+  #show{padding-top:72px}
+  .show-grid{grid-template-columns:1fr; gap:18px; align-items:start}
+  .show-copy h2{min-height:0}
+  .swin{margin-left:0}
+  .swin-body{min-height:240px}
+}
+/* player rail */
+.rail{display:flex; align-items:center; gap:16px; width:min(1160px,100%); margin:26px auto 0; font-family:var(--mono); font-size:11.5px; color:var(--t3)}
+.dots{display:flex; gap:7px; flex:1; justify-content:center}
+.dots button{width:26px; height:4px; border-radius:3px; background:var(--bd); transition:.3s; position:relative; overflow:hidden}
+.dots button.done{background:var(--t3)}
+.dots button.cur{background:var(--bd)}
+.dots button.cur::after{content:""; position:absolute; inset:0; background:var(--clay); transform-origin:left; transform:scaleX(var(--p,0))}
+.nav-arrow{border:1px solid var(--bd); border-radius:8px; width:34px; height:30px; color:var(--t2); transition:.25s; font-size:13px}
+.nav-arrow:hover{border-color:var(--clay); color:var(--clay)}
+.v-count{min-width:52px; text-align:center}
 
-                    <article class="orbit-item item-verify">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"></path><path d="M8.5 12l2.2 2.2 4.8-5"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Verification</h3>
-                            <ul>
-                                <li>Check results</li>
-                                <li>Robustness tests</li>
-                                <li>Reproducibility</li>
-                            </ul>
-                        </div>
-                    </article>
+/* ---- primitives ---- */
+.tl{line-height:1.95}
+.tl .ln{display:block; opacity:0; transform:translateX(-5px); transition:.35s var(--ease)}
+.tl .ln.on{opacity:1; transform:none}
+.tl .ok{color:var(--sage)}
+.tl .warn{color:var(--clay)}
+.tl .dim{color:var(--t3)}
+.tl .art{color:var(--clay); font-weight:700}
+.tl .cmd{color:var(--ink); font-weight:500}
+/* table clean */
+.tc-head{display:flex; justify-content:space-between; margin-bottom:12px; font-size:11.5px; color:var(--t3)}
+.tc-head b{color:var(--clay); font-weight:700; font-variant-numeric:tabular-nums}
+.tc-grid{display:grid; grid-template-columns:repeat(8,1fr); gap:5px}
+.tc-grid i{height:22px; border-radius:4px; background:var(--soft); border:1px solid var(--bd); transition:.4s var(--ease); position:relative}
+.tc-grid i.bad{background:var(--hi); border-color:var(--clay)}
+.tc-grid i.bad::after{content:"×"; position:absolute; inset:0; display:grid; place-items:center; color:var(--clay); font-size:11px}
+.tc-grid i.fix{background:rgba(79,114,89,.14); border-color:var(--sage)}
+.tc-grid i.fix::after{content:"✓"; position:absolute; inset:0; display:grid; place-items:center; color:var(--sage); font-size:10px}
+.tc-scan{position:absolute; left:0; right:0; height:27px; background:var(--hi); border-radius:4px; pointer-events:none; transition:top .28s linear; opacity:0}
+.tc-note{margin-top:12px; font-size:11.5px; color:var(--t3); opacity:0; transition:.4s}
+.tc-note.on{opacity:1}
+/* chart */
+.ch-wrap svg{width:100%; height:auto; display:block}
+.ch-axis{stroke:var(--bd); stroke-width:1}
+.ch-line{stroke:var(--clay); stroke-width:2.2; fill:none; stroke-dasharray:620; stroke-dashoffset:620}
+.ch-line.go{animation:drawln 1.5s var(--ease) forwards}
+.ch-bar{fill:var(--sage); opacity:.8; transform:scaleY(0); transform-origin:bottom}
+.ch-bar.go{animation:chbar .7s var(--ease) forwards}
+@keyframes chbar{to{transform:scaleY(1)}}
+.ch-pt{fill:var(--clay); opacity:0}
+.ch-pt.go{animation:ptIn .4s var(--ease) forwards}
+.ch-cap{font-family:var(--mono); font-size:11.5px; color:var(--t3); margin-top:10px; opacity:0; transition:.4s}
+.ch-cap.on{opacity:1}
+/* rank list */
+.rk{display:flex; flex-direction:column; gap:9px}
+.rk-row{opacity:0; transform:translateY(10px); transition:.45s var(--ease); border:1px solid var(--bd); border-radius:9px; padding:9px 12px; background:var(--soft)}
+.rk-row.on{opacity:1; transform:none}
+.rk-row .rt{font-family:var(--sans); font-size:12.5px; font-weight:600; color:var(--ink); display:flex; gap:8px; justify-content:space-between}
+.rk-row .rt em{color:var(--clay); font-style:normal; font-family:var(--mono); font-size:11px}
+.rk-row .rm{font-size:10.5px; color:var(--t3); margin-top:3px}
+.rk-bar{height:3px; border-radius:2px; background:var(--bd); margin-top:7px; overflow:hidden}
+.rk-bar i{display:block; height:100%; background:var(--clay); transform:scaleX(0); transform-origin:left; transition:transform .8s var(--ease)}
+.rk-row.on .rk-bar i{transform:scaleX(var(--s))}
+/* regression */
+.rg{line-height:2}
+.rg .rw{display:flex; justify-content:space-between; opacity:0; transform:translateX(-5px); transition:.35s var(--ease); border-bottom:1px dashed var(--bd); padding:2px 0}
+.rg .rw.on{opacity:1; transform:none}
+.rg .rh{color:var(--t3); font-size:11px; letter-spacing:.08em; border-bottom:1px solid var(--bd)}
+.rg .coef{color:var(--clay); font-weight:700}
+.rg .se{color:var(--t3)}
+.rg .star{color:var(--sage)}
+/* latex */
+.lx{display:grid; grid-template-columns:1fr 1fr; gap:14px; align-items:stretch}
+.lx-code{font-size:10.8px; line-height:1.9; color:var(--t2)}
+.lx-code .ln{display:block; opacity:0; transition:.3s}
+.lx-code .ln.on{opacity:1}
+.lx-code .kw{color:var(--clay)}
+.lx-out{border:1px solid var(--bd); border-radius:8px; padding:12px; background:var(--bg); opacity:0; transform:scale(.97); transition:.6s var(--ease); align-self:center}
+.lx-out.on{opacity:1; transform:none}
+.lx-out .lo-t{font-family:var(--serif); font-size:11.5px; text-align:center; margin-bottom:8px; color:var(--ink)}
+.lx-out table{width:100%; border-collapse:collapse; font-size:10px; font-variant-numeric:tabular-nums}
+.lx-out td,.lx-out th{padding:3px 6px; text-align:right; border-bottom:1px solid var(--bd); color:var(--t2)}
+.lx-out th{font-weight:600; color:var(--ink)}
+.lx-out td:first-child,.lx-out th:first-child{text-align:left}
+.lx-status{grid-column:1/-1; font-size:11.5px; color:var(--sage); opacity:0; transition:.4s}
+.lx-status.on{opacity:1}
+@media(max-width:520px){ .lx{grid-template-columns:1fr} }
+/* referee */
+.rf{position:relative; padding-right:118px}
+.rf-doc{display:flex; flex-direction:column; gap:7px}
+.rf-doc i{height:8px; border-radius:3px; background:var(--soft); border:1px solid var(--bd); display:block}
+.rf-doc i:nth-child(3n){width:78%}
+.rf-tags{position:absolute; right:0; top:0; display:flex; flex-direction:column; gap:8px; width:108px}
+.rf-tag{
+  font-size:9.5px; border-radius:6px; padding:5px 8px; line-height:1.45;
+  opacity:0; transform:translateX(10px) rotate(2deg); transition:.4s var(--ease);
+  border:1px solid var(--clay); color:var(--clay); background:var(--hi);
+}
+.rf-tag.minor{border-color:var(--bd); color:var(--t3); background:var(--soft)}
+.rf-tag.on{opacity:1; transform:none}
+.rf-verdict{margin-top:14px; font-size:11.5px; color:var(--sage); opacity:0; transition:.4s}
+.rf-verdict.on{opacity:1}
+@media(max-width:520px){ .rf{padding-right:0} .rf-tags{position:static; flex-direction:row; flex-wrap:wrap; width:auto; margin-top:10px} }
+/* flow finale */
+.fl{display:flex; flex-direction:column; gap:18px; align-items:center; justify-content:center; min-height:280px}
+.fl-chips{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-items:center}
+.fl-chip{
+  font-size:11px; border:1px solid var(--bd); border-radius:99px; padding:7px 13px; color:var(--t3);
+  transition:.4s var(--ease); display:flex; gap:7px; align-items:center;
+}
+.fl-chip.on{border-color:var(--clay); color:var(--ink); background:var(--hi)}
+.fl-chip.on::before{content:"✓"; color:var(--sage); font-size:10px}
+.fl-arr{color:var(--t3); font-size:11px}
+.fl-time{text-align:center; font-family:var(--serif); font-size:clamp(1.1rem,2vw,1.5rem); opacity:0; transform:translateY(8px); transition:.6s var(--ease)}
+.fl-time.on{opacity:1; transform:none}
+.fl-time b{color:var(--clay)}
+.fl-time .hand{font-family:var(--hand); font-size:1.25em; color:var(--sage)}
+.fl-sub{font-size:11px; color:var(--t3); opacity:0; transition:.5s}
+.fl-sub.on{opacity:1}
+/* inbox */
+.ib-stack{display:flex; gap:6px; margin-bottom:14px; align-items:center; font-size:11px; color:var(--t3)}
+.ib-stack b{color:var(--clay); font-variant-numeric:tabular-nums}
+.ib-cols{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+.ib-col{border:1px dashed var(--bd); border-radius:9px; padding:9px; min-height:170px}
+.ib-col h4{font-size:10px; letter-spacing:.14em; color:var(--t3); margin-bottom:8px; display:flex; justify-content:space-between}
+.ib-col h4 b{color:var(--clay)}
+.ib-mail{
+  font-family:var(--sans); font-size:10.5px; border:1px solid var(--bd); background:var(--soft);
+  border-radius:6px; padding:5px 8px; margin-bottom:6px; opacity:0; transform:translateY(-12px) scale(.95);
+  transition:.45s var(--ease); color:var(--t2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.ib-mail.on{opacity:1; transform:none}
+.ib-mail.hot{border-color:var(--clay)}
+.ib-note{margin-top:12px; font-size:11.5px; color:var(--sage); opacity:0; transition:.4s}
+.ib-note.on{opacity:1}
+/* doc assemble */
+.da{display:flex; flex-direction:column; gap:9px; max-width:430px; margin-inline:auto}
+.da-block{
+  border:1px solid var(--bd); border-radius:8px; background:var(--soft); padding:9px 12px;
+  opacity:0; transform:translateY(14px); transition:.5s var(--ease);
+}
+.da-block.on{opacity:1; transform:none}
+.da-block h5{font-family:var(--sans); font-size:11px; font-weight:700; color:var(--ink); margin-bottom:4px; display:flex; justify-content:space-between}
+.da-block h5 em{font-style:normal; color:var(--clay); font-family:var(--mono); font-size:10px; font-variant-numeric:tabular-nums}
+.da-block p{font-family:var(--sans); font-size:10.5px; color:var(--t3); line-height:1.5}
+.da-stamp{
+  align-self:flex-end; font-family:var(--hand); font-size:1.15rem; color:var(--sage);
+  transform:rotate(-3deg) scale(.6); opacity:0; transition:.45s var(--ease); border:2px solid var(--sage);
+  border-radius:8px; padding:2px 12px;
+}
+.da-stamp.on{opacity:1; transform:rotate(-3deg) scale(1)}
+/* kobo form build */
+.kb{display:grid; grid-template-columns:1fr auto 1fr; gap:10px; align-items:start}
+.kb-sheet{border:1px solid var(--bd); border-radius:8px; overflow:hidden; font-size:9.5px}
+.kb-sheet .kr{display:grid; grid-template-columns:54px 1fr; border-bottom:1px solid var(--bd); opacity:0; transition:.3s}
+.kb-sheet .kr.on{opacity:1}
+.kb-sheet .kr span{padding:4px 6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.kb-sheet .kr span:first-child{background:var(--soft); color:var(--clay); border-right:1px solid var(--bd)}
+.kb-arr{align-self:center; color:var(--clay); font-size:16px; opacity:0; transition:.4s}
+.kb-arr.on{opacity:1}
+.kb-phone{border:1.5px solid var(--bd); border-radius:14px; padding:10px 9px; background:var(--bg)}
+.kb-phone h6{font-family:var(--sans); font-size:9.5px; color:var(--t3); text-align:center; margin-bottom:8px; letter-spacing:.08em}
+.kb-f{border:1px solid var(--bd); border-radius:6px; padding:5px 7px; margin-bottom:6px; opacity:0; transform:translateY(8px); transition:.4s var(--ease)}
+.kb-f.on{opacity:1; transform:none}
+.kb-f b{font-family:var(--sans); font-size:9.5px; font-weight:600; display:block; color:var(--t2)}
+.kb-f i{font-style:normal; font-size:8.5px; color:var(--t3)}
+.kb-note{grid-column:1/-1; font-size:11.5px; color:var(--sage); opacity:0; transition:.4s; margin-top:4px}
+.kb-note.on{opacity:1}
+@media(max-width:520px){ .kb{grid-template-columns:1fr}; .kb-arr{transform:rotate(90deg)} }
+/* diff check */
+.df-head{font-size:11px; color:var(--t3); margin-bottom:10px}
+.df{display:grid; grid-template-columns:1fr 1fr; gap:12px; position:relative}
+.df-tbl{border:1px solid var(--bd); border-radius:8px; overflow:hidden; font-size:10px; position:relative}
+.df-tbl h6{font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; color:var(--t3); padding:5px 8px; background:var(--soft); border-bottom:1px solid var(--bd)}
+.df-row{display:grid; grid-template-columns:44px 1fr 52px; border-bottom:1px solid var(--bd)}
+.df-row span{padding:4px 7px; font-variant-numeric:tabular-nums; color:var(--t2); white-space:nowrap; overflow:hidden}
+.df-row.flag span{background:var(--hi); color:var(--clay)}
+.df-row.okr span{background:rgba(79,114,89,.08)}
+.df-scan{position:absolute; left:0; right:0; height:24px; background:var(--hi); opacity:0; transition:top .25s linear; pointer-events:none}
+.df-verdict{margin-top:12px; font-size:11.5px; opacity:0; transition:.4s}
+.df-verdict.on{opacity:1}
+.df-verdict b{color:var(--clay)}
+.df-verdict .ok{color:var(--sage)}
+/* week report */
+.wk{display:grid; grid-template-columns:auto 1fr; gap:16px; align-items:start}
+.wk-days{display:flex; flex-direction:column; gap:8px}
+.wk-day{
+  font-size:10.5px; border:1px solid var(--bd); border-radius:7px; padding:6px 10px; color:var(--t3);
+  display:flex; gap:8px; align-items:center; transition:.35s var(--ease); min-width:96px;
+}
+.wk-day.on{border-color:var(--sage); color:var(--ink)}
+.wk-day.on::after{content:"✓"; color:var(--sage); margin-left:auto}
+.wk-doc{border:1px solid var(--bd); border-radius:9px; padding:11px; background:var(--bg); min-height:190px}
+.wk-doc h6{font-family:var(--serif); font-size:12px; margin-bottom:9px; color:var(--ink)}
+.wk-sec{border-left:2px solid var(--sage); padding:3px 9px; margin-bottom:8px; opacity:0; transform:translateX(8px); transition:.4s var(--ease)}
+.wk-sec.on{opacity:1; transform:none}
+.wk-sec b{font-family:var(--sans); font-size:10px; display:block; color:var(--t2)}
+.wk-sec i{font-style:normal; font-size:9.5px; color:var(--t3)}
+.wk-sent{margin-top:6px; font-family:var(--hand); font-size:1.05rem; color:var(--sage); opacity:0; transition:.4s; display:inline-block; transform:rotate(-2deg)}
+.wk-sent.on{opacity:1}
+/* live frame */
+.lf{max-width:430px; margin-inline:auto}
+.lf-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:11px; color:var(--t3)}
+.lf-ver{border:1px solid var(--bd); border-radius:99px; padding:3px 10px; transition:.3s}
+.lf-ver.bump{border-color:var(--clay); color:var(--clay)}
+.lf-row{display:flex; justify-content:space-between; border-bottom:1px dashed var(--bd); padding:7px 2px; font-size:11.5px; color:var(--t2)}
+.lf-row b{font-variant-numeric:tabular-nums; transition:.3s; color:var(--ink)}
+.lf-row b.fresh{color:var(--clay)}
+.lf-note{margin-top:12px; font-size:11px; color:var(--sage); opacity:0; transition:.4s}
+.lf-note.on{opacity:1}
 
-                    <article class="orbit-item item-research">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"></circle><path d="M15 15l5 5"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Research</h3>
-                            <ul>
-                                <li>Explore & analyze</li>
-                                <li>Write & visualize</li>
-                                <li>Publish & iterate</li>
-                            </ul>
-                        </div>
-                    </article>
+/* ============ CTA ============ */
+#cta{align-items:center; justify-content:center; text-align:center; padding:86px clamp(16px,4vw,40px) 40px}
+.cta-hand{font-family:var(--hand); font-size:clamp(1.2rem,2.6vw,1.7rem); color:var(--clay); transform:rotate(-1.5deg); margin-bottom:18px}
+#cta h2{font-size:clamp(2rem,5.4vw,3.7rem); font-weight:500; letter-spacing:-.015em; line-height:1.1; max-width:18ch; margin-inline:auto}
+#cta h2 em{color:var(--clay); font-style:italic}
+.cta-sub{font-family:var(--sans); color:var(--t3); margin:18px auto 30px; max-width:52ch; font-size:.98rem}
+.cta-btns{display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+.btn{
+  font-family:var(--mono); font-size:13px; border-radius:10px; padding:14px 26px; text-decoration:none;
+  transition:.3s var(--ease); display:inline-flex; gap:9px; align-items:center;
+}
+.btn-solid{background:var(--clay); color:#fff; font-weight:700; box-shadow:0 14px 34px -14px var(--clay)}
+.btn-solid:hover{background:var(--clay2); transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--bd); color:var(--ink)}
+.btn-ghost:hover{border-color:var(--clay)}
+.cta-replay{margin-top:26px; font-family:var(--mono); font-size:12px; color:var(--t3)}
+.cta-replay button{color:var(--t2); border-bottom:1px dashed var(--t3); padding-bottom:1px}
+.cta-replay button:hover{color:var(--clay); border-color:var(--clay)}
 
-                    <article class="orbit-item item-tools">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M14.5 6.5l3-3 3 3-3 3z"></path><path d="M3 21l8-8"></path><path d="M5 5l14 14"></path><path d="M8 2l3 3-3 3-3-3z"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Tools</h3>
-                            <ul>
-                                <li>Code & compute</li>
-                                <li>Data access</li>
-                                <li>External APIs</li>
-                            </ul>
-                        </div>
-                    </article>
+/* ============ TOAST / BURST ============ */
+.toast{
+  position:fixed; bottom:24px; right:24px; z-index:200; background:var(--ink); color:var(--bg);
+  font-family:var(--mono); font-size:12px; padding:10px 16px; border-radius:9px;
+  opacity:0; transform:translateY(12px); transition:.35s var(--ease); max-width:80vw;
+}
+.toast.show{opacity:1; transform:none}
+.burst-dot{
+  position:fixed; width:7px; height:7px; border-radius:50%; z-index:300; pointer-events:none;
+  animation:fly .9s var(--ease) forwards;
+}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) scale(.1); opacity:0}}
+.control-mode .brand .ast{animation:spin 1.4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-                    <article class="orbit-item item-skills">
-                        <div class="orbit-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24"><path d="M4 18h16"></path><path d="M6 15v3M11 11v7M16 8v10"></path><path d="M5 12l5-5 4 3 5-6"></path></svg>
-                        </div>
-                        <div class="orbit-copy">
-                            <h3>Skills</h3>
-                            <ul>
-                                <li>Methods & models</li>
-                                <li>Prompting patterns</li>
-                                <li>Evaluation skills</li>
-                            </ul>
-                        </div>
-                    </article>
-                </aside>
-            </section>
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important; transition-duration:.01ms !important}
+}
+</style>
+</head>
+<body>
 
-            <div class="marquee" aria-hidden="true">
-                <div class="marquee-track" id="marquee-track">
-                    <span>Context engineering</span><i>·</i>
-                    <span>Agent contracts</span><i>·</i>
-                    <span>Wiki memory</span><i>·</i>
-                    <span>Skills as workflows</span><i>·</i>
-                    <span>O-ring verification</span><i>·</i>
-                    <span>Source to dataset</span><i>·</i>
-                    <span>Stata · R · Claude Code · Codex</span><i>·</i>
-                    <span>Delegate, don't abdicate</span><i>·</i>
-                </div>
-            </div>
+<header class="topbar" id="topbar">
+  <a class="brand" href="./" id="brandLink"><span class="ast" id="brandAst">✱</span> CONTROL YOUR AI MIND</a>
+  <div class="tb-right">
+    <button class="tb-btn role-chip tb-hide" id="roleChip" data-i18n="" hidden></button>
+    <button class="tb-btn" id="langBtn">VI/EN</button>
+    <button class="tb-btn" id="themeBtn">☾</button>
+    <a class="tb-btn" id="studioLink" href="./studio/" data-i18n="studioBtn">AI Mind Studio</a>
+    <a class="tb-btn solid" id="courseLink" href="./hub.html" data-i18n="course">Vào khoá học →</a>
+  </div>
+</header>
 
-            <section class="preview-strip" aria-label="Course and library preview">
-                <div class="preview-course">
-                    <div class="preview-head">
-                        <h2>Course map</h2>
-                        <p>A step-by-step path from foundations to research impact.</p>
-                        <a href="#course">View full course</a>
-                    </div>
-                    <div class="timeline-preview">
-                        <article><span>1</span><strong>Control</strong><p>Delegate work without outsourcing understanding.</p></article>
-                        <article><span>2</span><strong>Setup</strong><p>Instructions, permissions, sandboxes, and logs.</p></article>
-                        <article><span>3</span><strong>Contracts</strong><p>Turn research requests into checkable tasks.</p></article>
-                        <article><span>4</span><strong>Data</strong><p>Move from source to figure to structured database.</p></article>
-                        <article><span>5</span><strong>Writing</strong><p>Use AI to clarify claims, not hide weak evidence.</p></article>
-                        <article><span>6</span><strong>Verification</strong><p>Build O-ring checks before publishing outputs.</p></article>
-                    </div>
-                </div>
-                <div class="preview-library">
-                    <div class="preview-head">
-                        <h2>Library</h2>
-                        <p>Search lessons, guides, templates, and datasets.</p>
-                    </div>
-                    <div class="mock-search">Search by topic, tool, method, or keyword...</div>
-                    <table class="library-preview-table">
-                        <thead>
-                            <tr><th>Title</th><th>Type</th><th>Topic</th><th>Level</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>Claude Code for Applied Economists</td><td>Course</td><td>Data</td><td>Core</td></tr>
-                            <tr><td>Claude Blattman workflow library</td><td>Library</td><td>System</td><td>Applied</td></tr>
-                            <tr><td>Scott Cunningham econometrics checklists</td><td>Series</td><td>Verification</td><td>Advanced</td></tr>
-                            <tr><td>StatsClaw statistical software workflow</td><td>Research</td><td>Data</td><td>Advanced</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+<!-- ============ SCENE: BOOT ============ -->
+<section class="scene" id="boot" aria-label="Loading">
+  <div class="boot-inner">
+    <p class="boot-kicker">HUYLVU.GITHUB.IO — AI MIND</p>
+    <h1 class="boot-mark" id="bootMark" aria-label="Control your AI mind"></h1>
+    <div class="boot-lines" id="bootLines" aria-hidden="true"></div>
+    <div class="boot-bar"><div class="boot-fill" id="bootFill"></div></div>
+    <div class="boot-foot">
+      <span id="bootPct">0%</span>
+      <span class="boot-skip" id="bootSub">bấm để bỏ qua — click to skip</span>
+    </div>
+  </div>
+</section>
 
-            <section class="metrics" id="metrics" aria-label="Knowledge base summary"></section>
+<!-- ============ SCENE: ROLES ============ -->
+<section class="scene" id="roles" aria-label="Choose your role">
+  <div class="roles-head">
+    <p class="roles-kicker" data-i18n="rolesKicker">// chọn vai của bạn</p>
+    <h1 data-i18n-html="rolesTitle">Bạn sẽ điều khiển <em>AI mind</em> cho việc gì?</h1>
+  </div>
+  <div class="roles-grid">
+    <button class="role-card" id="cardResearcher" data-role="researcher">
+      <span class="role-key">1</span>
+      <span class="role-tag">role: <b>economic_researcher</b></span>
+      <h2 data-i18n="roleRtitle">Nhà nghiên cứu kinh tế</h2>
+      <p data-i18n="roleRline">Crawl dữ liệu, quét văn liệu, làm sạch, hồi quy, dựng bảng, compile LaTeX, phản biện.</p>
+      <span class="role-art" aria-hidden="true">
+        <svg viewBox="0 0 320 96" id="artR">
+          <line class="ch-axis" x1="14" y1="84" x2="310" y2="84"/>
+          <line class="ch-axis" x1="14" y1="6" x2="14" y2="84"/>
+        </svg>
+      </span>
+      <span class="role-go">chọn vai này →</span>
+    </button>
+    <button class="role-card" id="cardOperator" data-role="operator">
+      <span class="role-key">2</span>
+      <span class="role-tag">role: <b>project_implementer</b></span>
+      <h2 data-i18n="roleOtitle">Điều phối và quản lý dự án</h2>
+      <p data-i18n="roleOline">Email &amp; việc cần xử lý, bảng hỏi Kobo, kiểm tra dữ liệu thực địa, báo cáo tuần tự động.</p>
+      <span class="role-art" aria-hidden="true">
+        <svg viewBox="0 0 320 96" id="artO"></svg>
+      </span>
+      <span class="role-go">chọn vai này →</span>
+    </button>
+  </div>
+  <p class="roles-foot"><span data-i18n="rolesFoot">đã biết mình cần gì?</span> <a href="./hub.html" data-i18n="rolesFootLink">đi thẳng vào khoá học →</a> · <a href="./studio/" data-i18n="rolesFootLib">mở AI Mind Studio →</a></p>
+</section>
 
-            <section class="part-atlas" id="manual" aria-labelledby="manual-title">
-                <div class="section-head">
-                    <p class="section-label">Manual atlas</p>
-                    <h2 id="manual-title">Thirteen part covers, one operating system for agentic research.</h2>
-                </div>
-                <div class="part-strip" id="part-strip" aria-live="polite"></div>
-            </section>
+<!-- ============ SCENE: SHOWCASE ============ -->
+<section class="scene" id="show" aria-label="How agents change your work">
+  <div class="show-grid">
+    <div class="show-copy">
+      <span class="v-tag v-fade" id="vTag"></span>
+      <h2 class="v-fade" id="vTitle"></h2>
+      <p class="v-line v-fade" id="vLine"></p>
+      <span class="agent-pill v-fade" id="vAgent"></span>
+    </div>
+    <div class="swin">
+      <div class="swin-bar"><span class="dot3"><i></i><i></i><i></i></span><span class="swin-t" id="vWin">agent</span></div>
+      <div class="swin-body" id="stage"></div>
+    </div>
+  </div>
+  <div class="rail">
+    <button class="nav-arrow" id="prevBtn" aria-label="Previous">←</button>
+    <span class="v-count" id="vCount">01/08</span>
+    <div class="dots" id="dots"></div>
+    <button class="nav-arrow" id="nextBtn" aria-label="Next">→</button>
+  </div>
+</section>
 
-            <section class="principles" aria-labelledby="principles-title">
-                <div class="section-head">
-                    <p class="section-label">Operating frame</p>
-                    <h2 id="principles-title">Mindset first, tools second.</h2>
-                </div>
-                <div class="principle-list" id="principle-list"></div>
-            </section>
+<!-- ============ SCENE: CTA ============ -->
+<section class="scene" id="cta" aria-label="Learn to control your AI mind">
+  <p class="cta-hand" data-i18n="ctaHand">that was two weeks of work, compressed into minutes ↑</p>
+  <h2 data-i18n-html="ctaTitle">Muốn các agent này <em>làm việc cho bạn</em>?</h2>
+  <p class="cta-sub" data-i18n="ctaSub">Khoá học Control Your AI Mind dạy bạn dựng, giao việc và giám sát AI agent — theo đúng vai của bạn, trên dự án thật của bạn. Xem miễn phí toàn bộ chương trình.</p>
+  <div class="cta-btns">
+    <a class="btn btn-solid" id="ctaCourse" href="./hub.html" data-i18n="ctaCourse">Control your AI mind — vào khoá học →</a>
+    <a class="btn btn-ghost" href="./studio/" data-i18n="ctaHub">AI Mind Studio →</a>
+  </div>
+  <p class="cta-replay"><button id="replayBtn" data-i18n="ctaReplay">↺ xem vai còn lại</button></p>
+</section>
 
-            <section class="course-section" id="course" aria-labelledby="course-title">
-                <div class="section-head">
-                    <p class="section-label">Course map</p>
-                    <h2 id="course-title">A researcher's path from prompt user to agent controller.</h2>
-                </div>
-                <div class="course-layout">
-                    <ol class="module-list" id="module-list"></ol>
-                    <article class="module-detail" id="module-detail" aria-live="polite"></article>
-                </div>
-            </section>
+<div class="toast" id="toast" role="status"></div>
+<noscript><p style="padding:100px 40px;font-family:monospace">JavaScript is off — <a href="./hub.html">go to the course</a> · <a href="./studio/">open the studio</a></p></noscript>
 
-            <section class="lab-section" id="labs" aria-labelledby="labs-title">
-                <div class="section-head">
-                    <p class="section-label">Applied labs</p>
-                    <h2 id="labs-title">Real artifacts, <em>shipped</em> with agent workflows.</h2>
-                </div>
-                <div class="lab-grid">
-                    <a class="lab-card" href="/other/energy-checking/" target="_blank" rel="noreferrer">
-                        <img src="/docs/ai-mind/assets/labs/grid-atlas.png" alt="Vietnam Grid Atlas interactive power map">
-                        <div>
-                            <span>Map · Live</span>
-                            <h3>Vietnam Grid Atlas</h3>
-                            <p>Map-first atlas of Vietnam's power system: plants, transmission backbone, substations, and data centers — built source-to-GeoJSON with agent pipelines.</p>
-                        </div>
-                    </a>
-                    <a class="lab-card" href="/other/x-reposts/" target="_blank" rel="noreferrer">
-                        <img src="/docs/ai-mind/assets/labs/x-reposts.png" alt="X Repost Atlas dashboard">
-                        <div>
-                            <span>Dashboard · Live</span>
-                            <h3>X Repost Atlas</h3>
-                            <p>158 reposts crawled from X and normalized into a research-lead dashboard: topics, credibility, priority, and follow-up status.</p>
-                        </div>
-                    </a>
-                    <a class="lab-card" href="/other/research-experts/" target="_blank" rel="noreferrer">
-                        <img src="/docs/ai-mind/assets/labs/research-experts.png" alt="Research Experts galaxy tracker">
-                        <div>
-                            <span>Tracker · Live</span>
-                            <h3>Research Experts I Follow</h3>
-                            <p>A galaxy-style tracker of 70 researchers across 15 fields, with profiles, selected work, and field filters.</p>
-                        </div>
-                    </a>
-                    <a class="lab-card" href="/other/bookshelf/" target="_blank" rel="noreferrer">
-                        <img src="/docs/ai-mind/assets/labs/bookshelf.png" alt="Bookshelf reading tracker">
-                        <div>
-                            <span>Library · Live</span>
-                            <h3>Bookshelf</h3>
-                            <p>A reading shelf for the past year's books and papers — including a 50-paper SEZ literature spine with notes and ratings.</p>
-                        </div>
-                    </a>
-                    <article class="lab-card is-private">
-                        <img src="/other/app/images/tax-simulation-analysis.jpg" alt="Tobacco tax simulation app">
-                        <div>
-                            <span>App · Internal</span>
-                            <h3>Tax Simulation</h3>
-                            <p>Five-year tobacco-tax scenario builder for DEPOCEN: consumption, retail price, revenue, prevalence, and mortality under each policy path.</p>
-                        </div>
-                    </article>
-                    <article class="lab-card is-private">
-                        <img src="/other/app/images/tobacco-mapping-overview.jpg" alt="Tobacco retail mapping app">
-                        <div>
-                            <span>Map · Internal</span>
-                            <h3>Tobacco Mapping 2025</h3>
-                            <p>Retail mapping across Hanoi and HCMC: store locations, brand availability, prices, and outlet characteristics for field teams.</p>
-                        </div>
-                    </article>
-                </div>
-            </section>
+<script>
+/* ================== UTIL ================== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const Q=new URLSearchParams(location.search);
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FAST=Q.get('fast')==='1';
+const SPEED=(reduced||FAST)?0.06:1;
+let toastTimer;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3000)}
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+function burst(x,y,n){
+  const colors=['#C15F3C','#D97757','#4F7259','#E3DACC'];
+  for(let i=0;i<n;i++){
+    const d=el('span','burst-dot');
+    const a=Math.random()*Math.PI*2, r=40+Math.random()*120;
+    d.style.cssText=`left:${x}px;top:${y}px;background:${colors[i%4]};--dx:${Math.cos(a)*r}px;--dy:${Math.sin(a)*r}px`;
+    document.body.appendChild(d); setTimeout(()=>d.remove(),950);
+  }
+}
+/* ================== THEME & LANG ================== */
+const themeBtn=$('#themeBtn');
+function setTheme(t){document.documentElement.setAttribute('data-theme',t);themeBtn.textContent=t==='dark'?'☼':'☾';localStorage.setItem('theme',t)}
+themeBtn.onclick=()=>setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark');
+setTheme(Q.get('theme')||document.documentElement.getAttribute('data-theme'));
 
-            <section class="library-section" id="library" aria-labelledby="library-title" data-ornament="V">
-                <div class="section-head">
-                    <p class="section-label">Skill library</p>
-                    <h2 id="library-title">Patterns, templates, and tools <em>worth testing</em>.</h2>
-                </div>
-                <div class="control-row" aria-label="Library filters">
-                    <label class="search-field" for="library-search">
-                        <span>Search</span>
-                        <input id="library-search" type="search" autocomplete="off" spellcheck="false" placeholder="skills, memory, Stata, Claude, Codex...">
-                    </label>
-                    <label>
-                        <span>Stage</span>
-                        <select id="stage-filter">
-                            <option value="All">All stages</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Type</span>
-                        <select id="type-filter">
-                            <option value="All">All types</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Tool</span>
-                        <select id="tool-filter">
-                            <option value="All">All tools</option>
-                        </select>
-                    </label>
-                    <label>
-                        <span>Sort</span>
-                        <select id="library-sort">
-                            <option value="relevance-desc">Relevance</option>
-                            <option value="date-desc">Newest</option>
-                            <option value="title-asc">Title A-Z</option>
-                            <option value="engagement-desc">Engagement</option>
-                        </select>
-                    </label>
-                </div>
-                <div class="library-meta-row">
-                    <p id="library-count">Loading library...</p>
-                    <div class="library-meta-actions">
-                        <button class="random-pull" id="library-random" type="button">Random pull</button>
-                        <a href="/other/x-reposts/">Open full X Repost Atlas</a>
-                    </div>
-                </div>
-                <div class="library-workspace">
-                    <div class="library-results" id="library-list" aria-live="polite"></div>
-                    <aside class="library-inspector" id="library-inspector" aria-label="Selected library item"></aside>
-                </div>
-            </section>
+let lang=Q.get('lang')||localStorage.getItem('aiMindLang')||'vi';
+const I18N={
+  course:{vi:'Vào khoá học →',en:'Enter the course →'},
+  studioBtn:{vi:'Phòng mô phỏng',en:'AI Mind Studio'},
+  rolesFootLib:{vi:'mở phòng mô phỏng →',en:'open AI Mind Studio →'},
+  rolesKicker:{vi:'// chọn vai của bạn',en:'// choose your role'},
+  rolesTitle:{vi:'Bạn sẽ điều khiển <em>trí tuệ AI</em> cho việc gì?',en:'What will you control an <em>AI mind</em> for?'},
+  roleRtitle:{vi:'Nhà nghiên cứu kinh tế',en:'Economic Researcher'},
+  roleOtitle:{vi:'Điều phối và quản lý dự án',en:'Project Implementer / Manager'},
+  roleRline:{vi:'Thu thập dữ liệu web, quét văn liệu, làm sạch, hồi quy, dựng bảng, biên dịch LaTeX và phản biện.',en:'Crawl data, sweep literature, clean, run regressions, build tables, compile LaTeX, get refereed.'},
+  roleOline:{vi:'Phân loại thư và đầu việc, dựng bảng hỏi Kobo, kiểm tra dữ liệu thực địa, tự động soạn báo cáo tuần.',en:'Email & task triage, Kobo questionnaires, daily field-data checks, automated weekly reports.'},
+  rolesFoot:{vi:'đã biết mình cần gì?',en:'already know what you need?'},
+  rolesFootLink:{vi:'đi thẳng vào khoá học →',en:'skip straight to the course →'},
+  ctaHand:{vi:'đó là hai tuần công việc được nén lại trong vài phút ↑',en:'that was two weeks of work, compressed into minutes ↑'},
+  ctaTitle:{vi:'Muốn các <em>tác nhân AI</em> này làm việc cho bạn?',en:'Want these agents <em>working for you</em>?'},
+  ctaSub:{vi:'Khoá học Control Your AI Mind dạy bạn xây dựng, giao việc và giám sát tác nhân AI theo đúng vai trò và dự án thật của mình. Toàn bộ chương trình được mở để xem miễn phí.',en:'The Control Your AI Mind course teaches you to build, brief and supervise AI agents — for your exact role, on your real projects. The full curriculum is free to browse.'},
+  ctaCourse:{vi:'Control your AI mind — vào khoá học →',en:'Control your AI mind — enter the course →'},
+  ctaHub:{vi:'Phòng mô phỏng →',en:'AI Mind Studio →'},
+  ctaReplay:{vi:'↺ xem vai còn lại',en:'↺ replay as the other role'},
+  bootSub:{vi:'bấm để bỏ qua',en:'click to skip'},
+  chooseRole:{vi:'chọn vai này →',en:'pick this role →'},
+};
+const VI_TERMS=[
+  [/\bagents?\b/gi,'tác nhân AI'],[/\bcheckpoint(s)?\b/gi,'điểm dừng'],[/\bpipeline\b/gi,'quy trình'],[/\bcrawl\b/gi,'thu thập web'],
+  [/\bclean\b/gi,'làm sạch'],[/\binbox\b/gi,'hộp thư'],[/\bdata check\b/gi,'kiểm tra dữ liệu'],[/\bbrief\b/gi,'bản tóm tắt'],
+  [/\bmissing\b/gi,'giá trị thiếu'],[/\bpaper(s)?\b/gi,'bài nghiên cứu'],[/\bclaim(s)?\b/gi,'luận điểm'],[/\bgap memo\b/gi,'bản ghi nhớ khoảng trống'],
+  [/\bspec(s)?\b/gi,'đặc tả'],[/\blog(s)?\b/gi,'nhật ký'],[/\bdata\b/gi,'dữ liệu'],[/\bfield team\b/gi,'nhóm thực địa'],
+  [/\binterviewed\b/gi,'đã phỏng vấn'],[/\bplanned today\b/gi,'dự kiến hôm nay'],[/\bno data yet\b/gi,'chưa có dữ liệu'],[/\bControl mode unlocked\b/g,'Đã mở chế độ kiểm soát']
+];
+function normalizeVi(root){
+  if(lang!=='vi')return;
+  const walker=document.createTreeWalker(root||document.body,NodeFilter.SHOW_TEXT);let node;
+  while((node=walker.nextNode())){
+    if(!node.nodeValue.trim()||node.parentElement.closest('script,style,code,pre'))continue;
+    let next=node.nodeValue;VI_TERMS.forEach(pair=>next=next.replace(pair[0],pair[1]));
+    if(next!==node.nodeValue)node.nodeValue=next;
+  }
+}
+new MutationObserver(records=>{
+  if(lang!=='vi')return;
+  records.forEach(record=>record.addedNodes.forEach(node=>{
+    if(node.nodeType===1)normalizeVi(node);
+    if(node.nodeType===3&&node.parentElement&&!node.parentElement.closest('script,style,code,pre')){
+      let next=node.nodeValue;VI_TERMS.forEach(pair=>next=next.replace(pair[0],pair[1]));
+      if(next!==node.nodeValue)node.nodeValue=next;
+    }
+  }));
+}).observe(document.body,{childList:true,subtree:true});
+function applyI18n(){
+  document.documentElement.lang=lang;
+  document.title=lang==='vi'?'Control Your AI Mind — bước vào phòng điều khiển':'Control Your AI Mind — enter the control room';
+  $('#langBtn').textContent=lang==='vi'?'EN':'VN';
+  $$('[data-i18n]').forEach(n=>{const k=n.dataset.i18n;if(I18N[k])n.textContent=I18N[k][lang]});
+  $$('[data-i18n-html]').forEach(n=>{const k=n.dataset.i18nHtml;if(I18N[k])n.innerHTML=I18N[k][lang]});
+  $$('.role-go').forEach(n=>n.textContent=I18N.chooseRole[lang]);
+  normalizeVi(document.body);
+}
+$('#langBtn').onclick=()=>{lang=lang==='vi'?'en':'vi';localStorage.setItem('aiMindLang',lang);location.reload()};
+applyI18n();
 
-            <section class="sources-section" id="sources" aria-labelledby="sources-title" data-ornament="VI">
-                <div class="section-head">
-                    <p class="section-label">Source atlas</p>
-                    <h2 id="sources-title">A working <em>backlog</em> for the course knowledge base.</h2>
-                </div>
-                <div class="source-toolbar">
-                    <p id="source-count">Loading sources...</p>
-                    <div class="source-chips" id="source-chips" role="group" aria-label="Filter sources by status"></div>
-                </div>
-                <div class="source-list" id="source-list" aria-live="polite"></div>
-            </section>
-
-            <section class="closing-cta" id="start" aria-labelledby="closing-title">
-                <p class="section-label">Begin</p>
-                <h2 id="closing-title">Take back the controls.</h2>
-                <p class="closing-text">Thirteen parts, one manual, and a library that keeps growing. Start from the map, or read the full training manual first.</p>
-                <div class="hero-actions closing-actions">
-                    <a class="primary-action" href="#course">Start with the map</a>
-                    <button class="manual-action" type="button" data-manual-access>Read manual</button>
-                </div>
-                <p class="closing-hint" aria-hidden="true">psst — type <kbd>m</kbd><kbd>i</kbd><kbd>n</kbd><kbd>d</kbd> anywhere.</p>
-            </section>
-
-            <footer class="mind-footer">
-                <p>Control Your AI Mind · <a href="/">huylvu.github.io</a></p>
-                <p><a href="#course">Course</a> · <a href="#library">Library</a> · <a href="#sources">Sources</a></p>
-            </footer>
-        </main>
-
-        <div class="manual-access-modal" id="manual-access-modal" role="dialog" aria-modal="true" aria-labelledby="manual-access-title" aria-describedby="manual-access-description" aria-hidden="true">
-            <button class="manual-access-backdrop" type="button" data-manual-close aria-label="Close manual access dialog"></button>
-            <div class="manual-access-panel" role="document">
-                <button class="manual-access-close" type="button" data-manual-close aria-label="Close manual access dialog">&times;</button>
-                <p class="manual-access-kicker">Control Your AI Mind</p>
-                <h2 id="manual-access-title">Manual access</h2>
-                <p id="manual-access-description">The complete manual is reserved for enrolled students. Course access is also available by bank transfer.</p>
-                <div class="manual-access-price">
-                    <span id="manual-price-label">Course access</span>
-                    <strong>500.000 VND / 20 USD</strong>
-                </div>
-                <dl class="manual-bank-details">
-                    <div><dt id="manual-bank-label">Bank</dt><dd>Vietcombank (VCB)</dd></div>
-                    <div><dt id="manual-account-label">Account number</dt><dd>1016189410</dd></div>
-                    <div><dt id="manual-holder-label">Account holder</dt><dd>HUY LE VU</dd></div>
-                </dl>
-                <p class="manual-access-note" id="manual-access-note">After transferring, send the payment confirmation to Huy to receive access.</p>
-                <button class="manual-access-confirm" type="button" data-manual-close id="manual-close-label">Close</button>
-            </div>
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-        <script src="/other/x-reposts/reposts-data.js"></script>
-        <script src="/other/ai-mind/data.js"></script>
-        <script src="/other/ai-mind/app.js"></script>
-    </body>
+/* ================== SCENE MACHINE ================== */
+let scene='boot';
+function go(s){
+  scene=s;
+  $$('.scene').forEach(x=>x.classList.toggle('on',x.id===s));
+  $('#topbar').classList.toggle('on',s!=='boot');
+  if(s!=='show')stopAuto();
+  if(s==='roles')drawRoleArt();
+  window.scrollTo(0,0);
+}
+/* ================== BOOT ================== */
+const BOOT_LINES=[
+  {vi:'> nạp lõi ngữ cảnh .................... <span class="ok">xong</span>',en:'> mounting context kernel ............ <span class="ok">ok</span>'},
+  {vi:'> khôi phục trí nhớ dài hạn ........... <span class="ok">xong</span>',en:'> hydrating long-term memory ......... <span class="ok">ok</span>'},
+  {vi:'> khởi động vòng kiểm chứng ........... <span class="ok">xong</span>',en:'> arming verification loop ........... <span class="ok">ok</span>'},
+  {vi:'> kết nối công cụ: <span class="dim">stata · r · kobo · zotero · latex</span>',en:'> binding tools: <span class="dim">stata · r · kobo · zotero · latex</span>'},
+  {vi:'> tác nhân AI đang chờ: <span class="ok">6</span>',en:'> agents standing by: <span class="ok">6</span>'},
+];
+function runBoot(){
+  const mark=$('#bootMark');
+  [['Control',''],['your',''],['AI','acc'],['mind.','acc']].forEach((w,i)=>{
+    const s=el('span','bw'+(w[1]?' '+w[1]:''),w[0]+'&nbsp;');s.style.animationDelay=(i*.14)+'s';mark.appendChild(s);
+  });
+  const lines=$('#bootLines');
+  BOOT_LINES.forEach((l,i)=>{
+    const s=el('span','bl',l[lang]);lines.appendChild(s);
+    setTimeout(()=>s.classList.add('on'),(500+i*330)*SPEED);
+  });
+  let p=0;
+  const iv=setInterval(()=>{
+    p=Math.min(100,p+Math.random()*9+3);
+    $('#bootFill').style.width=p+'%';$('#bootPct').textContent=Math.round(p)+'%';
+    if(p>=100){clearInterval(iv);setTimeout(()=>go('roles'),420*SPEED)}
+  },115*SPEED||10);
+  $('#boot').addEventListener('click',()=>{clearInterval(iv);go('roles')});
+  addEventListener('keydown',e=>{if(scene==='boot'&&(e.key==='Escape'||e.key==='Enter')){clearInterval(iv);go('roles')}});
+}
+/* ================== ROLE ART ================== */
+let artDone=false;
+function drawRoleArt(){
+  if(artDone)return;artDone=true;
+  const R=$('#artR'),NS='http://www.w3.org/2000/svg';
+  const pts=[[30,70],[58,62],[86,66],[114,52],[142,55],[170,42],[198,46],[226,32],[254,35],[282,22]];
+  pts.forEach((p,i)=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r',3.4);
+    c.setAttribute('class','pt');c.style.animationDelay=(.15+i*.07)+'s';R.appendChild(c);
+  });
+  const ln=document.createElementNS(NS,'path');
+  ln.setAttribute('d','M22,76 L298,18');ln.setAttribute('class','fitline');R.appendChild(ln);
+  const O=$('#artO');
+  [[14,10,150],[14,32,210],[14,54,110],[14,76,250]].forEach((b,i)=>{
+    const r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',b[0]);r.setAttribute('y',b[1]);r.setAttribute('width',b[2]);r.setAttribute('height',13);
+    r.setAttribute('rx',4);r.setAttribute('class','gbar');r.style.animationDelay=(.15+i*.16)+'s';O.appendChild(r);
+    const d=document.createElementNS(NS,'circle');
+    d.setAttribute('cx',b[0]+b[2]+10);d.setAttribute('cy',b[1]+6.5);d.setAttribute('r',3.4);
+    d.setAttribute('class','pt');d.style.animationDelay=(.4+i*.16)+'s';O.appendChild(d);
+  });
+}
+/* ================== VIGNETTE DATA ================== */
+const VIG={
+researcher:[
+ {tag:{vi:'01 / THU THẬP DỮ LIỆU WEB',en:'01 / CRAWL DATA'},win:{vi:'tác nhân: thu thập web — dòng lệnh',en:'agent: web-crawler — terminal'},agent:{vi:'tác nhân thu thập web · đang chạy',en:'web-crawler · running'},
+  title:{vi:'Dữ liệu trên web tự chảy về máy bạn.',en:'Web data flows itself onto your machine.'},
+  line:{vi:'Tác nhân AI đọc trang, bóc bảng, chuẩn hoá đơn vị rồi ghi vào data/raw/ — kèm nhật ký từng nguồn để bạn kiểm tra lại.',en:'The agent reads pages, extracts tables, normalises units and writes straight to data/raw/ — with a per-source log you can audit.'},
+  anim:'crawl'},
+ {tag:{vi:'02 / VĂN LIỆU',en:'02 / LITERATURE'},win:{vi:'tác nhân: quét văn liệu — kết quả xếp hạng',en:'agent: lit-scout — ranked results'},agent:{vi:'tác nhân quét văn liệu · đang xếp hạng',en:'lit-scout · ranking'},
+  title:{vi:'Quét 60 bài báo một buổi sáng — kèm hệ số chính.',en:'Sixty papers swept in a morning — key coefficients included.'},
+  line:{vi:'Tìm nhanh, đọc kỹ: mỗi bài được trích câu hỏi nghiên cứu, dữ liệu, thiết kế và hệ số chính, rồi xếp hạng theo độ liên quan.',en:'Search fast, read deep: each paper gets its question, data, design and headline coefficient extracted, then ranked by relevance.'},
+  anim:'lit'},
+ {tag:{vi:'03 / LÀM SẠCH DỮ LIỆU',en:'03 / CLEAN DATA'},win:{vi:'tác nhân: kiểm toán dữ liệu — lượt làm sạch',en:'agent: data-auditor — cleaning pass'},agent:{vi:'tác nhân kiểm toán dữ liệu · có giám sát',en:'data-auditor · supervised'},
+  title:{vi:'Làm sạch có log — không phải làm sạch theo trí nhớ.',en:'Cleaning with a log — not cleaning from memory.'},
+  line:{vi:'Tác nhân AI soi giá trị thiếu, mã lỗi và đứt gãy định nghĩa biến rồi đề xuất sửa. Mỗi ô được sửa đều truy vết được — bạn duyệt trước khi ghi.',en:'It flags missingness, bad codes and definition breaks, then proposes fixes. Every repaired cell is traceable — you approve before writes.'},
+  anim:'clean'},
+ {tag:{vi:'04 / PHÂN TÍCH VÀ TRỰC QUAN HOÁ',en:'04 / ANALYZE & VISUALIZE'},win:{vi:'tác nhân: phân tích — biểu đồ',en:'agent: analyst — figures'},agent:{vi:'tác nhân phân tích · đang vẽ',en:'analyst · drawing'},
+  title:{vi:'Mười hai biểu đồ mô tả trong lúc bạn đọc email.',en:'Twelve descriptive figures while you read email.'},
+  line:{vi:'Phân phối, xu hướng, phân rã theo nhóm — tác nhân AI vẽ trước mọi hồi quy để bạn nhìn thấy dữ liệu thật sự nói gì.',en:'Distributions, trends, group breakdowns — drawn before any regression so you see what the data actually says.'},
+  anim:'chart'},
+ {tag:{vi:'05 / HỒI QUY',en:'05 / REGRESSION'},win:{vi:'tác nhân: chạy đặc tả — cửa sổ Stata',en:'agent: spec-runner — stata console'},agent:{vi:'tác nhân chạy đặc tả · 12 mô hình',en:'spec-runner · 12 specs'},
+  title:{vi:'Mười hai đặc tả, một bảng so sánh.',en:'Twelve specifications, one comparison table.'},
+  line:{vi:'Hiệu ứng cố định, phân cụm và trọng số chạy đúng theo kế hoạch đã duyệt. Kết quả gom thành bản ghi nhớ — bạn đọc một trang thay vì mười hai tệp nhật ký.',en:'FE, clustering, weights run exactly to the approved plan. Results land in one memo — you read a page, not twelve log files.'},
+  anim:'reg'},
+ {tag:{vi:'06 / BẢNG VÀ LATEX',en:'06 / TABLES & LATEX'},win:{vi:'tác nhân: dàn trang — pdflatex',en:'agent: typesetter — pdflatex'},agent:{vi:'tác nhân dàn trang · đang biên dịch',en:'typesetter · compiling'},
+  title:{vi:'Từ kết quả đến PDF, không cần mở Overleaf.',en:'From results to PDF without opening Overleaf.'},
+  line:{vi:'Bảng hồi quy tự sinh đúng chuẩn tạp chí, chèn vào bản thảo và biên dịch sạch lỗi — số trong bảng luôn khớp số trong nhật ký.',en:'Journal-grade tables are generated, inserted, and compiled clean — numbers in the table always match numbers in the log.'},
+  anim:'latex'},
+ {tag:{vi:'07 / PHẢN BIỆN BÀI',en:'07 / REVIEW PAPER'},win:{vi:'tác nhân: phản biện số 2 — báo cáo',en:'agent: referee-2 — report'},agent:{vi:'phản biện số 2 · khó tính',en:'referee-2 · tough'},
+  title:{vi:'Bị phản biện trước khi nộp — ở nhà, miễn phí.',en:'Get refereed before you submit — at home, for free.'},
+  line:{vi:'Một tác nhân AI đóng vai phản biện số 2: tấn công chiến lược nhận diện, soi bảng số và đòi kiểm tra độ vững. Chỉ nộp bài sau khi đã xử lý hết các đòn phản biện ở nhà.',en:'An agent plays Referee 2: attacks identification, audits tables, demands robustness. Submit only after surviving the rehearsal.'},
+  anim:'review'},
+ {tag:{vi:'08 / TOÀN BỘ QUY TRÌNH',en:'08 / THE WHOLE PIPELINE'},win:{vi:'phòng điều khiển — toàn cảnh',en:'control room — overview'},agent:{vi:'bạn · người cầm lái',en:'you · at the wheel'},
+  title:{vi:'Cả quy trình chạy — nhưng bạn vẫn cầm lái.',en:'The whole pipeline runs — you stay at the wheel.'},
+  line:{vi:'Mỗi chặng đều có điểm dừng chờ bạn duyệt. Tác nhân AI làm việc tay chân; phán đoán nghiên cứu vẫn là của bạn.',en:'Every stage has a checkpoint waiting for you. Agents do the legwork; the research judgment stays yours.'},
+  anim:'flowR'},
+],
+operator:[
+ {tag:{vi:'01 / THƯ VÀ ĐẦU VIỆC',en:'01 / EMAIL & TASKS'},win:{vi:'tác nhân: trợ lý điều hành — 07:30',en:'agent: chief-of-staff — 07:30'},agent:{vi:'trợ lý điều hành · mỗi sáng',en:'chief-of-staff · every morning'},
+  title:{vi:'Mở máy là thấy việc đã được xếp xong.',en:'Open your laptop to an already-sorted day.'},
+  line:{vi:'Tác nhân AI đọc hộp thư, nhận diện việc cần xử lý, gom theo độ gấp và soạn sẵn bản tóm tắt — trước khi bạn uống xong cà phê.',en:'It reads the inbox, spots action items, sorts by urgency and drafts the morning brief — before you finish your coffee.'},
+  anim:'inbox'},
+ {tag:{vi:'02 / TÓM TẮT HẰNG NGÀY',en:'02 / DAILY BRIEF'},win:{vi:'tác nhân: điều phối — tóm tắt ngày',en:'agent: coordinator — daily brief'},agent:{vi:'tác nhân điều phối · đang tổng hợp',en:'coordinator · synthesising'},
+  title:{vi:'Một bản tổng hợp việc — thay 40 phút lục thread.',en:'One work digest — instead of 40 minutes of thread-digging.'},
+  line:{vi:'Hạn chót hôm nay, việc đang chờ người khác và rủi ro mới phát sinh — được gom từ thư điện tử, bảng theo dõi và ghi chú họp thành một trang.',en:'Today’s deadlines, items blocked on others, fresh risks — pulled from email, sheets and meeting notes into one page.'},
+  anim:'brief'},
+ {tag:{vi:'03 / XLSFORM → KOBO',en:'03 / XLSFORM → KOBO'},win:{vi:'tác nhân: dựng biểu mẫu — XLSForm',en:'agent: form-builder — xlsform'},agent:{vi:'tác nhân dựng biểu mẫu · đang triển khai',en:'form-builder · deploy'},
+  title:{vi:'Bảng hỏi 60 câu lên KoboToolbox trong một buổi.',en:'A 60-question form live on KoboToolbox in one sitting.'},
+  line:{vi:'Bạn mô tả mô-đun, tác nhân AI viết XLSForm gồm ràng buộc, logic bỏ qua và bản dịch — rồi triển khai lên Kobo, sẵn sàng cho thực địa.',en:'You describe the module; the agent writes the XLSForm — constraints, skip logic, translations — then deploys it to Kobo, field-ready.'},
+  anim:'kobo'},
+ {tag:{vi:'04 / KIỂM TRA DỮ LIỆU HẰNG NGÀY',en:'04 / DAILY DATA CHECK'},win:{vi:'tác nhân: giám sát chất lượng — dữ liệu thực địa',en:'agent: qa-monitor — field data'},agent:{vi:'tác nhân giám sát chất lượng · 06:00 hằng ngày',en:'qa-monitor · daily 06:00'},
+  title:{vi:'Mỗi sáng: tải dữ liệu, soi lỗi, khớp bảng quản lý.',en:'Every morning: download, error-check, reconcile with the tracker.'},
+  line:{vi:'Tác nhân AI tải dữ liệu mới, kiểm tra trùng lặp, GPS lệch và logic vỡ — rồi đối chiếu với bảng quản lý và đánh dấu đúng chỗ lệch.',en:'It pulls fresh submissions, checks duplicates, GPS drift, broken logic — then reconciles against the management sheet and flags mismatches.'},
+  anim:'check'},
+ {tag:{vi:'05 / BÁO CÁO TUẦN',en:'05 / WEEKLY REPORT'},win:{vi:'tác nhân: viết báo cáo — thứ Sáu 16:00',en:'agent: reporter — friday 16:00'},agent:{vi:'tác nhân viết báo cáo · tự động',en:'reporter · automated'},
+  title:{vi:'Báo cáo tuần tự viết — thứ Sáu bạn chỉ việc đọc.',en:'The weekly report writes itself — Friday you just read it.'},
+  line:{vi:'Cả tuần tác nhân AI gom tiến độ, số liệu và vướng mắc. Chiều thứ Sáu, bản nháp hoàn chỉnh nằm trong hộp thư chờ bạn duyệt và gửi.',en:'All week it collects progress, numbers and blockers. Friday afternoon a complete draft sits in your inbox awaiting approval.'},
+  anim:'week'},
+ {tag:{vi:'06 / KHUNG BÁO CÁO CẬP NHẬT',en:'06 / LIVE REPORT FRAME'},win:{vi:'tác nhân: giữ báo cáo — tài liệu cập nhật',en:'agent: report-keeper — live doc'},agent:{vi:'tác nhân giữ báo cáo · luôn mới',en:'report-keeper · always fresh'},
+  title:{vi:'Khung báo cáo dựng sẵn — số liệu tự cập nhật.',en:'A standing report frame — numbers refresh themselves.'},
+  line:{vi:'Lên khung một lần; mỗi khi có dữ liệu mới, tác nhân AI cập nhật bảng số, vẽ lại biểu đồ và tăng phiên bản — báo cáo không bao giờ cũ.',en:'Build the frame once; whenever new data lands, the agent refreshes tables, redraws charts and bumps the version — never stale.'},
+  anim:'frame'},
+ {tag:{vi:'07 / BẠN GIỮ QUYỀN KIỂM SOÁT',en:'07 / YOU, IN CONTROL'},win:{vi:'phòng điều khiển — toàn cảnh',en:'control room — overview'},agent:{vi:'bạn · người điều phối',en:'you · the coordinator'},
+  title:{vi:'Bạn không làm thay máy — bạn điều khiển máy.',en:'You don’t do the machine’s work — you direct it.'},
+  line:{vi:'Tám giờ việc lặp mỗi tuần co lại còn 45 phút giám sát. Quyết định vẫn của bạn — tác nhân AI chỉ là đôi tay nhanh.',en:'Eight hours of weekly busywork shrinks to 45 minutes of oversight. Decisions stay yours — agents are just fast hands.'},
+  anim:'flowO'},
+]};
+/* ================== ANIMATORS ================== */
+let timers=[];
+function after(ms,fn){timers.push(setTimeout(fn,ms*SPEED))}
+function clearTimers(){timers.forEach(clearTimeout);timers=[]}
+const L=(vi,en)=>lang==='vi'?vi:en;
+function termLines(box,lines,startDelay=300,step=420){
+  const tl=el('div','tl');box.appendChild(tl);
+  lines.forEach((l,i)=>{
+    const s=el('span','ln '+(l.c||''),l.t);tl.appendChild(s);
+    after(startDelay+i*step,()=>s.classList.add('on'));
+  });
+  return startDelay+lines.length*step;
+}
+const ANIM={
+crawl(b){
+  termLines(b,[
+    {t:'$ agent.crawl("gso.gov.vn / trade — 2020-2026")',c:'cmd'},
+    {t:L('· dò sitemap … tìm thấy 14 trang dữ liệu','· scanning sitemap … found 14 data pages'),c:'dim'},
+    {t:L('✓ bóc 1.240 dòng từ 14 bảng HTML','✓ extracted 1,240 rows from 14 HTML tables'),c:'ok'},
+    {t:L('✓ chuẩn hoá đơn vị, mã tỉnh, kỳ báo cáo','✓ standardised units, province codes, reporting periods'),c:'ok'},
+    {t:L('⚠ 2 trang đổi cấu trúc — đã ghi chú vào crawl-log','⚠ 2 pages changed layout — noted in crawl-log'),c:'warn'},
+    {t:L('✓ đối chiếu tổng theo năm với niên giám: khớp','✓ cross-checked annual totals against yearbook: match'),c:'ok'},
+    {t:'→ data/raw/trade_2026.csv · crawl-log.md',c:'art'},
+    {t:L('// 4 phút thay vì một buổi chiều copy-paste','// 4 minutes instead of an afternoon of copy-paste'),c:'dim'},
+  ]);
+},
+lit(b){
+  const rk=el('div','rk');b.appendChild(rk);
+  const papers=[
+    ['Kleven, Landais & Søgaard (2019)','event study · DK admin data · β = −0.21',98],
+    ['Kuziemko et al. (2022)',L('pseudo-panel · US · penalty 31% dài hạn','pseudo-panel · US · long-run penalty 31%'),91],
+    ['Berniell et al. (2021)','event study · LATAM · informality ↑',84],
+    ['Agüero & Marks (2011)',L('IV: infertility · LFP không đổi','IV: infertility · LFP unchanged'),71],
+  ];
+  papers.forEach((p,i)=>{
+    const r=el('div','rk-row',`<div class="rt"><span>${p[0]}</span><em>${p[2]}%</em></div><div class="rm">${p[1]}</div><div class="rk-bar"><i style="--s:${p[2]/100}"></i></div>`);
+    rk.appendChild(r);after(400+i*430,()=>r.classList.add('on'));
+  });
+  const cap=el('p','ch-cap',L('✓ 12/60 paper giữ lại · bảng so sánh + gap memo đã sẵn — mỗi claim kèm trang nguồn','✓ 12/60 papers kept · comparison table + gap memo ready — every claim cites its source page'));
+  b.appendChild(cap);after(400+papers.length*430+300,()=>cap.classList.add('on'));
+},
+clean(b){
+  const head=el('div','tc-head',`<span>hh_income_2024.dta — 48 ${L('cột','cols')} × 6 ${L('hàng (mẫu)','rows (sample)')}</span><span>missing: <b id="tcPct">14.2%</b></span>`);
+  b.appendChild(head);
+  const g=el('div','tc-grid');g.style.position='relative';b.appendChild(g);
+  const scan=el('div','tc-scan');g.appendChild(scan);
+  const cells=[];const dirty=[3,9,14,17,22,28,33,38,41,44];
+  for(let i=0;i<48;i++){const c=el('i');g.appendChild(c);cells.push(c)}
+  for(let row=0;row<6;row++){
+    after(350+row*300,()=>{scan.style.opacity=1;scan.style.top=(row*27)+'px';
+      dirty.filter(d=>Math.floor(d/8)===row).forEach(d=>cells[d].classList.add('bad'))});
+  }
+  after(350+6*300+150,()=>scan.style.opacity=0);
+  dirty.forEach((d,i)=>after(2450+i*180,()=>{
+    cells[d].classList.remove('bad');cells[d].classList.add('fix');
+    const left=Math.max(0.8,14.2-(i+1)*1.34);$('#tcPct').textContent=left.toFixed(1)+'%';
+  }));
+  const note=el('p','tc-note',L('✓ 10 ô sửa · 0 ô xoá lặng lẽ — mọi quyết định nằm trong cleaning-log.md, chờ bạn duyệt','✓ 10 cells fixed · 0 silently dropped — every decision in cleaning-log.md, awaiting your review'));
+  b.appendChild(note);after(2450+dirty.length*180+250,()=>note.classList.add('on'));
+},
+chart(b){
+  const w=el('div','ch-wrap');b.appendChild(w);
+  w.innerHTML=`<svg viewBox="0 0 560 270">
+    <line class="ch-axis" x1="40" y1="240" x2="540" y2="240"/>
+    <line class="ch-axis" x1="40" y1="20" x2="40" y2="240"/>
+    ${[0,1,2,3,4,5,6].map(i=>`<rect class="ch-bar" data-i="${i}" x="${70+i*68}" y="${240-(60+[40,75,55,105,90,140,118][i])}" width="34" height="${60+[40,75,55,105,90,140,118][i]}" rx="4"/>`).join('')}
+    <path class="ch-line" id="chLine" d="M58,205 L126,182 L194,196 L262,148 L330,160 L398,118 L466,134 L530,92"/>
+    ${[58,126,194,262,330,398,466,530].map((x,i)=>`<circle class="ch-pt" data-i="${i}" cx="${x}" cy="${[205,182,196,148,160,118,134,92][i]}" r="4"/>`).join('')}
+  </svg>`;
+  $$('#stage .ch-bar').forEach((r,i)=>after(300+i*140,()=>r.classList.add('go')));
+  after(1400,()=>$('#chLine').classList.add('go'));
+  $$('#stage .ch-pt').forEach((p,i)=>after(1500+i*150,()=>p.classList.add('go')));
+  const cap=el('p','ch-cap',L('fig 1–12: phân phối thu nhập · xu hướng theo quý · phân rã thành thị/nông thôn — figures/desc/*.pdf','fig 1–12: income distribution · quarterly trends · urban/rural breakdown — figures/desc/*.pdf'));
+  b.appendChild(cap);after(3000,()=>cap.classList.add('on'));
+},
+reg(b){
+  const rg=el('div','rg');b.appendChild(rg);
+  const rows=[
+    ['<span>ln_wage</span><span>spec (8) — preferred</span>','rh'],
+    ['<span>child_penalty</span><span><span class="coef">−0.213</span><span class="star">***</span> <span class="se">(0.041)</span></span>',''],
+    ['<span>post_reform × treated</span><span><span class="coef">0.087</span><span class="star">**</span> <span class="se">(0.035)</span></span>',''],
+    [`<span>FE: ${L('năm × tỉnh','year × province')}</span><span class="ok">✓</span>`,''],
+    [`<span>Cluster</span><span>${L('tỉnh','province')} (63)</span>`,''],
+    [`<span>Weights</span><span>${L('w_hộ VHLSS','VHLSS hh weight')}</span>`,''],
+    ['<span>N · R²</span><span>42.318 · 0.31</span>',''],
+  ];
+  rows.forEach((r,i)=>{
+    const w=el('div','rw '+r[1],r[0]);rg.appendChild(w);
+    after(350+i*330,()=>w.classList.add('on'));
+  });
+  const cap=el('p','ch-cap',L('✓ 12 spec chạy xong · robust với FE thay thế · results-memo.md chờ bạn đọc — agent không kết luận nhân quả hộ bạn','✓ 12 specs complete · robust to alternative FE · results-memo.md ready — the agent draws no causal conclusions for you'));
+  b.appendChild(cap);after(350+rows.length*330+250,()=>cap.classList.add('on'));
+},
+latex(b){
+  const lx=el('div','lx');b.appendChild(lx);
+  const code=el('div','lx-code');lx.appendChild(code);
+  const lines=['<span class="kw">\\begin</span>{table}[htbp]','  \\caption{Child penalty — main results}','  \\input{tables/main_results.tex}','  \\label{tab:main}','<span class="kw">\\end</span>{table}','$ latexmk -pdf paper.tex'];
+  lines.forEach((l,i)=>{const s=el('span','ln',l);code.appendChild(s);after(300+i*300,()=>s.classList.add('on'))});
+  const out=el('div','lx-out',`<p class="lo-t">Table 2 — Child penalty, main results</p>
+    <table><tr><th></th><th>(1)</th><th>(2)</th></tr>
+    <tr><td>Penalty</td><td>−0.198**</td><td>−0.213***</td></tr>
+    <tr><td></td><td>(0.044)</td><td>(0.041)</td></tr>
+    <tr><td>FE</td><td>năm</td><td>năm×tỉnh</td></tr>
+    <tr><td>N</td><td>42,318</td><td>42,318</td></tr></table>`);
+  lx.appendChild(out);after(2300,()=>out.classList.add('on'));
+  const st=el('p','lx-status',L('✓ pdflatex: 0 errors · paper.pdf (24 trang) — số trong bảng khớp 100% với log hồi quy','✓ pdflatex: 0 errors · paper.pdf (24 pages) — table numbers match 100% with regression log'));
+  lx.appendChild(st);after(3000,()=>st.classList.add('on'));
+},
+review(b){
+  const rf=el('div','rf');b.appendChild(rf);
+  const doc=el('div','rf-doc');rf.appendChild(doc);
+  for(let i=0;i<11;i++)doc.appendChild(el('i'));
+  const tags=el('div','rf-tags');rf.appendChild(tags);
+  [['MAJOR — identification: parallel trends?',''],['MAJOR — '+L('selection vào mẫu','sample selection'),'' ],[L('minor — bảng 3 thiếu N','minor — table 3 missing N'),' minor'],['minor — cite Kleven 2019',' minor'],[L('minor — đơn vị fig 2','minor — units in fig 2'),' minor']]
+  .forEach((tg,i)=>{const g=el('span','rf-tag'+tg[1],tg[0]);tags.appendChild(g);after(400+i*430,()=>g.classList.add('on'))});
+  const v=el('p','rf-verdict',L('✓ referee-report.md + response-letter draft — 2 major, 5 minor, 0 lời khen xã giao','✓ referee-report.md + response-letter draft — 2 major, 5 minor, 0 courtesy compliments'));
+  rf.appendChild(v);after(400+5*430+300,()=>v.classList.add('on'));
+},
+flowR(b){ANIM._flow(b,lang==='vi'?['ý tưởng','crawl','clean','phân tích','hồi quy','bản thảo','phản biện']:['ideation','crawl','clean','analysis','regression','manuscript','review'],
+  {vi:'<b>3 tuần</b> việc tay chân → <b>4 ngày</b> có giám sát',en:'<b>3 weeks</b> of legwork → <b>4 days</b> with oversight'},
+  {vi:'mỗi mũi tên là một checkpoint — agent dừng, bạn duyệt',en:'every arrow is a checkpoint — the agent stops, you approve'})},
+flowO(b){ANIM._flow(b,lang==='vi'?['inbox','kế hoạch','thực địa','data check','báo cáo']:['inbox','planning','fieldwork','data check','reporting'],
+  {vi:'<b>≈8 giờ</b> việc lặp / tuần → <b>45 phút</b> giám sát',en:'<b>≈8 hours</b> of weekly busywork → <b>45 minutes</b> of oversight'},
+  {vi:'quyết định vẫn của bạn — agent chỉ là đôi tay nhanh',en:'decisions stay yours — agents are just fast hands'})},
+_flow(b,steps,time,sub){
+  const f=el('div','fl');b.appendChild(f);
+  const chips=el('div','fl-chips');f.appendChild(chips);
+  steps.forEach((s,i)=>{
+    const c=el('span','fl-chip',s);chips.appendChild(c);
+    if(i<steps.length-1)chips.appendChild(el('span','fl-arr','→'));
+    after(350+i*330,()=>c.classList.add('on'));
+  });
+  const ft=el('p','fl-time',time[lang]+' <span class="hand">← '+L('đó là khác biệt','that\'s the difference')+'</span>');
+  f.appendChild(ft);after(350+steps.length*330+200,()=>ft.classList.add('on'));
+  const s2=el('p','fl-sub',sub[lang]);f.appendChild(s2);
+  after(350+steps.length*330+550,()=>s2.classList.add('on'));
+},
+inbox(b){
+  const head=el('div','ib-stack',L('inbox 07:14 — <b id="ibN">23</b> email chưa đọc · agent đang phân loại…','inbox 07:14 — <b id="ibN">23</b> unread emails · agent sorting…'));
+  b.appendChild(head);
+  const cols=el('div','ib-cols');b.appendChild(cols);
+  const defs=lang==='vi'?[['GẤP HÔM NAY','hot'],['XỬ LÝ TRONG TUẦN',''],['CHỈ CẦN BIẾT','']]:
+    [['URGENT TODAY','hot'],['THIS WEEK',''],['FYI ONLY','']];
+  const buckets=defs.map(d=>{const c=el('div','ib-col',`<h4>${d[0]} <b>0</b></h4>`);cols.appendChild(c);return c});
+  const mails=lang==='vi'?[
+    [0,'Đối tác: chốt số liệu trước 15:00'],[2,'Newsletter — AI weekly'],[1,'Draft TOR khảo sát — góp ý'],
+    [0,'Sếp: họp đột xuất 10:30'],[1,'Kobo: 218 bản ghi mới'],[2,'CC: biên bản họp tỉnh'],
+    [1,'Kế toán: bổ sung chứng từ'],[2,'FYI — lịch nghỉ lễ'],[1,'Field team: xin đổi lịch tuần sau'],
+  ]:[
+    [0,'Partner: confirm figures by 15:00'],[2,'Newsletter — AI weekly'],[1,'Draft survey TOR — comments needed'],
+    [0,'Manager: urgent meeting 10:30'],[1,'Kobo: 218 new submissions'],[2,'CC: provincial meeting minutes'],
+    [1,'Finance: missing receipts'],[2,'FYI — holiday schedule'],[1,'Field team: reschedule next week'],
+  ];
+  let n=23;
+  mails.forEach((m,i)=>after(500+i*330,()=>{
+    const mm=el('div','ib-mail'+(m[0]===0?' hot':''),m[1]);
+    buckets[m[0]].appendChild(mm);requestAnimationFrame(()=>mm.classList.add('on'));
+    const bb=buckets[m[0]].querySelector('h4 b');bb.textContent=+bb.textContent+1;
+    n-=2;$('#ibN').textContent=Math.max(0,n);
+  }));
+  const note=el('p','ib-note',L('✓ 2 việc gấp · 4 việc trong tuần · phần còn lại đã lưu trữ — brief 07:30 sẵn sàng','✓ 2 urgent · 4 this week · rest archived — 07:30 brief ready'));
+  b.appendChild(note);after(500+mails.length*330+300,()=>note.classList.add('on'));
+},
+brief(b){
+  const da=el('div','da');b.appendChild(da);
+  const blocks=lang==='vi'?[
+    ['HÔM NAY PHẢI XONG','3 việc','· Chốt số liệu gửi đối tác (15:00)<br>· Duyệt TOR khảo sát · Họp 10:30'],
+    ['ĐANG CHỜ NGƯỜI KHÁC','2 việc','· Kế toán xác nhận chứng từ · Tỉnh phản hồi công văn'],
+    ['RỦI RO MỚI','1 cảnh báo','· Field team xin đổi lịch — ảnh hưởng mốc nhập liệu tuần 24'],
+    ['SỐ LIỆU NHANH','cập nhật 07:25','· 218 bản ghi mới · tiến độ mẫu 64% · 6 lỗi chờ xử lý'],
+  ]:[
+    ['DUE TODAY','3 items','· Confirm figures for partner (15:00)<br>· Review survey TOR · Meeting 10:30'],
+    ['WAITING ON OTHERS','2 items','· Finance to confirm receipts · Province feedback pending'],
+    ['NEW RISKS','1 alert','· Field team requests reschedule — affects week 24 data entry milestone'],
+    ['QUICK NUMBERS','updated 07:25','· 218 new records · sample progress 64% · 6 errors pending'],
+  ];
+  blocks.forEach((bl,i)=>{
+    const d=el('div','da-block',`<h5>${bl[0]} <em>${bl[1]}</em></h5><p>${bl[2]}</p>`);
+    da.appendChild(d);after(400+i*430,()=>d.classList.add('on'));
+  });
+  const st=el('span','da-stamp',L('gửi 07:30 ✓','sent 07:30 ✓'));da.appendChild(st);
+  after(400+blocks.length*430+250,()=>st.classList.add('on'));
+},
+kobo(b){
+  const kb=el('div','kb');b.appendChild(kb);
+  const sheet=el('div','kb-sheet','');kb.appendChild(sheet);
+  const rows=lang==='vi'?
+    [['type','name / label'],['select_one','gioi_tinh — Giới tính'],['integer','tuoi — Tuổi (0–120)'],['select_multiple','nguon_thu — Nguồn thu nhập'],['date','ngay_pv — Ngày phỏng vấn'],['relevant','${tuoi} >= 15 → lao động'],['constraint','. >= 0 and . <= 120']]:
+    [['type','name / label'],['select_one','gioi_tinh — Gender'],['integer','tuoi — Age (0–120)'],['select_multiple','nguon_thu — Income source'],['date','ngay_pv — Interview date'],['relevant','${tuoi} >= 15 → labor'],['constraint','. >= 0 and . <= 120']];
+  rows.forEach((r,i)=>{
+    const k=el('div','kr',`<span>${r[0]}</span><span>${r[1]}</span>`);sheet.appendChild(k);
+    after(350+i*240,()=>k.classList.add('on'));
+  });
+  const ar=el('div','kb-arr','⟶');kb.appendChild(ar);after(2100,()=>ar.classList.add('on'));
+  const ph=el('div','kb-phone','<h6>KOBOCOLLECT — PREVIEW</h6>');kb.appendChild(ph);
+  const fields=lang==='vi'?
+    [['Giới tính','◉ Nam ○ Nữ'],['Tuổi','[ 34 ]'],['Nguồn thu nhập','☑ Nông nghiệp ☑ Làm thuê'],['Ngày phỏng vấn','12/06/2026']]:
+    [['Gender','◉ Male ○ Female'],['Age','[ 34 ]'],['Income source','☑ Agriculture ☑ Wage labor'],['Interview date','12/06/2026']];
+  fields.forEach((f,i)=>{const ff=el('div','kb-f',`<b>${f[0]}</b><i>${f[1]}</i>`);ph.appendChild(ff);
+    after(2350+i*300,()=>ff.classList.add('on'))});
+  const note=el('p','kb-note',L('✓ 60 câu hỏi · skip logic + ràng buộc + song ngữ — deployed lên KoboToolbox, sẵn sàng thực địa','✓ 60 questions · skip logic + constraints + bilingual — deployed to KoboToolbox, field-ready'));
+  kb.appendChild(note);after(2350+4*300+300,()=>note.classList.add('on'));
+},
+check(b){
+  b.appendChild(el('p','df-head',L('06:00 — tải 218 bản ghi mới từ Kobo · đối chiếu sheet quản lý…','06:00 — downloaded 218 new records from Kobo · reconciling management sheet…')));
+  const df=el('div','df');b.appendChild(df);
+  const t1=el('div','df-tbl',`<h6>${L('KOBO — HÔM NAY','KOBO — TODAY')}</h6>`);df.appendChild(t1);
+  const t2=el('div','df-tbl',`<h6>${L('SHEET QUẢN LÝ','MANAGEMENT SHEET')}</h6>`);df.appendChild(t2);
+  const rows1=lang==='vi'?
+    [['#2141','Hộ 0412 — xã An Phú','ok'],['#2142','Hộ 0413 — GPS lệch 4km','flag'],['#2143','Hộ 0413 — trùng ID','flag'],['#2144','Hộ 0415 — xã An Phú','ok'],['#2145','Hộ 0416 — thiếu module D','flag']]:
+    [['#2141','HH 0412 — An Phu','ok'],['#2142','HH 0413 — GPS drift 4km','flag'],['#2143','HH 0413 — duplicate ID','flag'],['#2144','HH 0415 — An Phu','ok'],['#2145','HH 0416 — missing module D','flag']];
+  const rows2=lang==='vi'?
+    [['0412','đã PV ✓','ok'],['0413','đã PV ✓','ok'],['0414','kế hoạch hôm nay — chưa có data','flag'],['0415','đã PV ✓','ok'],['0416','đã PV ✓','ok']]:
+    [['0412','interviewed ✓','ok'],['0413','interviewed ✓','ok'],['0414','planned today — no data yet','flag'],['0415','interviewed ✓','ok'],['0416','interviewed ✓','ok']];
+  const mk=(tb,rows)=>rows.map((r,i)=>{
+    const d=el('div','df-row',`<span>${r[0]}</span><span>${r[1]}</span><span>${r[2]==='ok'?'✓':'⚠'}</span>`);
+    d.style.opacity=0;tb.appendChild(d);return [d,r[2]]});
+  const a=mk(t1,rows1),c=mk(t2,rows2);
+  [...a,...c].forEach((p,i)=>after(400+(i%5)*260,()=>{p[0].style.opacity=1}));
+  after(1900,()=>{a.forEach((p,i)=>after(i*260,()=>{if(p[1]==='flag')p[0].classList.add('flag');else p[0].classList.add('okr')}));
+                  c.forEach((p,i)=>after(i*260,()=>{if(p[1]==='flag')p[0].classList.add('flag');else p[0].classList.add('okr')}))});
+  const v=el('p','df-verdict',L('<b>3 lỗi data</b> (GPS, trùng ID, thiếu module) · <b>1 lệch kế hoạch</b> — đã flag cho field team <span class="ok">trước 06:15 ✓</span>','<b>3 data errors</b> (GPS, duplicate ID, missing module) · <b>1 plan mismatch</b> — flagged to field team <span class="ok">before 06:15 ✓</span>'));
+  b.appendChild(v);after(3600,()=>v.classList.add('on'));
+},
+week(b){
+  const wk=el('div','wk');b.appendChild(wk);
+  const days=el('div','wk-days');wk.appendChild(days);
+  const doc=el('div','wk-doc',`<h6>${L('Weekly Report — Tuần 24','Weekly Report — Week 24')}</h6>`);wk.appendChild(doc);
+  const dayNames=lang==='vi'?['Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6']:['Mon','Tue','Wed','Thu','Fri'];
+  const dd=dayNames.map(d=>{const x=el('div','wk-day',d);days.appendChild(x);return x});
+  const secs=lang==='vi'?
+    [['Tiến độ thực địa','mẫu đạt 64% — đúng kế hoạch'],['Chất lượng dữ liệu','12 lỗi phát hiện, 11 đã xử lý'],['Ngân sách & hậu cần','giải ngân 58% · xe tuần sau đã đặt'],['Rủi ro & đề xuất','mưa lớn KV3 — đề xuất đảo cụm'],['Kế hoạch tuần 25','3 xã còn lại + nhập liệu đợt 2']]:
+    [['Field progress','sample at 64% — on track'],['Data quality','12 errors found, 11 resolved'],['Budget & logistics','58% disbursed · vehicle booked next week'],['Risks & recommendations','heavy rain zone 3 — propose cluster swap'],['Plan for week 25','3 communes left + data entry batch 2']];
+  secs.forEach((s,i)=>after(400+i*460,()=>{
+    dd[i].classList.add('on');
+    const sec=el('div','wk-sec',`<b>${s[0]}</b><i>${s[1]}</i>`);doc.appendChild(sec);
+    requestAnimationFrame(()=>sec.classList.add('on'));
+  }));
+  const sent=el('span','wk-sent',L('đã gửi 16:00 thứ Sáu ✓','sent Friday 16:00 ✓'));doc.appendChild(sent);
+  after(400+secs.length*460+250,()=>sent.classList.add('on'));
+},
+frame(b){
+  const lf=el('div','lf');b.appendChild(lf);
+  lf.innerHTML=`<div class="lf-head"><span>${L('bao-cao-du-an.docx — khung cố định, số liệu sống','bao-cao-du-an.docx — fixed frame, live numbers')}</span><span class="lf-ver" id="lfVer">v1.3</span></div>`;
+  const rows=lang==='vi'?
+    [['Mẫu hoàn thành','1.284 / 2.000','1.412 / 2.000'],['Tỷ lệ lỗi dữ liệu','2.4%','1.8%'],['Giải ngân','54%','58%'],['Xã đã phủ','18 / 27','21 / 27']]:
+    [['Sample completed','1,284 / 2,000','1,412 / 2,000'],['Data error rate','2.4%','1.8%'],['Disbursement','54%','58%'],['Communes covered','18 / 27','21 / 27']];
+  const els=rows.map(r=>{
+    const d=el('div','lf-row',`<span>${r[0]}</span><b>${r[1]}</b>`);lf.appendChild(d);return [d.querySelector('b'),r[2]]});
+  after(900,()=>{
+    $('#lfVer').classList.add('bump');$('#lfVer').textContent='v1.4 — 12/06 06:30';
+    els.forEach((p,i)=>after(200+i*350,()=>{p[0].textContent=p[1];p[0].classList.add('fresh')}));
+  });
+  const note=el('p','lf-note',L('✓ dữ liệu mới từ Kobo sáng nay — bảng & biểu đồ tự vẽ lại, bản cũ lưu version history','✓ fresh Kobo data this morning — tables & charts auto-redrawn, previous version saved to history'));
+  lf.appendChild(note);after(900+200+rows.length*350+300,()=>note.classList.add('on'));
+},
+};
+/* ================== PLAYER ================== */
+let role=null, vi=0, autoT=null, autoStart=0, rafP=null;
+const AUTO_MS=7000;
+function setRole(r,fromUser){
+  role=r;localStorage.setItem('aiMindRole',r);
+  $('#roleChip').hidden=false;
+  $('#roleChip').innerHTML=(r==='researcher'?'role: <b>researcher</b>':'role: <b>implementer</b>');
+  $('#courseLink').href='./hub.html';
+  $('#ctaCourse').href='./hub.html';
+  buildDots();vi=0;go('show');renderVig(0);
+  if(fromUser)toast(r==='researcher'?(lang==='vi'?'Vai: Nhà nghiên cứu kinh tế':'Role: Economic Researcher'):(lang==='vi'?'Vai: Điều phối và quản lý dự án':'Role: Project Implementer'));
+}
+function buildDots(){
+  const d=$('#dots');d.innerHTML='';
+  VIG[role].forEach((_,i)=>{
+    const b=el('button');b.setAttribute('aria-label',(lang==='vi'?'Cảnh ':'Scene ')+(i+1));
+    b.onclick=()=>{renderVig(i)};d.appendChild(b);
+  });
+}
+function renderVig(i,keepAuto){
+  clearTimers();if(autoT)clearTimeout(autoT);if(rafP)cancelAnimationFrame(rafP);
+  vi=i;const v=VIG[role][i];
+  ['#vTag','#vTitle','#vLine','#vAgent'].forEach(s=>$(s).classList.remove('on'));
+  after(40,()=>{
+    $('#vTag').textContent=typeof v.tag==='string'?v.tag:v.tag[lang];
+    $('#vTitle').textContent=v.title[lang];
+    $('#vLine').textContent=v.line[lang];
+    $('#vAgent').textContent='agent: '+(v.agent[lang]||v.agent);
+    $('#vWin').textContent=typeof v.win==='string'?v.win:v.win[lang];
+    ['#vTag','#vTitle','#vLine','#vAgent'].forEach((s,j)=>after(60+j*90,()=>$(s).classList.add('on')));
+  });
+  const stage=$('#stage');stage.innerHTML='';
+  after(120,()=>ANIM[v.anim](stage));
+  $('#vCount').textContent=String(i+1).padStart(2,'0')+'/'+String(VIG[role].length).padStart(2,'0');
+  $$('#dots button').forEach((b,j)=>{
+    b.classList.toggle('done',j<i);b.classList.toggle('cur',j===i);b.style.setProperty('--p',0);
+  });
+  // auto-advance with progress on current dot
+  autoStart=performance.now();
+  const cur=$$('#dots button')[i];
+  const tick=now=>{
+    const p=Math.min(1,(now-autoStart)/AUTO_MS);
+    if(cur)cur.style.setProperty('--p',p);
+    if(p<1)rafP=requestAnimationFrame(tick);
+  };
+  if(!reduced){rafP=requestAnimationFrame(tick);
+    autoT=setTimeout(()=>next(),AUTO_MS)}
+}
+function next(){ if(vi<VIG[role].length-1)renderVig(vi+1); else go('cta') }
+function prev(){ if(vi>0)renderVig(vi-1) }
+$('#nextBtn').onclick=()=>next();
+$('#prevBtn').onclick=()=>prev();
+// pause auto on hover over stage
+const swin=$('.swin');
+swin.addEventListener('mouseenter',()=>{if(autoT){clearTimeout(autoT);autoT=null;if(rafP)cancelAnimationFrame(rafP)}});
+swin.addEventListener('mouseleave',()=>{if(scene==='show'&&!autoT&&!reduced){autoStart=performance.now();
+  const cur=$$('#dots button')[vi];
+  const tick=now=>{const p=Math.min(1,(now-autoStart)/AUTO_MS);if(cur)cur.style.setProperty('--p',p);if(p<1)rafP=requestAnimationFrame(tick)};
+  rafP=requestAnimationFrame(tick);autoT=setTimeout(()=>next(),AUTO_MS)}});
+// keys
+addEventListener('keydown',e=>{
+  if(scene==='roles'){if(e.key==='1')setRole('researcher',true);if(e.key==='2')setRole('operator',true)}
+  if(scene==='show'){if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();if(e.key==='Escape')go('cta')}
+});
+// wheel / swipe advance
+let wheelLock=0;
+addEventListener('wheel',e=>{
+  if(scene!=='show'||innerWidth<880)return;
+  const now=Date.now();if(now-wheelLock<900)return;
+  if(e.deltaY>50){wheelLock=now;next()}else if(e.deltaY<-50){wheelLock=now;prev()}
+},{passive:true});
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{
+  if(scene!=='show')return;
+  const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev()}
+},{passive:true});
+/* ================== ROLE CARDS ================== */
+$('#cardResearcher').onclick=()=>setRole('researcher',true);
+$('#cardOperator').onclick=()=>setRole('operator',true);
+$('#roleChip').onclick=()=>{stopAuto();go('roles')};
+$('#replayBtn').onclick=()=>{
+  const other=role==='researcher'?'operator':'researcher';
+  setRole(other,true);
+};
+function stopAuto(){if(autoT){clearTimeout(autoT);autoT=null}if(rafP)cancelAnimationFrame(rafP);clearTimers()}
+/* ================== EASTER EGGS ================== */
+let keyBuf='';
+addEventListener('keydown',e=>{
+  if(e.key.length===1){keyBuf=(keyBuf+e.key.toLowerCase()).slice(-8);
+    if(keyBuf.endsWith('mind')){keyBuf='';document.body.classList.toggle('control-mode');
+      burst(innerWidth/2,innerHeight/2,26);
+      toast(lang==='vi'?'Đã mở chế độ kiểm soát — anh gõ đúng từ khoá':'Control mode unlocked')}}
+});
+let astClicks=0,astTimer;
+$('#brandAst').parentElement.addEventListener('click',e=>{
+  e.preventDefault(); // brand IS this page — reuse the click for the egg
+  if(scene==='boot')return;
+  astClicks++;clearTimeout(astTimer);astTimer=setTimeout(()=>astClicks=0,2600);
+  if(astClicks===7){astClicks=0;
+    burst(e.clientX,e.clientY,30);
+    toast('✱ overdrive — 7 lần click, kiên trì đấy');}
+});
+console.log('%c✱ CONTROL YOUR AI MIND','font-size:24px;font-weight:bold;color:#C15F3C');
+console.log('gõ "mind" ở bất kỳ đâu trên trang. còn một egg nữa ở dấu ✱ trên topbar.');
+/* ================== ENTRY / DEEP LINKS ================== */
+const storedRole=Q.get('role')||null;
+function start(){
+  if(Q.get('scene')==='cta'){role=storedRole||localStorage.getItem('aiMindRole')||'researcher';
+    $('#courseLink').href='./hub.html';$('#ctaCourse').href='./hub.html';go('cta');return}
+  if(storedRole&&VIG[storedRole]){setRole(storedRole,false);
+    const v=parseInt(Q.get('v')||'0',10);
+    if(v>0&&v<VIG[storedRole].length)renderVig(v);
+    return}
+  if(Q.get('skip')==='1'||reduced){go('roles');return}
+  go('boot');runBoot();
+}
+start();
+</script>
+</body>
 </html>

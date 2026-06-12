@@ -10,12 +10,10 @@
 
     var state = {
         activeModule: modules.length ? modules[0].id : '',
-        lang: localStorage.getItem('aiMindLang') || 'en',
+        lang: localStorage.getItem('aiMindLang') || 'vi',
         activeLibraryId: '',
         libraryQuery: '',
-        stage: 'All',
-        type: 'All',
-        tool: 'All',
+        topic: 'All',
         librarySort: 'relevance-desc',
         libraryLimit: 10,
         sourceStatus: 'All'
@@ -27,9 +25,7 @@
     var metrics = document.getElementById('metrics');
     var libraryList = document.getElementById('library-list');
     var librarySearch = document.getElementById('library-search');
-    var stageFilter = document.getElementById('stage-filter');
-    var typeFilter = document.getElementById('type-filter');
-    var toolFilter = document.getElementById('tool-filter');
+    var topicChips = document.getElementById('topic-chips');
     var librarySort = document.getElementById('library-sort');
     var libraryCount = document.getElementById('library-count');
     var libraryInspector = document.getElementById('library-inspector');
@@ -87,8 +83,9 @@
                 '#library-random': 'Random pull',
                 '#closing-title': 'Take back the controls.',
                 '.closing-text': 'Thirteen parts, one manual, and a library that keeps growing. Start from the map, or read the full training manual first.',
-                '.closing-actions .primary-action': 'Start with the map',
-                '.closing-actions .manual-action': 'Read manual',
+                '#closing-enroll': 'Enroll the course',
+                '#closing-manual': 'Read our manual',
+                '#closing-map': 'Start with the map',
                 '#manual-access-title': 'Manual access',
                 '#manual-access-description': 'The complete manual is reserved for enrolled students. Course access is also available by bank transfer.',
                 '#manual-price-label': 'Course access',
@@ -100,39 +97,40 @@
             }
         },
         vi: {
-            metrics: ['phần học', 'mục thư viện', 'nguồn tư liệu', 'chặng workflow', 'repost X đã nhập'],
+            metrics: ['phần học', 'mục thư viện', 'nguồn tư liệu', 'chặng quy trình', 'bài đăng X đã nhập'],
             sourceVisible: ' đang hiển thị trên ',
             sources: ' nguồn',
             outcomes: 'Kết quả học được',
             exercise: 'Bài thực hành',
             openPart: 'Mở phần này',
-            unlocked: 'Đã mở Control mode. Hỏi sắc hơn, kiểm chứng kỹ hơn.',
-            overdriveOn: 'Overdrive bật. Agent quay nhanh hơn — nhớ giữ dây cương.',
-            overdriveOff: 'Overdrive tắt. Quay lại làm việc cẩn thận, kiểm chứng được.',
-            archivist: 'Mở khóa huy hiệu Archivist. Mười con dấu — anh đọc kỹ thật.',
+            unlocked: 'Đã mở chế độ kiểm soát. Hỏi sắc hơn, kiểm chứng kỹ hơn.',
+            overdriveOn: 'Đã bật chế độ tăng tốc. Các tác nhân AI quay nhanh hơn — nhớ giữ quyền kiểm soát.',
+            overdriveOff: 'Đã tắt chế độ tăng tốc. Quay lại làm việc cẩn thận, kiểm chứng được.',
+            archivist: 'Đã mở khóa huy hiệu Lưu trữ. Mười con dấu — anh đọc kỹ thật.',
             randomPull: 'Rút ngẫu nhiên một phiếu từ kho.',
             catalogCard: 'Phiếu thư mục',
             allStatuses: 'Tất cả',
             static: {
                 '#hero-title': 'Control Your AI Mind',
-                '.hero-subtitle': 'Workflow AI agent cho economist và người làm research.',
-                '.hero-text': 'Học cách thiết kế, chạy và kiểm chứng workflow AI agent cho nghiên cứu kinh tế. Xây agent biết đọc, code, truy xuất, phân tích và viết dưới quyền kiểm soát của mình.',
+                '.hero-subtitle': 'Quy trình tác nhân AI cho nhà kinh tế và người làm nghiên cứu.',
+                '.hero-text': 'Học cách thiết kế, vận hành và kiểm chứng quy trình tác nhân AI cho nghiên cứu kinh tế. Xây tác nhân biết đọc, lập trình, truy xuất, phân tích và viết dưới quyền kiểm soát của mình.',
                 '.primary-action': 'Bắt đầu từ bản đồ',
                 '.secondary-action': 'Mở thư viện',
-                '.manual-action': 'Đọc manual',
-                '#manual-title': 'Mười ba bìa Part, một hệ điều hành cho agentic research.',
-                '#principles-title': 'Mindset trước, tool sau.',
-                '#course-title': 'Lộ trình từ người dùng prompt thành người điều khiển agent nghiên cứu.',
-                '#labs-title': 'Artifact thật, <em>ship thật</em> bằng agent workflow.',
-                '#library-title': 'Pattern, template và tool <em>đáng thử nghiệm</em>.',
-                '#sources-title': 'Backlog <em>nguồn tư liệu</em> cho kho kiến thức khóa học.',
+                '.manual-action': 'Đọc giáo trình',
+                '#manual-title': 'Mười ba phần, một hệ điều hành cho nghiên cứu với tác nhân AI.',
+                '#principles-title': 'Tư duy trước, công cụ sau.',
+                '#course-title': 'Lộ trình từ người viết yêu cầu thành người điều khiển tác nhân nghiên cứu.',
+                '#labs-title': 'Sản phẩm thật, <em>được hoàn thiện</em> bằng quy trình tác nhân AI.',
+                '#library-title': 'Mẫu, khuôn và công cụ <em>đáng thử nghiệm</em>.',
+                '#sources-title': 'Danh sách chờ <em>nguồn tư liệu</em> cho kho kiến thức khóa học.',
                 '#library-random': 'Rút ngẫu nhiên',
                 '#closing-title': 'Giành lại quyền điều khiển.',
-                '.closing-text': 'Mười ba phần, một manual, và một thư viện vẫn đang lớn dần. Bắt đầu từ bản đồ, hoặc đọc trọn bộ training manual trước.',
-                '.closing-actions .primary-action': 'Bắt đầu từ bản đồ',
-                '.closing-actions .manual-action': 'Đọc manual',
-                '#manual-access-title': 'Quyền truy cập manual',
-                '#manual-access-description': 'Bản manual đầy đủ chỉ dành cho học viên tham gia khóa học. Anh cũng có thể đăng ký quyền truy cập bằng chuyển khoản.',
+                '.closing-text': 'Mười ba phần, một giáo trình và một thư viện vẫn đang lớn dần. Bắt đầu từ bản đồ hoặc đọc trọn bộ giáo trình trước.',
+                '#closing-enroll': 'Đăng ký khoá học',
+                '#closing-manual': 'Đọc giáo trình của khoá',
+                '#closing-map': 'Bắt đầu từ bản đồ',
+                '#manual-access-title': 'Quyền truy cập giáo trình',
+                '#manual-access-description': 'Bản giáo trình đầy đủ chỉ dành cho học viên tham gia khóa học. Anh cũng có thể đăng ký quyền truy cập bằng chuyển khoản.',
                 '#manual-price-label': 'Phí tham gia khóa học',
                 '#manual-bank-label': 'Ngân hàng',
                 '#manual-account-label': 'Số tài khoản',
@@ -143,11 +141,123 @@
         }
     };
 
+    var staticText = {
+        'Intro': 'Giới thiệu', 'Home': 'Trang chủ', 'Course': 'Khoá học', 'Library': 'Thư viện', 'Studio': 'Mô phỏng', 'Theme': 'Giao diện',
+        'curated by': 'biên soạn bởi', 'Agentic workflows for economists and research people.': 'Quy trình tác nhân AI cho nhà kinh tế và người làm nghiên cứu.',
+        'For economists, researchers, and policy minds': 'Dành cho nhà kinh tế, nhà nghiên cứu và người làm chính sách',
+        'Applied economists': 'Nhà kinh tế ứng dụng', 'Research assistants': 'Trợ lý nghiên cứu', 'PhD applicants': 'Ứng viên tiến sĩ', 'Policy researchers': 'Nhà nghiên cứu chính sách',
+        'Context': 'Ngữ cảnh', 'Define the problem': 'Xác định vấn đề', 'Gather background': 'Thu thập bối cảnh', 'Set constraints': 'Đặt ràng buộc',
+        'Memory': 'Trí nhớ', 'Store & retrieve': 'Lưu và truy xuất', 'Version knowledge': 'Quản lý phiên bản tri thức', 'Long-term recall': 'Ghi nhớ dài hạn',
+        'Verification': 'Kiểm chứng', 'Check results': 'Kiểm tra kết quả', 'Robustness tests': 'Kiểm tra độ vững', 'Reproducibility': 'Khả năng tái lập',
+        'Research': 'Nghiên cứu', 'Explore & analyze': 'Khám phá và phân tích', 'Write & visualize': 'Viết và trực quan hoá', 'Publish & iterate': 'Công bố và cải tiến',
+        'Tools': 'Công cụ', 'Code & compute': 'Lập trình và tính toán', 'Data access': 'Truy cập dữ liệu', 'External APIs': 'API bên ngoài',
+        'Skills': 'Kỹ năng', 'Methods & models': 'Phương pháp và mô hình', 'Prompting patterns': 'Mẫu giao việc', 'Evaluation skills': 'Kỹ năng đánh giá',
+        'Context engineering': 'Thiết kế ngữ cảnh', 'Agent contracts': 'Bản giao việc cho tác nhân AI', 'Wiki memory': 'Trí nhớ wiki', 'Skills as workflows': 'Kỹ năng dưới dạng quy trình',
+        'O-ring verification': 'Kiểm chứng theo chuỗi O-ring', 'Source to dataset': 'Từ nguồn đến bộ dữ liệu', "Delegate, don't abdicate": 'Giao việc nhưng không buông trách nhiệm',
+        'Course map': 'Bản đồ khoá học', 'A step-by-step path from foundations to research impact.': 'Lộ trình từng bước từ nền tảng đến tác động nghiên cứu.', 'View full course': 'Xem toàn bộ khoá học',
+        'Control': 'Kiểm soát', 'Delegate work without outsourcing understanding.': 'Giao việc nhưng không giao mất hiểu biết.', 'Setup': 'Cài đặt', 'Instructions, permissions, sandboxes, and logs.': 'Chỉ dẫn, quyền truy cập, vùng cách ly và nhật ký.',
+        'Contracts': 'Bản giao việc', 'Turn research requests into checkable tasks.': 'Biến yêu cầu nghiên cứu thành đầu việc có thể kiểm tra.', 'Data': 'Dữ liệu', 'Move from source to figure to structured database.': 'Đi từ nguồn tới biểu đồ và cơ sở dữ liệu có cấu trúc.',
+        'Writing': 'Viết', 'Use AI to clarify claims, not hide weak evidence.': 'Dùng AI để làm rõ luận điểm, không che giấu bằng chứng yếu.', 'Build O-ring checks before publishing outputs.': 'Dựng chuỗi kiểm tra O-ring trước khi công bố kết quả.',
+        'Search lessons, guides, templates, and datasets.': 'Tìm bài học, hướng dẫn, khuôn mẫu và bộ dữ liệu.', 'Search by topic, tool, method, or keyword...': 'Tìm theo chủ đề, công cụ, phương pháp hoặc từ khoá...',
+        'Title': 'Tiêu đề', 'Type': 'Loại', 'Topic': 'Chủ đề', 'Level': 'Mức độ', 'Core': 'Cốt lõi', 'Applied': 'Ứng dụng', 'Series': 'Chuỗi', 'Advanced': 'Nâng cao',
+        'Operating frame': 'Khung vận hành', 'Applied labs': 'Bài thực hành ứng dụng', 'Skill library': 'Thư viện kỹ năng', 'Search': 'Tìm kiếm', 'Sort': 'Sắp xếp',
+        'Relevance': 'Độ liên quan', 'Newest': 'Mới nhất', 'Title A-Z': 'Tiêu đề A-Z', 'Engagement': 'Tương tác', 'Loading library...': 'Đang tải thư viện...',
+        'Open full X Repost Atlas': 'Mở toàn bộ bản đồ bài đăng X', 'Begin': 'Bắt đầu', 'psst — type': 'gợi ý — hãy gõ', 'anywhere.': 'ở bất kỳ đâu.',
+        'Enroll the course': 'Đăng ký khoá học', 'Read our manual': 'Đọc giáo trình', 'Start with the map': 'Bắt đầu từ bản đồ', 'Open library': 'Mở thư viện', 'Read manual': 'Đọc giáo trình',
+        'Course access': 'Quyền truy cập khoá học', 'Bank': 'Ngân hàng', 'Account number': 'Số tài khoản', 'Account holder': 'Chủ tài khoản', 'Close': 'Đóng',
+        'Map · Live': 'Bản đồ · Trực tuyến', 'Dashboard · Live': 'Bảng điều khiển · Trực tuyến', 'Tracker · Live': 'Theo dõi · Trực tuyến', 'Library · Live': 'Thư viện · Trực tuyến', 'App · Internal': 'Ứng dụng · Nội bộ', 'Map · Internal': 'Bản đồ · Nội bộ',
+        'Vietnam Grid Atlas': 'Bản đồ Lưới điện Việt Nam', 'X Repost Atlas': 'Bản đồ Bài đăng X', 'Research Experts I Follow': 'Chuyên gia nghiên cứu tôi theo dõi',
+        'Bookshelf': 'Giá sách', 'Tax Simulation': 'Mô phỏng thuế', 'Tobacco Mapping 2025': 'Bản đồ thuốc lá 2025',
+        "Map-first atlas of Vietnam's power system: plants, transmission backbone, substations, and data centers — built source-to-GeoJSON with agent pipelines.": 'Bản đồ hệ thống điện Việt Nam gồm nhà máy, lưới truyền tải, trạm biến áp và trung tâm dữ liệu — được xây từ nguồn đến GeoJSON bằng quy trình tác nhân AI.',
+        '158 reposts crawled from X and normalized into a research-lead dashboard: topics, credibility, priority, and follow-up status.': '158 bài đăng lại từ X được thu thập và chuẩn hoá thành bảng đầu mối nghiên cứu: chủ đề, độ tin cậy, ưu tiên và trạng thái theo dõi.',
+        'A galaxy-style tracker of 70 researchers across 15 fields, with profiles, selected work, and field filters.': 'Bản theo dõi dạng thiên hà gồm 70 nhà nghiên cứu thuộc 15 lĩnh vực, kèm hồ sơ, công trình chọn lọc và bộ lọc lĩnh vực.',
+        "A reading shelf for the past year's books and papers — including a 50-paper SEZ literature spine with notes and ratings.": 'Giá sách cho các sách và bài nghiên cứu trong năm qua — gồm một trục văn liệu 50 bài về đặc khu kinh tế, kèm ghi chú và đánh giá.',
+        'Five-year tobacco-tax scenario builder for DEPOCEN: consumption, retail price, revenue, prevalence, and mortality under each policy path.': 'Công cụ dựng kịch bản thuế thuốc lá 5 năm cho DEPOCEN: tiêu dùng, giá bán lẻ, thu ngân sách, tỷ lệ hút và tử vong theo từng phương án chính sách.',
+        'Retail mapping across Hanoi and HCMC: store locations, brand availability, prices, and outlet characteristics for field teams.': 'Bản đồ bán lẻ tại Hà Nội và TP.HCM: vị trí cửa hàng, nhãn hiệu, giá và đặc điểm điểm bán cho nhóm thực địa.'
+    };
+
+    var viTerms = [
+        [/\bAI agents?\b/gi, 'tác nhân AI'], [/\bagents?\b/gi, 'tác nhân AI'], [/\bworkflow(s)?\b/gi, 'quy trình'], [/\bworkspace\b/gi, 'không gian làm việc'],
+        [/\bprompt(s)?\b/gi, 'yêu cầu'], [/\btools?\b/gi, 'công cụ'], [/\bpermissions?\b/gi, 'quyền truy cập'], [/\bmemory\b/gi, 'trí nhớ'], [/\bskills?\b/gi, 'kỹ năng'],
+        [/\bclaims?\b/gi, 'luận điểm'], [/\bevidence\b/gi, 'bằng chứng'], [/\boutputs?\b/gi, 'đầu ra'], [/\binputs?\b/gi, 'đầu vào'], [/\bverification\b/gi, 'kiểm chứng'],
+        [/\bsetup\b/gi, 'cài đặt'], [/\bsandboxes?\b/gi, 'vùng cách ly'], [/\blog(s)?\b/gi, 'nhật ký'], [/\bfiles?\b/gi, 'tệp'], [/\bsource(s)?\b/gi, 'nguồn'],
+        [/\btask(s)?\b/gi, 'đầu việc'], [/\bowner(s)?\b/gi, 'người phụ trách'], [/\bdeadline(s)?\b/gi, 'hạn xử lý'], [/\breview\b/gi, 'rà soát'], [/\bwriting\b/gi, 'viết'],
+        [/\bautomation\b/gi, 'tự động hoá'], [/\bcheckpoint(s)?\b/gi, 'điểm dừng'], [/\bconnector(s)?\b/gi, 'kết nối'], [/\bcase stud(y|ies)\b/gi, 'tình huống nghiên cứu'],
+        [/\bartifact(s)?\b/gi, 'sản phẩm'], [/\bpublic\b/gi, 'công khai'], [/\bprivate\b/gi, 'riêng tư'], [/\bresult(s)?\b/gi, 'kết quả'], [/\bdata\b/gi, 'dữ liệu']
+    ];
+
+    var viPhrases = {
+        'Economics task contract': 'Bản giao việc nghiên cứu kinh tế',
+        'A compact prompt contract for empirical tasks: data, sample, output, assumptions, checks, and non-goals.': 'Bản giao việc ngắn gọn cho nghiên cứu thực nghiệm, gồm dữ liệu, mẫu, đầu ra, giả định, bước kiểm tra và phần không thực hiện.',
+        'AGENTS.md project instructions': 'Chỉ dẫn dự án trong AGENTS.md',
+        'Project-level instructions that tell coding agents how to work inside a repo, what to verify, and what not to touch.': 'Chỉ dẫn cấp dự án cho tác nhân lập trình: cách làm việc trong kho mã, phần phải kiểm chứng và phần không được chạm tới.',
+        'Codex skills': 'Kỹ năng Codex',
+        'Reusable local procedures for recurring tasks such as literature review, Stata auditing, frontend QA, or citation checks.': 'Quy trình cục bộ có thể tái sử dụng cho các việc lặp lại như tổng quan văn liệu, rà soát Stata, kiểm thử giao diện và kiểm tra trích dẫn.',
+        'Claude memory and CLAUDE.md': 'Trí nhớ Claude và CLAUDE.md',
+        'A reference pattern for hierarchical memory files and project instructions.': 'Mẫu tham khảo cho hệ thống tệp trí nhớ phân cấp và chỉ dẫn dự án.',
+        'Context engineering for agents': 'Thiết kế ngữ cảnh cho tác nhân AI',
+        'A framing for treating context as a designed system rather than dumping files into a prompt.': 'Cách tiếp cận coi ngữ cảnh là một hệ thống cần thiết kế, thay vì đổ hàng loạt tệp vào yêu cầu.',
+        'AI Research Skills Library': 'Thư viện kỹ năng nghiên cứu AI',
+        'A public skill collection aimed at research workflows and reusable agent behavior.': 'Bộ kỹ năng công khai dành cho quy trình nghiên cứu và hành vi tác nhân có thể tái sử dụng.',
+        'Mental models and critical-thinking routines for agents: first principles, Bayesian thinking, systems thinking, OODA, and premortems.': 'Mô hình tư duy và quy trình phản biện cho tác nhân AI: nguyên lý đầu tiên, tư duy Bayes, tư duy hệ thống, OODA và phân tích thất bại trước.',
+        'Obsidian second brain skill': 'Kỹ năng bộ não thứ hai trên Obsidian',
+        'Cross-CLI skill for turning an Obsidian vault into an AI-first second brain across coding agents.': 'Kỹ năng dùng trên nhiều công cụ dòng lệnh để biến kho Obsidian thành bộ não thứ hai ưu tiên AI cho các tác nhân lập trình.',
+        'Search, scrape, and convert web pages into agent-usable source material at scale.': 'Tìm kiếm, thu thập và chuyển trang web thành tư liệu mà tác nhân AI có thể sử dụng ở quy mô lớn.',
+        'Open-source AI memory system that can act as an external retrieval layer when memory must be queryable.': 'Hệ thống trí nhớ AI mã nguồn mở, đóng vai trò lớp truy xuất bên ngoài khi cần tìm kiếm lại trí nhớ.',
+        'Markdown-only skills for autonomous research loops, idea discovery, review, and experiment automation.': 'Bộ kỹ năng chỉ dùng Markdown cho vòng lặp nghiên cứu tự động, khám phá ý tưởng, rà soát và tự động hoá thí nghiệm.',
+        'Compresses tool outputs, logs, files, and RAG chunks before they reach the model.': 'Nén đầu ra công cụ, nhật ký, tệp và các đoạn RAG trước khi chúng được đưa vào mô hình.',
+        'Claude Code for Applied Economists': 'Claude Code cho nhà kinh tế ứng dụng',
+        "Paul Goldsmith-Pinkham's economist-facing sequence: setup, empty folder to figure, web/EDGAR scraping, structured databases, writing, skills, and sandboxes.": 'Chuỗi hướng dẫn của Paul Goldsmith-Pinkham cho nhà kinh tế: cài đặt, đi từ thư mục trống đến biểu đồ, thu thập web/EDGAR, cơ sở dữ liệu có cấu trúc, viết, kỹ năng và vùng cách ly.',
+        'AI Agents for Economics Research': 'Tác nhân AI cho nghiên cứu kinh tế',
+        "Aniket Panjwani's practical framing for literature review, coding, data work, replication, writing, and slides with budget-aware agent workflows.": 'Khung thực hành của Aniket Panjwani cho tổng quan văn liệu, lập trình, xử lý dữ liệu, tái lập, viết và làm slide bằng quy trình tác nhân có kiểm soát ngân sách.',
+        "Chris Blattman's applied workflow library for schedules, communication, project management, deep research, plan review, and CLAUDE.md setup.": 'Thư viện quy trình thực hành của Chris Blattman cho lịch làm việc, giao tiếp, quản lý dự án, nghiên cứu sâu, rà soát kế hoạch và thiết lập CLAUDE.md.',
+        'Claude Code for quantitative social scientists': 'Claude Code cho nhà khoa học xã hội định lượng',
+        "Scott Cunningham's running Claude Code field notes, with emphasis on checklists, applied econometrics, AI disclosure, and research production.": 'Ghi chép thực địa liên tục của Scott Cunningham về Claude Code, nhấn mạnh danh sách kiểm tra, kinh tế lượng ứng dụng, công bố việc dùng AI và quy trình sản xuất nghiên cứu.',
+        "Pedro Sant'Anna Claude Code workflow": "Quy trình Claude Code của Pedro Sant'Anna",
+        'A production-grade academic template for papers, slides, data analysis, replication packages, multi-agent review, and quality gates.': 'Mẫu học thuật sẵn sàng cho sản xuất, bao gồm bài nghiên cứu, slide, phân tích dữ liệu, gói tái lập, rà soát đa tác nhân và cổng kiểm định chất lượng.',
+        'A collaborative AI workflow for producing statistical software in R, Python, C++, Julia, and Stata from natural language.': 'Quy trình AI cộng tác để xây phần mềm thống kê bằng R, Python, C++, Julia và Stata từ ngôn ngữ tự nhiên.',
+        'Empirical Work in the Age of AI': 'Nghiên cứu thực nghiệm trong thời đại AI',
+        'Stanford IRiSS panel on how AI is changing empirical work and what social scientists should treat as durable judgment versus automatable work.': 'Tọa đàm Stanford IRiSS về cách AI thay đổi nghiên cứu thực nghiệm và phần nào cần giữ lại như phán đoán chuyên môn, phần nào có thể tự động hoá.',
+        'Andrej Karpathy: English as programming language': 'Andrej Karpathy: tiếng Anh như một ngôn ngữ lập trình',
+        'Useful north-star framing: natural language is now part of the control surface, but understanding remains non-transferable.': 'Một định hướng hữu ích: ngôn ngữ tự nhiên đã trở thành một phần của bảng điều khiển, nhưng sự thấu hiểu vẫn không thể chuyển giao.',
+        'Template': 'Khuôn mẫu', 'Guide': 'Hướng dẫn', 'Library': 'Thư viện', 'GitHub repo': 'Kho mã GitHub',
+        'Starred repo': 'Kho mã đã đánh dấu', 'X repost': 'Bài đăng X được tuyển chọn',
+        'Course series': 'Chuỗi khoá học', 'Webinar/tutorial': 'Hội thảo và hướng dẫn', 'Workflow library': 'Thư viện quy trình',
+        'Substack series': 'Chuỗi bài Substack', 'Research system': 'Hệ thống nghiên cứu', 'Panel video': 'Video tọa đàm', 'Mindset reference': 'Tư liệu tư duy',
+        'Mindset': 'Tư duy', 'Sources': 'Nguồn tư liệu', 'System': 'Hệ thống', 'Context': 'Ngữ cảnh', 'Research': 'Nghiên cứu',
+        'Any agent': 'Mọi tác nhân AI', 'General': 'Dùng chung', 'Cross-agent': 'Đa tác nhân', 'Web extraction': 'Thu thập web', 'General AI': 'AI dùng chung',
+        'Economists': 'Nhà kinh tế', 'Researchers who code': 'Nhà nghiên cứu có lập trình', 'Workflow builders': 'Người xây quy trình',
+        'Agent power users': 'Người dùng tác nhân AI chuyên sâu', 'Agent designers': 'Người thiết kế tác nhân AI', 'Researchers': 'Nhà nghiên cứu',
+        'Agent operators': 'Người vận hành tác nhân AI', 'Knowledge workers': 'Người lao động tri thức', 'Source collectors': 'Người thu thập nguồn',
+        'Long-running agent users': 'Người dùng tác nhân AI dài hạn', 'Research automation users': 'Người dùng tự động hoá nghiên cứu',
+        'Long-context users': 'Người dùng ngữ cảnh dài', 'Applied economists': 'Nhà kinh tế ứng dụng', 'Academic researchers': 'Nhà nghiên cứu học thuật',
+        'Social scientists': 'Nhà khoa học xã hội', 'Quantitative social scientists': 'Nhà khoa học xã hội định lượng',
+        'Professionals who do not code': 'Người làm chuyên môn không lập trình', 'Statistical software builders': 'Người xây phần mềm thống kê'
+    };
+
+    function localizeVi(value) {
+        var result = String(value || '');
+        if (viPhrases[result]) return viPhrases[result];
+        viTerms.forEach(function(pair) { result = result.replace(pair[0], pair[1]); });
+        return result;
+    }
+
+    function displayStatus(value) {
+        if (state.lang !== 'vi') return value || '';
+        var map = {
+            'All': 'Tất cả', 'New': 'Mới', 'Seeded': 'Đã đưa vào', 'Crawled': 'Đã thu thập', 'Candidate': 'Ứng viên',
+            'Integrated live': 'Đã tích hợp trực tuyến', 'Partially seeded': 'Đã đưa vào một phần', 'Personal curation': 'Tuyển chọn cá nhân',
+            'Primary source': 'Nguồn sơ cấp', 'Educational source': 'Nguồn giáo dục', 'Academic tool project': 'Dự án công cụ học thuật',
+            'Economist primary source': 'Nguồn sơ cấp từ nhà kinh tế', 'Practitioner source': 'Nguồn thực hành', 'Academic source': 'Nguồn học thuật'
+        };
+        return map[value] || localizeVi(value);
+    }
+
     function textOf(value) {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
             return value[state.lang] || value.en || value.vi || '';
         }
-        return value || '';
+        return state.lang === 'vi' ? localizeVi(value) : (value || '');
     }
 
     function importXReposts() {
@@ -269,7 +379,7 @@
     function formatDate(value) {
         var timestamp = dateValue(value);
         if (!timestamp) return 'No date';
-        return new Date(timestamp).toLocaleDateString(undefined, {
+        return new Date(timestamp).toLocaleDateString(state.lang === 'vi' ? 'vi-VN' : 'en-US', {
             year: 'numeric',
             month: 'short',
             day: 'numeric'
@@ -316,15 +426,6 @@
         return Object.keys(seen).sort();
     }
 
-    function fillSelect(select, values) {
-        values.forEach(function(value) {
-            var option = document.createElement('option');
-            option.value = value;
-            option.textContent = value;
-            select.appendChild(option);
-        });
-    }
-
     function renderMetrics() {
         var stages = uniqueValues(allLibrary.concat(modules), 'stage').length;
         var xCount = importedSources.length;
@@ -348,8 +449,8 @@
                 '<article class="principle">',
                     '<span>' + String(index + 1).padStart(2, '0') + '</span>',
                     '<div>',
-                        '<h3>' + escapeHtml(item.title) + '</h3>',
-                        '<p>' + escapeHtml(item.text) + '</p>',
+                        '<h3>' + escapeHtml(textOf(item.title)) + '</h3>',
+                        '<p>' + escapeHtml(textOf(item.text)) + '</p>',
                     '</div>',
                 '</article>'
             ].join('');
@@ -402,7 +503,7 @@
                 '<article class="part-card" data-module-id="' + escapeHtml(module.id) + '">',
                     '<img src="' + escapeHtml(module.image || '') + '" alt="">',
                     '<div>',
-                        '<span>Part ' + index + '</span>',
+                        '<span>' + (state.lang === 'vi' ? 'Phần ' : 'Part ') + index + '</span>',
                         '<h3>' + escapeHtml(textOf(module.title)) + '</h3>',
                         '<p>' + escapeHtml(textOf(module.stage)) + '</p>',
                     '</div>',
@@ -413,40 +514,82 @@
 
     function libraryBlob(row) {
         return [
-            row.title,
-            row.type,
-            row.stage,
-            row.tool,
-            row.audience,
-            row.summary,
-            row.author,
-            row.sourceType,
-            row.credibility,
-            row.relevance,
-            (row.tags || []).join(' ')
+            textOf(row.title),
+            textOf(row.type),
+            textOf(row.stage),
+            textOf(row.tool),
+            textOf(row.audience),
+            textOf(row.summary),
+            textOf(row.author),
+            textOf(row.sourceType),
+            textOf(row.credibility),
+            textOf(row.relevance),
+            (row.tags || []).map(textOf).join(' ')
         ].join(' ').toLowerCase();
+    }
+
+    var LIBRARY_TOPICS = [
+        { key: 'Data', label: { en: 'Data', vi: 'Dữ liệu' }, test: /\bdata|dataset|stata\b|econometric|regression|panel|survey|statistic|spreadsheet|database/ },
+        { key: 'Skills', label: { en: 'Skills', vi: 'Kỹ năng' }, test: /skill|template|checklist|playbook|prompt|workflow/ },
+        { key: 'Crawling', label: { en: 'Crawling', vi: 'Thu thập web' }, test: /crawl|scrap|extract|harvest|spider|firecrawl|web data|source-to/ },
+        { key: 'Agents', label: { en: 'Agents & tools', vi: 'Tác nhân AI và công cụ' }, test: /agent|claude|codex|mcp\b|gpt|llm|gemini|copilot|automation|\bcli\b/ },
+        { key: 'Memory', label: { en: 'Memory & notes', vi: 'Trí nhớ và ghi chú' }, test: /memor|obsidian|wiki|second brain|knowledge base|note|zotero|context/ },
+        { key: 'Writing', label: { en: 'Writing', vi: 'Viết' }, test: /writ|paper|latex|draft|citation|\bcite\b|abstract|journal/ },
+        { key: 'Verification', label: { en: 'Verification', vi: 'Kiểm chứng' }, test: /verif|audit|reproduc|causal|robust|check/ }
+    ];
+
+    function rowTopics(row) {
+        if (!row._topics) {
+            var blob = libraryBlob(row);
+            row._topics = LIBRARY_TOPICS.filter(function(topic) {
+                return topic.test.test(blob);
+            }).map(function(topic) {
+                return topic.key;
+            });
+        }
+        return row._topics;
+    }
+
+    function renderTopicChips() {
+        if (!topicChips) return;
+        var counts = {};
+        allLibrary.forEach(function(row) {
+            rowTopics(row).forEach(function(key) {
+                counts[key] = (counts[key] || 0) + 1;
+            });
+        });
+        var chips = ['<button class="topic-chip' + (state.topic === 'All' ? ' active' : '') + '" type="button" data-topic-filter="All">' + escapeHtml(copy[state.lang].allStatuses) + ' <i>' + allLibrary.length + '</i></button>'];
+        LIBRARY_TOPICS.forEach(function(topic) {
+            if (!counts[topic.key]) return;
+            var active = state.topic === topic.key ? ' active' : '';
+            chips.push('<button class="topic-chip' + active + '" type="button" data-topic-filter="' + escapeHtml(topic.key) + '">' + escapeHtml(topic.label[state.lang] || topic.label.en) + ' <i>' + counts[topic.key] + '</i></button>');
+        });
+        topicChips.innerHTML = chips.join('');
     }
 
     function filteredLibrary() {
         var query = state.libraryQuery.trim().toLowerCase();
         return allLibrary.filter(function(row) {
-            if (state.stage !== 'All' && textOf(row.stage) !== state.stage) return false;
-            if (state.type !== 'All' && row.type !== state.type) return false;
-            if (state.tool !== 'All' && row.tool !== state.tool) return false;
+            if (state.topic !== 'All' && rowTopics(row).indexOf(state.topic) === -1) return false;
             return !query || libraryBlob(row).indexOf(query) !== -1;
         }).sort(function(a, b) {
             if (state.librarySort === 'date-desc') return dateValue(b.date) - dateValue(a.date);
-            if (state.librarySort === 'title-asc') return String(a.title).localeCompare(String(b.title));
+            if (state.librarySort === 'title-asc') return textOf(a.title).localeCompare(textOf(b.title));
             if (state.librarySort === 'engagement-desc') return (b.stats.engagement || 0) - (a.stats.engagement || 0);
             return libraryScore(b) - libraryScore(a) || dateValue(b.date) - dateValue(a.date);
         });
     }
 
     function libraryScore(row) {
-        var stageBoost = ['X repost', 'Course series', 'Guide', 'GitHub repo', 'Workflow library'].indexOf(row.type) >= 0 ? 2 : 1;
+        var rawType = row.type && typeof row.type === 'object' ? row.type.en : row.type;
+        var stageBoost = ['X repost', 'Course series', 'Guide', 'GitHub repo', 'Workflow library'].indexOf(rawType) >= 0 ? 2 : 1;
         var engagement = Math.min(8, Math.log10((row.stats.engagement || 0) + 1));
         var seeded = row.sourceType === 'X repost' ? 0 : 3;
         return seeded + stageBoost + engagement;
+    }
+
+    function isImportedLibraryRow(row) {
+        return /^(x|gh)-/.test(String(row.id || '')) || Boolean(row.sourceUrl);
     }
 
     function renderLibrary() {
@@ -457,23 +600,26 @@
             libraryCount.textContent = (state.lang === 'vi' ? 'Đang hiện ' : 'Showing ') + visibleRows.length + (state.lang === 'vi' ? ' trên ' : ' of ') + rows.length + (state.lang === 'vi' ? ' kết quả' : ' results');
         }
         if (!rows.length) {
-            libraryList.innerHTML = '<p class="empty-state">No library records match these filters.</p>';
+            libraryList.innerHTML = '<p class="empty-state">' + (state.lang === 'vi' ? 'Không có mục thư viện nào khớp bộ lọc.' : 'No library records match these filters.') + '</p>';
             renderLibraryInspector(null);
             return;
         }
         libraryList.innerHTML = visibleRows.map(function(row, index) {
             var activeClass = row.id === state.activeLibraryId ? ' active' : '';
             var delay = Math.min(index, 8) * 45;
+            var isImported = isImportedLibraryRow(row);
+            var visibleTitle = textOf(row.title);
+            var visibleSummary = state.lang === 'vi' && isImported ? 'Đầu mối tư liệu đã được tuyển chọn. Mở nguồn gốc để đọc nội dung đầy đủ và tự kiểm chứng.' : textOf(row.summary);
             return [
                 '<button class="library-row' + activeClass + '" type="button" data-library-id="' + escapeHtml(row.id) + '" style="animation-delay:' + delay + 'ms">',
                     '<span class="row-index">' + String(index + 1).padStart(2, '0') + '</span>',
                     '<span class="row-main">',
-                        '<span class="row-meta">' + escapeHtml(textOf(row.stage)) + ' · ' + escapeHtml(row.type) + ' · ' + escapeHtml(formatDate(row.date)) + '</span>',
-                        '<h3>' + escapeHtml(row.title) + '</h3>',
-                        '<p>' + escapeHtml(row.summary) + '</p>',
+                        '<span class="row-meta">' + escapeHtml(textOf(row.stage)) + ' · ' + escapeHtml(textOf(row.type)) + ' · ' + escapeHtml(formatDate(row.date)) + '</span>',
+                        '<h3>' + escapeHtml(visibleTitle) + '</h3>',
+                        '<p>' + escapeHtml(visibleSummary) + '</p>',
                     '</span>',
                     '<span class="row-end">',
-                        '<span class="row-tool">' + escapeHtml(row.tool) + '</span>',
+                        '<span class="row-tool">' + escapeHtml(textOf(row.tool)) + '</span>',
                         '<span class="row-arrow" aria-hidden="true">&rarr;</span>',
                     '</span>',
                 '</button>'
@@ -504,33 +650,36 @@
         if (!row) {
             libraryInspector.innerHTML = [
                 '<div class="empty-inspector">',
-                    '<p>No library item selected.</p>',
-                    '<span>Use search or loosen filters.</span>',
+                    '<p>' + (state.lang === 'vi' ? 'Chưa chọn mục thư viện.' : 'No library item selected.') + '</p>',
+                    '<span>' + (state.lang === 'vi' ? 'Hãy tìm kiếm hoặc nới bộ lọc.' : 'Use search or loosen filters.') + '</span>',
                 '</div>'
             ].join('');
             return;
         }
         var stats = row.stats || {};
-        var link = row.url ? '<a class="detail-link" href="' + escapeHtml(row.url) + '" target="_blank" rel="noreferrer">Open source</a>' : '<span class="detail-link muted-link">No source link</span>';
-        var repostLink = row.sourceUrl ? '<a class="detail-link" href="' + escapeHtml(row.sourceUrl) + '" target="_blank" rel="noreferrer">My repost</a>' : '';
+        var isImported = isImportedLibraryRow(row);
+        var visibleTitle = textOf(row.title);
+        var visibleSummary = state.lang === 'vi' && isImported ? 'Đầu mối tư liệu đã được tuyển chọn. Mở bài gốc, kiểm tra tài liệu liên kết rồi mới quyết định cách sử dụng.' : textOf(row.summary);
+        var link = row.url ? '<a class="detail-link" href="' + escapeHtml(row.url) + '" target="_blank" rel="noreferrer">' + (state.lang === 'vi' ? 'Mở nguồn' : 'Open source') + '</a>' : '<span class="detail-link muted-link">' + (state.lang === 'vi' ? 'Không có liên kết nguồn' : 'No source link') + '</span>';
+        var repostLink = row.sourceUrl ? '<a class="detail-link" href="' + escapeHtml(row.sourceUrl) + '" target="_blank" rel="noreferrer">' + (state.lang === 'vi' ? 'Bài tôi đăng lại' : 'My repost') + '</a>' : '';
         libraryInspector.innerHTML = [
             '<div class="catalog-card" key="' + escapeHtml(row.id) + '">',
-                '<p class="card-rule"><span>' + escapeHtml(copy[state.lang].catalogCard) + '</span><span>' + escapeHtml(row.sourceType) + ' · ' + escapeHtml(formatDate(row.date)) + '</span></p>',
-                '<h3>' + escapeHtml(row.title) + '</h3>',
-                '<p class="detail-author">' + escapeHtml(row.author) + ' · ' + escapeHtml(row.credibility) + '</p>',
-                '<p class="card-summary">' + escapeHtml(row.summary) + '</p>',
+                '<p class="card-rule"><span>' + escapeHtml(copy[state.lang].catalogCard) + '</span><span>' + escapeHtml(textOf(row.sourceType)) + ' · ' + escapeHtml(formatDate(row.date)) + '</span></p>',
+                '<h3>' + escapeHtml(visibleTitle) + '</h3>',
+                '<p class="detail-author">' + escapeHtml(textOf(row.author)) + ' · ' + escapeHtml(textOf(row.credibility)) + '</p>',
+                '<p class="card-summary">' + escapeHtml(visibleSummary) + '</p>',
                 '<div class="detail-links">' + link + repostLink + '</div>',
                 '<dl class="card-stats">',
-                    statCell('Views', compactNumber(stats.views)),
-                    statCell('Likes', compactNumber(stats.likes)),
-                    statCell('Reposts', compactNumber(stats.reposts)),
-                    statCell('Replies', compactNumber(stats.replies)),
+                    statCell(state.lang === 'vi' ? 'Lượt xem' : 'Views', compactNumber(stats.views)),
+                    statCell(state.lang === 'vi' ? 'Lượt thích' : 'Likes', compactNumber(stats.likes)),
+                    statCell(state.lang === 'vi' ? 'Đăng lại' : 'Reposts', compactNumber(stats.reposts)),
+                    statCell(state.lang === 'vi' ? 'Phản hồi' : 'Replies', compactNumber(stats.replies)),
                 '</dl>',
-                '<h4>Why it matters</h4>',
-                '<p>' + escapeHtml(row.relevance || row.audience || 'Course material') + '</p>',
-                '<h4>How to use it</h4>',
-                '<p>' + escapeHtml(row.type === 'X repost' ? 'Treat this as a lead. Open the original post, inspect the linked material, then decide whether it becomes a source, skill, case study, or archive item.' : 'Use this as a course source. Extract the workflow pattern, cite the original link, and convert reusable steps into skills or assignments.') + '</p>',
-                '<div class="tag-row">' + (row.tags || []).slice(0, 10).map(function(tag) { return '<span>' + escapeHtml(tag) + '</span>'; }).join('') + '</div>',
+                '<h4>' + (state.lang === 'vi' ? 'Vì sao quan trọng' : 'Why it matters') + '</h4>',
+                '<p>' + escapeHtml(state.lang === 'vi' && isImported ? 'Nguồn này có thể gợi ý công cụ, kỹ năng hoặc quy trình cho khoá học; cần đọc nguồn gốc trước khi sử dụng.' : textOf(row.relevance || row.audience || (state.lang === 'vi' ? 'Tư liệu khoá học' : 'Course material'))) + '</p>',
+                '<h4>' + (state.lang === 'vi' ? 'Cách sử dụng' : 'How to use it') + '</h4>',
+                '<p>' + escapeHtml(state.lang === 'vi' ? (isImported ? 'Xem đây là một đầu mối. Mở bài gốc, kiểm tra tài liệu liên kết, rồi quyết định đưa nó thành nguồn, kỹ năng, tình huống nghiên cứu hay mục lưu trữ.' : 'Dùng đây như nguồn của khoá học. Rút ra mẫu quy trình, dẫn liên kết gốc và chuyển các bước tái sử dụng thành kỹ năng hoặc bài tập.') : (isImported ? 'Treat this as a lead. Open the original post, inspect the linked material, then decide whether it becomes a source, skill, case study, or archive item.' : 'Use this as a course source. Extract the workflow pattern, cite the original link, and convert reusable steps into skills or assignments.')) + '</p>',
+                '<div class="tag-row">' + (state.lang === 'vi' && isImported ? '' : (row.tags || []).slice(0, 10).map(function(tag) { return '<span>' + escapeHtml(textOf(tag)) + '</span>'; }).join('')) + '</div>',
             '</div>'
         ].join('');
     }
@@ -565,7 +714,7 @@
         var chips = ['<button class="source-chip' + (state.sourceStatus === 'All' ? ' active' : '') + '" type="button" data-status-filter="All">' + escapeHtml(copy[state.lang].allStatuses) + ' <i>' + allSources.length + '</i></button>'];
         statuses.forEach(function(status) {
             var active = state.sourceStatus === status ? ' active' : '';
-            chips.push('<button class="source-chip' + active + '" type="button" data-status-filter="' + escapeHtml(status) + '">' + escapeHtml(status) + ' <i>' + counts[status] + '</i></button>');
+            chips.push('<button class="source-chip' + active + '" type="button" data-status-filter="' + escapeHtml(status) + '">' + escapeHtml(displayStatus(status)) + ' <i>' + counts[status] + '</i></button>');
         });
         sourceChips.innerHTML = chips.join('');
     }
@@ -574,19 +723,19 @@
         var rows = filteredSources();
         sourceCount.textContent = rows.length + copy[state.lang].sourceVisible + allSources.length + copy[state.lang].sources;
         sourceList.innerHTML = rows.map(function(row, index) {
-            var link = row.url ? '<a class="ledger-open" href="' + escapeHtml(row.url) + '" target="_blank" rel="noreferrer">Open &nearr;</a>' : '';
+            var link = row.url ? '<a class="ledger-open" href="' + escapeHtml(row.url) + '" target="_blank" rel="noreferrer">' + (state.lang === 'vi' ? 'Mở' : 'Open') + ' &nearr;</a>' : '';
             var delay = Math.min(index, 8) * 45;
             return [
                 '<article class="source-row" style="animation-delay:' + delay + 'ms">',
                     '<span class="ledger-no" aria-hidden="true">' + String(index + 1).padStart(3, '0') + '</span>',
                     '<div class="ledger-body">',
-                        '<p class="source-meta">' + escapeHtml(row.sourceType) + ' / ' + escapeHtml(row.stage) + '</p>',
-                        '<h3>' + escapeHtml(row.title) + '</h3>',
-                        '<p>' + escapeHtml(row.notes) + '</p>',
+                        '<p class="source-meta">' + escapeHtml(textOf(row.sourceType)) + ' / ' + escapeHtml(textOf(row.stage)) + '</p>',
+                        '<h3>' + escapeHtml(textOf(row.title)) + '</h3>',
+                        '<p>' + escapeHtml(textOf(row.notes)) + '</p>',
                     '</div>',
                     '<div class="source-status">',
-                        '<button class="stamp" type="button" data-stamp="' + stampKey(row.status) + '">' + escapeHtml(row.status) + '</button>',
-                        '<small>' + escapeHtml(row.credibility) + '</small>',
+                        '<button class="stamp" type="button" data-stamp="' + stampKey(row.status) + '">' + escapeHtml(displayStatus(row.status)) + '</button>',
+                        '<small>' + escapeHtml(displayStatus(row.credibility)) + '</small>',
                         link,
                     '</div>',
                 '</article>'
@@ -595,11 +744,13 @@
     }
 
     function renderAll() {
+        if (easterToast && !easterToast.classList.contains('show')) easterToast.textContent = '';
         applyStaticCopy();
         renderMetrics();
         renderPrinciples();
         renderPartAtlas();
         renderModules();
+        renderTopicChips();
         renderLibrary();
         renderSourceChips();
         renderSources();
@@ -609,6 +760,46 @@
     }
 
     function applyStaticCopy() {
+        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+        var node;
+        while ((node = walker.nextNode())) {
+            var raw = node.nodeValue;
+            var key = raw.trim();
+            if (node.parentElement && node.parentElement.closest('.map-core')) continue;
+            if (!key || !staticText[key]) continue;
+            var replacement = state.lang === 'vi' ? staticText[key] : key;
+            node.nodeValue = raw.replace(key, replacement);
+        }
+        Object.keys(staticText).forEach(function(en) {
+            if (state.lang !== 'en') return;
+            var vi = staticText[en];
+            var reverseWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            var reverseNode;
+            while ((reverseNode = reverseWalker.nextNode())) {
+                var reverseRaw = reverseNode.nodeValue;
+                if (reverseRaw.trim() === vi) reverseNode.nodeValue = reverseRaw.replace(vi, en);
+            }
+        });
+        var placeholders = {
+            'skills, memory, Stata, Claude, Codex...': 'kỹ năng, trí nhớ, Stata, Claude, Codex...'
+        };
+        document.querySelectorAll('[placeholder]').forEach(function(input) {
+            var en = input.getAttribute('data-placeholder-en') || input.getAttribute('placeholder');
+            input.setAttribute('data-placeholder-en', en);
+            input.setAttribute('placeholder', state.lang === 'vi' ? (placeholders[en] || en) : en);
+        });
+        var attributes = {
+            'AI Mind navigation': 'Điều hướng AI Mind', 'Language switcher': 'Chuyển ngôn ngữ', 'Toggle color theme': 'Đổi giao diện màu',
+            'About Huy — huylvu.github.io': 'Giới thiệu Huy — huylvu.github.io', 'Target audience': 'Đối tượng học',
+            'Agentic research workflow map': 'Bản đồ quy trình nghiên cứu với tác nhân AI', 'Course and library preview': 'Xem trước khoá học và thư viện',
+            'Knowledge base summary': 'Tóm tắt kho kiến thức', 'Library filters': 'Bộ lọc thư viện', 'Filter library by topic': 'Lọc thư viện theo chủ đề',
+            'Selected library item': 'Mục thư viện đang chọn', 'Filter sources by status': 'Lọc nguồn theo trạng thái', 'Close manual access dialog': 'Đóng hộp quyền truy cập giáo trình'
+        };
+        document.querySelectorAll('[aria-label]').forEach(function(el) {
+            var en = el.getAttribute('data-aria-en') || el.getAttribute('aria-label');
+            el.setAttribute('data-aria-en', en);
+            el.setAttribute('aria-label', state.lang === 'vi' ? (attributes[en] || en) : en);
+        });
         var strings = copy[state.lang].static;
         Object.keys(strings).forEach(function(selector) {
             var node = document.querySelector(selector);
@@ -670,23 +861,16 @@
             renderLibrary();
         });
 
-        stageFilter.addEventListener('change', function() {
-            state.stage = stageFilter.value;
-            state.libraryLimit = 10;
-            renderLibrary();
-        });
-
-        typeFilter.addEventListener('change', function() {
-            state.type = typeFilter.value;
-            state.libraryLimit = 10;
-            renderLibrary();
-        });
-
-        toolFilter.addEventListener('change', function() {
-            state.tool = toolFilter.value;
-            state.libraryLimit = 10;
-            renderLibrary();
-        });
+        if (topicChips) {
+            topicChips.addEventListener('click', function(event) {
+                var chip = event.target.closest('[data-topic-filter]');
+                if (!chip) return;
+                state.topic = chip.getAttribute('data-topic-filter');
+                state.libraryLimit = 10;
+                renderTopicChips();
+                renderLibrary();
+            });
+        }
 
         librarySort.addEventListener('change', function() {
             state.librarySort = librarySort.value;
@@ -891,7 +1075,7 @@
     function unlockControlMode() {
         var engaged = document.documentElement.classList.toggle('control-mode');
         if (engaged) burst(window.innerWidth / 2, window.innerHeight / 2, 20);
-        showToast(engaged ? copy[state.lang].unlocked : (state.lang === 'vi' ? 'Đã tắt Control mode.' : 'Control mode off.'));
+        showToast(engaged ? copy[state.lang].unlocked : (state.lang === 'vi' ? 'Đã tắt chế độ kiểm soát.' : 'Control mode off.'));
     }
 
     function tagRevealTargets() {
@@ -952,9 +1136,6 @@
         sweepPendingReveals();
     }
 
-    fillSelect(stageFilter, uniqueValues(allLibrary, 'stage'));
-    fillSelect(typeFilter, uniqueValues(allLibrary, 'type'));
-    fillSelect(toolFilter, uniqueValues(allLibrary, 'tool'));
     function initGsapEffects() {
         if (!window.gsap || !window.ScrollTrigger) return;
         gsap.registerPlugin(ScrollTrigger);

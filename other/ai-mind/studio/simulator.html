@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Mind course-linked workflow simulator">
+  <title>AI Mind — Mô phỏng</title>
+  <link rel="icon" type="image/jpeg" href="/avt.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,500&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="/other/ai-mind/studio/simulator.css">
+</head>
+<body>
+  <header class="bar">
+    <a class="brand" href="/other/ai-mind/studio/">Control Your AI Mind <span data-t="simulator">Mô phỏng</span></a>
+    <div class="bar-actions"><button id="lang-btn" type="button">EN</button><button id="theme-btn" type="button" data-t="theme">Giao diện</button></div>
+  </header>
+  <main>
+    <section class="screen on" id="brief-screen">
+      <div class="mission-line"><span id="mission-code"></span><span id="mission-duration"></span></div>
+      <h1 id="mission-title"></h1>
+      <p class="subtitle" id="mission-subtitle"></p>
+      <div class="brief-card">
+        <div class="brief-head"><span data-t="briefing">TÓM TẮT NHIỆM VỤ</span><b id="mission-deadline"></b></div>
+        <p id="mission-briefing"></p>
+        <p class="disclosure" id="mission-disclosure"></p>
+      </div>
+      <div class="course-links" id="course-links"></div>
+      <div class="actions"><button class="primary" id="start-btn" type="button" data-t="start">Bắt đầu nhiệm vụ →</button><a href="/other/ai-mind/studio/" data-t="back">← Tất cả mô phỏng</a></div>
+    </section>
+
+    <section class="screen" id="play-screen">
+      <div class="hud"><span id="hud-code"></span><div class="progress" id="progress"></div><span id="hud-score">0/4</span></div>
+      <div class="decision-wrap">
+        <p class="step" id="decision-step"></p>
+        <h2 id="decision-title"></h2>
+        <p class="situation" id="decision-situation"></p>
+        <div class="choices">
+          <button class="choice fast" type="button" data-choice="fast"><span data-t="fast">NHANH · BUÔNG</span><strong id="fast-label"></strong><small id="fast-detail"></small></button>
+          <button class="choice control" type="button" data-choice="control"><span data-t="control">CHẬM · CẦM LÁI</span><strong id="control-label"></strong><small id="control-detail"></small></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen" id="effect-screen">
+      <div class="effect-card"><p class="step" data-t="consequence">HỆ QUẢ</p><div class="effect-mark" id="effect-mark"></div><h2 id="effect-title"></h2><p id="effect-text"></p><button class="primary" id="continue-btn" type="button" data-t="continue">Quyết định tiếp theo →</button></div>
+    </section>
+
+    <section class="screen" id="result-screen">
+      <div class="result-head"><p class="step" data-t="record">HỒ SƠ NHIỆM VỤ</p><div class="stamp" id="result-stamp"></div><p id="result-summary"></p></div>
+      <div class="score-grid"><div><span data-t="controlPoints">ĐIỂM KIỂM SOÁT</span><strong id="result-score"></strong></div><div><span data-t="riskCount">RỦI RO ĐÃ CHẤP NHẬN</span><strong id="result-risks"></strong></div><div><span data-t="courseParts">PHẦN HỌC LIÊN QUAN</span><strong id="result-parts"></strong></div></div>
+      <div class="ledger"><h2 data-t="ledger">Sổ rủi ro</h2><div id="ledger-list"></div></div>
+      <div class="artifacts"><div class="section-head"><h2 data-t="takeHome">Sản phẩm mang về</h2><p data-t="takeHomeSub">Sao chép và dùng trong dự án thật.</p></div><div class="artifact-grid" id="artifact-grid"></div></div>
+      <div class="result-actions"><button id="replay-btn" type="button" data-t="replay">↺ Chơi lại</button><a href="/other/ai-mind/studio/" data-t="otherMissions">Xem nhiệm vụ khác →</a></div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <script src="/other/ai-mind/studio/scenarios.js"></script>
+  <script src="/other/ai-mind/studio/simulator.js"></script>
+</body>
+</html>

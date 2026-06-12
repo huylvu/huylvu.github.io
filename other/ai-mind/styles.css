@@ -242,6 +242,51 @@ select {
     color: var(--paper);
 }
 
+.nav-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 13px;
+    border: 1.6px dashed var(--accent);
+    border-radius: 3px;
+    transform: rotate(-3deg);
+    color: var(--accent);
+    font-family: var(--mono, monospace);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.25;
+    transition: transform 220ms var(--ease-out, ease), background 180ms ease, color 180ms ease, box-shadow 220ms ease;
+}
+
+.nav-profile .np-ast {
+    font-size: 1.05rem;
+    line-height: 1;
+    transition: transform 600ms var(--ease-out, ease);
+}
+
+.nav-profile .np-text {
+    display: grid;
+    text-align: left;
+}
+
+.nav-profile .np-text b {
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+
+.nav-profile:hover {
+    transform: rotate(0deg) translateY(-1px);
+    background: var(--accent);
+    color: var(--paper);
+    box-shadow: 3px 3px 0 var(--line);
+}
+
+.nav-profile:hover .np-ast {
+    transform: rotate(180deg);
+}
+
 .hero {
     min-height: calc(100svh - 180px);
     display: grid;
@@ -385,6 +430,29 @@ select {
 .secondary-action {
     background: transparent;
     color: var(--accent);
+}
+
+.closing-actions button.primary-action {
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+}
+
+#closing-manual::after {
+    content: "Access";
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+#closing-map::after {
+    content: "->";
+    color: var(--accent);
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: normal;
+    text-transform: none;
 }
 
 .mind-map {
@@ -1049,6 +1117,54 @@ select {
     grid-template-columns: minmax(260px, 1.25fr) repeat(4, minmax(150px, 0.62fr));
     gap: 14px;
     margin-bottom: 22px;
+}
+
+.control-row-slim {
+    grid-template-columns: minmax(260px, 1.45fr) minmax(170px, 0.45fr);
+    margin-bottom: 14px;
+}
+
+.topic-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+}
+
+.topic-chip {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: var(--mono, monospace);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 200ms var(--ease-out, ease);
+}
+
+.topic-chip i {
+    font-style: normal;
+    color: var(--amber);
+}
+
+.topic-chip:hover {
+    border-color: var(--accent);
+    color: var(--text);
+    transform: translateY(-1px);
+}
+
+.topic-chip.active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--paper);
+}
+
+.topic-chip.active i {
+    color: var(--paper);
 }
 
 .control-row label {

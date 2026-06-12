@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bạn cầm lái — a playable agent-control simulator. One synthetic economics mission, five control decisions, and a flight record that shows exactly where you lost the numbers.">
+    <title>Bạn cầm lái — Control Your AI Mind</title>
+    <link rel="icon" type="image/jpeg" href="/avt.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;600&display=swap">
+    <script>
+    (function() {
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    })();
+    </script>
+    <style>
+    :root {
+        --serif: "Source Serif 4", Georgia, serif;
+        --sans: "Instrument Sans", -apple-system, sans-serif;
+        --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+        --hand: "Caveat", cursive;
+        --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        --bg: #FAF9F5;
+        --soft: #F5F4ED;
+        --oat: #E3DACC;
+        --ink: #141413;
+        --t2: #3D3D3A;
+        --t3: #73726C;
+        --bd: rgba(20, 20, 19, 0.13);
+        --card: #FFFFFF;
+        --clay: #C15F3C;
+        --clay-soft: #D97757;
+        --sage: #4F7259;
+        --shadow: rgba(20, 20, 19, 0.08);
+        --term-bg: #1E1D1B;
+        --term-fg: #D6D3CB;
+    }
+
+    [data-theme="dark"] {
+        --bg: #141413;
+        --soft: #1E1D1B;
+        --oat: #3A3733;
+        --ink: #FAF9F5;
+        --t2: #D6D3CB;
+        --t3: #A3A096;
+        --bd: rgba(250, 249, 245, 0.15);
+        --card: #232220;
+        --clay: #D97757;
+        --clay-soft: #E08D67;
+        --sage: #8CB89A;
+        --shadow: rgba(0, 0, 0, 0.4);
+        --term-bg: #0F0F0E;
+        --term-fg: #C9C6BE;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        margin: 0;
+        background:
+            radial-gradient(circle at 82% 6%, rgba(217, 119, 87, 0.05), transparent 32%),
+            var(--bg);
+        color: var(--ink);
+        font-family: var(--serif);
+    }
+
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        pointer-events: none;
+        opacity: 0.05;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    a { color: var(--clay); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button, input, select { font: inherit; color: inherit; }
+
+    /* ── Top bar ── */
+    .bar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        min-height: 58px;
+        padding: 0 22px;
+        border-bottom: 1px solid var(--bd);
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(10px);
+        font-family: var(--mono);
+        font-size: 0.74rem;
+        letter-spacing: 0.08em;
+    }
+
+    .bar-brand {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 10px;
+        color: var(--ink);
+        font-family: var(--serif);
+        font-size: 1.16rem;
+        font-weight: 600;
+    }
+
+    .bar-brand:hover { text-decoration: none; }
+
+    .beta {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        color: var(--clay);
+        border: 1px solid var(--clay);
+        border-radius: 3px;
+        padding: 2px 6px;
+        transform: rotate(-3deg) translateY(-2px);
+        display: inline-block;
+        text-transform: uppercase;
+    }
+
+    .bar-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+
+    .chip-btn {
+        border: 1px solid var(--bd);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--t2);
+        padding: 6px 13px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        transition: border-color 150ms ease, color 150ms ease, transform 180ms var(--ease);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .chip-btn:hover { border-color: var(--clay); color: var(--clay); transform: translateY(-1px); text-decoration: none; }
+
+    /* ── Shell ── */
+    .shell { max-width: 1060px; margin: 0 auto; padding: 0 22px 90px; }
+
+    .scene { display: none; }
+    .scene.on { display: block; }
+
+    .kicker {
+        margin: 0 0 10px;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--clay);
+    }
+
+    /* ── Scene: briefing ── */
+    #brief { padding-top: clamp(40px, 8vh, 90px); }
+
+    .cold-open {
+        font-family: var(--hand);
+        font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+        color: var(--t3);
+        margin: 0 0 14px;
+        transform: rotate(-0.6deg);
+    }
+
+    .cold-open b { color: var(--clay); font-weight: 600; }
+
+    #brief h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        line-height: 1.02;
+    }
+
+    #brief h1 em { font-style: italic; color: var(--clay); font-weight: 500; }
+
+    .brief-sub {
+        max-width: 620px;
+        margin: 18px 0 0;
+        color: var(--t3);
+        font-family: var(--sans);
+        font-size: 1.02rem;
+        line-height: 1.65;
+    }
+
+    .memo {
+        position: relative;
+        max-width: 660px;
+        margin: 40px 0 0;
+        border: 1px solid var(--bd);
+        border-radius: 5px;
+        background: var(--card);
+        box-shadow: 0 18px 50px var(--shadow);
+        padding: 26px 28px 24px;
+        transform: rotate(-0.4deg);
+    }
+
+    .memo::before {
+        content: "";
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        width: 92px;
+        height: 26px;
+        transform: translateX(-50%) rotate(-2deg);
+        background: var(--oat);
+        opacity: 0.85;
+    }
+
+    .memo-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--bd);
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--t3);
+    }
+
+    .memo-head b { color: var(--clay); }
+
+    .memo dl { margin: 16px 0 0; display: grid; gap: 11px; }
+    .memo dl div { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+    .memo dt {
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--t3);
+    }
+    .memo dd { margin: 0; font-family: var(--sans); font-size: 0.95rem; color: var(--t2); line-height: 1.5; }
+    .memo dd b { color: var(--ink); }
+
+    .memo-stamp {
+        position: absolute;
+        right: 18px;
+        bottom: 14px;
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--clay);
+        border: 1.6px solid var(--clay);
+        border-radius: 4px;
+        padding: 5px 9px;
+        transform: rotate(5deg);
+        opacity: 0.85;
+    }
+
+    .brief-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; align-items: center; }
+
+    .btn-solid, .btn-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 999px;
+        padding: 13px 26px;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 180ms var(--ease), box-shadow 180ms ease;
+        text-decoration: none;
+    }
+
+    .btn-solid { background: var(--clay); border: 1px solid var(--clay); color: #FAF9F5; }
+    .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -12px var(--clay); text-decoration: none; }
+    .btn-ghost { background: transparent; border: 1px solid var(--bd); color: var(--t2); }
+    .btn-ghost:hover { border-color: var(--clay); color: var(--clay); text-decoration: none; }
+
+    .brief-note { margin: 26px 0 0; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; color: var(--t3); }
+
+    /* ── Scene: flight ── */
+    #fly { padding-top: 26px; }
+
+    .hud {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        background: var(--card);
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        margin-bottom: 18px;
+    }
+
+    .hud-clock { color: var(--ink); font-weight: 700; font-size: 0.92rem; }
+    .hud-label { color: var(--t3); text-transform: uppercase; font-size: 0.6rem; }
+    .hud-deadline { color: var(--clay); }
+
+    .hud-lamps { display: flex; gap: 7px; margin-left: auto; align-items: center; }
+    .lamp {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: var(--oat);
+        border: 1px solid var(--bd);
+        transition: background 300ms ease, box-shadow 300ms ease;
+    }
+    .lamp.good { background: var(--sage); box-shadow: 0 0 8px var(--sage); border-color: var(--sage); }
+    .lamp.bad { background: var(--clay); border-color: var(--clay); }
+
+    .hud-skip {
+        border: 1px solid var(--bd);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--t3);
+        padding: 4px 12px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+    .hud-skip:hover { border-color: var(--clay); color: var(--clay); }
+
+    .swin {
+        border: 1px solid var(--bd);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--term-bg);
+        box-shadow: 0 24px 60px var(--shadow);
+    }
+
+    .swin-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .dot3 { display: inline-flex; gap: 6px; }
+    .dot3 i { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.18); }
+    .dot3 i:first-child { background: var(--clay-soft); }
+
+    .swin-t {
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.45);
+    }
+
+    .term {
+        min-height: 320px;
+        max-height: 56vh;
+        overflow-y: auto;
+        padding: 18px 20px 22px;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        line-height: 1.75;
+        color: var(--term-fg);
+        scrollbar-width: thin;
+    }
+
+    .tl { margin: 0; white-space: pre-wrap; word-break: break-word; }
+    .tl.agent::before { content: "agent ▸ "; color: var(--clay-soft); }
+    .tl.you::before { content: "bạn ▸ "; color: #8CB89A; }
+    .tl.you[data-en]::before { content: var(--you-prefix, "bạn ▸ "); color: #8CB89A; }
+    .tl.sys { color: rgba(214, 211, 203, 0.55); font-size: 0.72rem; }
+    .tl.warn { color: #E0A458; }
+    .tl.danger { color: #E08D67; }
+    .tl .cursor { display: inline-block; width: 8px; height: 14px; background: var(--clay-soft); vertical-align: -2px; animation: blink 0.9s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .term-table {
+        margin: 10px 0;
+        padding: 12px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--term-fg);
+        font-size: 0.74rem;
+        white-space: pre;
+        overflow-x: auto;
+    }
+
+    /* ── Control card ── */
+    .ccard-wrap {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: none;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 20px;
+        background: color-mix(in srgb, var(--ink) 26%, transparent);
+        backdrop-filter: blur(2px);
+    }
+
+    .ccard-wrap.on { display: flex; }
+
+    .ccard {
+        width: min(860px, 100%);
+        max-height: 86vh;
+        overflow-y: auto;
+        border: 1px solid var(--bd);
+        border-radius: 12px 12px 0 0;
+        background: var(--card);
+        box-shadow: 0 -24px 80px var(--shadow);
+        padding: 26px 28px 30px;
+        animation: cardUp 420ms var(--ease);
+    }
+
+    @keyframes cardUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+    .ccard-kicker {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--clay);
+        margin: 0 0 10px;
+    }
+
+    .ccard h3 { margin: 0 0 8px; font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.15; }
+    .ccard-sit { margin: 0 0 18px; font-family: var(--sans); font-size: 0.95rem; color: var(--t3); line-height: 1.6; max-width: 64ch; }
+
+    .ccard-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .copt {
+        text-align: left;
+        border: 1px solid var(--bd);
+        border-radius: 9px;
+        background: var(--soft);
+        padding: 16px 16px 14px;
+        cursor: pointer;
+        display: grid;
+        gap: 9px;
+        align-content: start;
+        transition: border-color 150ms ease, transform 200ms var(--ease), box-shadow 200ms ease;
+    }
+
+    .copt:hover { border-color: var(--clay); transform: translateY(-3px); box-shadow: 0 16px 36px -18px var(--shadow); }
+
+    .copt-tag {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--t3);
+    }
+
+    .copt-tag .cost { color: var(--clay); }
+    .copt-title { font-family: var(--sans); font-size: 0.96rem; font-weight: 700; color: var(--ink); line-height: 1.35; }
+
+    .copt-art {
+        border: 1px dashed var(--bd);
+        border-radius: 6px;
+        background: var(--card);
+        padding: 10px 12px;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        line-height: 1.6;
+        color: var(--t2);
+        white-space: pre-wrap;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    /* ── Scene: record ── */
+    #record { padding-top: 44px; }
+
+    .verdict-wrap { text-align: center; padding: 10px 0 6px; }
+
+    .verdict-stamp {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: clamp(1.05rem, 2.6vw, 1.6rem);
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 16px 30px;
+        border: 3px solid var(--clay);
+        border-radius: 6px;
+        color: var(--clay);
+        transform: rotate(-3deg);
+        animation: stampIn 500ms var(--ease);
+        box-shadow: 0 18px 50px var(--shadow);
+        background: var(--card);
+    }
+
+    .verdict-stamp.ok { border-color: var(--sage); color: var(--sage); }
+
+    @keyframes stampIn { 0% { transform: rotate(-3deg) scale(2.2); opacity: 0; } 65% { transform: rotate(-3deg) scale(0.96); opacity: 1; } 100% { transform: rotate(-3deg) scale(1); } }
+
+    .verdict-sub { margin: 18px 0 0; font-family: var(--sans); color: var(--t3); font-size: 1rem; }
+    .verdict-sub b { color: var(--ink); }
+
+    .record-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        margin-top: 44px;
+        align-items: start;
+    }
+
+    .paper {
+        border: 1px solid var(--bd);
+        border-radius: 6px;
+        background: var(--card);
+        box-shadow: 0 16px 44px var(--shadow);
+        padding: 22px 22px 18px;
+    }
+
+    .paper.yours { transform: rotate(-0.5deg); }
+    .paper.ref { transform: rotate(0.4deg); }
+
+    .paper-tag {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--t3);
+        margin: 0 0 12px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .paper-tag b { color: var(--clay); }
+    .paper.ref .paper-tag b { color: var(--sage); }
+
+    .ptable { width: 100%; border-collapse: collapse; font-family: var(--serif); font-size: 0.84rem; }
+    .ptable caption { caption-side: top; text-align: left; font-size: 0.88rem; font-weight: 600; padding-bottom: 8px; color: var(--ink); }
+    .ptable th, .ptable td { padding: 6px 8px; text-align: left; }
+    .ptable th:last-child, .ptable td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+    .ptable thead th { border-top: 2px solid var(--ink); border-bottom: 1px solid var(--ink); font-weight: 600; font-size: 0.78rem; }
+    .ptable tbody tr:last-child td { border-bottom: 2px solid var(--ink); }
+    .ptable .se td { color: var(--t3); font-size: 0.76rem; padding-top: 0; }
+    .ptable .flag td { background: color-mix(in srgb, var(--clay) 12%, transparent); }
+    .ptable tfoot td { font-family: var(--sans); font-size: 0.7rem; color: var(--t3); padding-top: 9px; border: 0; }
+
+    .pnote { margin: 12px 0 0; font-family: var(--hand); font-size: 1.02rem; color: var(--clay); transform: rotate(-0.8deg); }
+    .paper.ref .pnote { color: var(--sage); }
+
+    /* debrief */
+    .debrief { margin-top: 56px; }
+    .debrief h2, .takeaway h2 { margin: 6px 0 0; font-size: clamp(1.7rem, 3.4vw, 2.6rem); font-weight: 600; letter-spacing: -0.01em; }
+    .debrief h2 em, .takeaway h2 em { font-style: italic; color: var(--clay); font-weight: 500; }
+
+    .deb-list { margin-top: 26px; border-top: 1px solid var(--bd); }
+
+    .deb-row {
+        display: grid;
+        grid-template-columns: 46px minmax(0, 1fr) auto;
+        gap: 16px;
+        align-items: start;
+        padding: 16px 6px;
+        border-bottom: 1px solid var(--bd);
+    }
+
+    .deb-mark {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 0.9rem;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        margin-top: 2px;
+    }
+
+    .deb-mark.good { background: var(--sage); color: #FAF9F5; }
+    .deb-mark.bad { background: var(--clay); color: #FAF9F5; }
+
+    .deb-row h4 { margin: 0 0 4px; font-size: 1.02rem; font-weight: 600; }
+    .deb-row p { margin: 0; font-family: var(--sans); font-size: 0.88rem; color: var(--t3); line-height: 1.55; max-width: 62ch; }
+
+    .deb-link {
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        margin-top: 6px;
+    }
+
+    /* takeaway */
+    .takeaway { margin-top: 64px; }
+
+    .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 26px; }
+
+    .tk-card {
+        position: relative;
+        border: 1px solid var(--bd);
+        border-radius: 8px;
+        background: var(--card);
+        padding: 18px 18px 16px;
+        box-shadow: 0 12px 34px var(--shadow);
+    }
+
+    .tk-card h4 { margin: 0 0 6px; font-size: 1rem; font-weight: 600; }
+    .tk-card p { margin: 0 0 12px; font-family: var(--sans); font-size: 0.84rem; color: var(--t3); line-height: 1.5; }
+
+    .tk-copy {
+        border: 1px solid var(--clay);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--clay);
+        padding: 6px 16px;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .tk-copy:hover { background: var(--clay); color: #fff; }
+
+    .record-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 54px; }
+
+    /* toast + burst */
+    .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 26px;
+        transform: translate(-50%, 18px);
+        z-index: 80;
+        background: var(--ink);
+        color: var(--bg);
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        padding: 11px 20px;
+        border-radius: 999px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 250ms ease, transform 250ms var(--ease);
+        max-width: min(92vw, 560px);
+        text-align: center;
+    }
+
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    .burst-dot { position: fixed; z-index: 90; width: 7px; height: 7px; border-radius: 50%; pointer-events: none; animation: bd 0.9s var(--ease) forwards; }
+    @keyframes bd { to { transform: translate(var(--dx), var(--dy)) scale(0.2); opacity: 0; } }
+
+    @media (max-width: 860px) {
+        .ccard-opts, .record-grid, .tk-grid { grid-template-columns: 1fr; }
+        .memo dl div { grid-template-columns: 1fr; gap: 2px; }
+        .deb-row { grid-template-columns: 38px minmax(0, 1fr); }
+        .deb-link { grid-column: 2; }
+        .bar { flex-wrap: wrap; padding: 10px 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .ccard, .verdict-stamp, .burst-dot { animation: none; }
+        html { scroll-behavior: auto; }
+    }
+    </style>
+</head>
+<body>
+    <header class="bar">
+        <a class="bar-brand" href="/other/ai-mind/">Control Your AI Mind <span class="beta" id="brand-tag">Bạn cầm lái</span></a>
+        <div class="bar-actions">
+            <a class="chip-btn" id="home-btn" href="/other/ai-mind/hub.html">Trang chủ</a>
+            <button class="chip-btn" id="lang-btn" type="button">EN</button>
+            <button class="chip-btn" id="theme-btn" type="button">Giao diện</button>
+        </div>
+    </header>
+
+    <main class="shell">
+
+        <!-- ════ SCENE 1: BRIEFING ════ -->
+        <section class="scene on" id="brief">
+            <p class="cold-open" id="i18n-cold">Ở trang intro, bạn <b>xem</b> agent làm việc. Ở đây, bạn <b>điều khiển</b> nó.</p>
+            <p class="kicker" id="i18n-kicker">// flight simulator — một nhiệm vụ, năm quyết định</p>
+            <h1 id="i18n-title">Bạn <em>cầm lái</em>.</h1>
+            <p class="brief-sub" id="i18n-sub">Một agent rất giỏi, một bộ dữ liệu kinh tế mô phỏng, một deadline sáng mai. Agent sẽ không bao giờ báo lỗi — nó chỉ lặng lẽ làm theo mức kiểm soát mà bạn đặt ra. Năm lần, quyền quyết định thuộc về bạn. Cuối phiên, flight record cho bạn xem chính xác con số đã sống hay chết ở quyết định nào.</p>
+
+            <div class="memo" aria-label="Mission memo">
+                <div class="memo-head"><span id="i18n-memo-head">NHIỆM VỤ 01 — BẢN GHI NHỚ NGHIÊN CỨU</span><b id="i18n-memo-conf">MẬT · HẠN CHÓT 09:00</b></div>
+                <dl>
+                    <div><dt id="i18n-memo-task">Nhiệm vụ</dt><dd id="i18n-memo-task-v"><b>Ước lượng chênh lệch lương liên quan đến chứng chỉ nghề</b> (log lương giờ) và gửi memo kèm Bảng 2 cho trưởng nhóm trước 09:00 sáng mai.</dd></div>
+                    <div><dt id="i18n-memo-data">Dữ liệu</dt><dd id="i18n-memo-data-v"><b>Synthetic Labor Survey 2025</b> — 12.000 lao động mô phỏng trong <span style="font-family:var(--mono);font-size:0.82em">data/raw/</span>. Đây là fictional teaching dataset, không phải dữ liệu khảo sát thật.</dd></div>
+                    <div><dt id="i18n-memo-clock">Giờ hiện tại</dt><dd id="i18n-memo-clock-v"><b>21:14</b> — bạn có một buổi tối, một agent, và toàn quyền điều khiển.</dd></div>
+                    <div><dt id="i18n-memo-rule">Luật chơi</dt><dd id="i18n-memo-rule-v">Kiểm soát tốn thời gian trên đồng hồ. Buông kiểm soát thì không tốn gì — <b>cho đến flight record.</b></dd></div>
+                </dl>
+                <span class="memo-stamp" id="i18n-memo-stamp">CHỜ PHI CÔNG</span>
+            </div>
+
+            <div class="brief-actions">
+                <button class="btn-solid" id="start-btn" type="button">Nhận nhiệm vụ →</button>
+                <a class="btn-ghost" href="/other/ai-mind/" id="i18n-watch-first">Chưa xem intro? Xem agent bay trước</a>
+            </div>
+            <p class="brief-note" id="i18n-brief-note">~6 phút · không tài khoản, không tracking · kết quả lưu trong trình duyệt của bạn</p>
+        </section>
+
+        <!-- ════ SCENE 2: FLIGHT ════ -->
+        <section class="scene" id="fly">
+            <div class="hud">
+                <span><span class="hud-label" id="i18n-hud-clock">GIỜ</span>&nbsp; <span class="hud-clock" id="hud-clock">21:14</span></span>
+                <span class="hud-deadline" id="i18n-hud-dl">DEADLINE 09:00</span>
+                <span><span class="hud-label" id="i18n-hud-ctrl">KIỂM SOÁT</span></span>
+                <span class="hud-lamps" id="hud-lamps"></span>
+                <button class="hud-skip" id="skip-btn" type="button">tua ▸▸</button>
+            </div>
+            <div class="swin">
+                <div class="swin-bar"><span class="dot3"><i></i><i></i><i></i></span><span class="swin-t">agent — synthetic-labor-memo — 80×24</span></div>
+                <div class="term" id="term"></div>
+            </div>
+        </section>
+
+        <!-- ════ CONTROL CARD ════ -->
+        <div class="ccard-wrap" id="ccard-wrap" role="dialog" aria-modal="true">
+            <div class="ccard">
+                <p class="ccard-kicker"><span id="ccard-no">CONTROL 1/5</span><span id="i18n-ccard-hint">QUYỀN QUYẾT ĐỊNH: BẠN</span></p>
+                <h3 id="ccard-title"></h3>
+                <p class="ccard-sit" id="ccard-sit"></p>
+                <div class="ccard-opts" id="ccard-opts"></div>
+            </div>
+        </div>
+
+        <!-- ════ SCENE 3: FLIGHT RECORD ════ -->
+        <section class="scene" id="record">
+            <div class="verdict-wrap">
+                <p class="kicker" id="i18n-rec-kicker">// flight record — 09:00 sáng hôm sau</p>
+                <div class="verdict-stamp" id="verdict-stamp">…</div>
+                <p class="verdict-sub" id="verdict-sub"></p>
+            </div>
+
+            <div class="record-grid">
+                <article class="paper yours">
+                    <p class="paper-tag"><span id="i18n-paper-yours">BẢNG CỦA BẠN — ĐÃ GỬI 09:00</span><b id="paper-yours-time"></b></p>
+                    <div id="table-yours"></div>
+                    <p class="pnote" id="note-yours"></p>
+                </article>
+                <article class="paper ref">
+                    <p class="paper-tag"><span id="i18n-paper-ref">PHIÊN CÓ KIỂM SOÁT — CÙNG AGENT, CÙNG DATA</span><b>22:57</b></p>
+                    <div id="table-ref"></div>
+                    <p class="pnote" id="i18n-note-ref">cùng một agent. khác mỗi người cầm lái.</p>
+                </article>
+            </div>
+
+            <div class="debrief">
+                <p class="kicker" id="i18n-deb-kicker">// debrief — năm quyết định của bạn</p>
+                <h2 id="i18n-deb-title">Con số chết ở <em>đâu</em>?</h2>
+                <div class="deb-list" id="deb-list"></div>
+            </div>
+
+            <div class="takeaway">
+                <p class="kicker" id="i18n-tk-kicker">// đáp án mang về</p>
+                <h2 id="i18n-tk-title">Hai công cụ đã cứu <em>chuyến bay kia</em>.</h2>
+                <div class="tk-grid">
+                    <div class="tk-card">
+                        <h4 id="i18n-tk1-h">Task contract</h4>
+                        <p id="i18n-tk1-p">Bản giao việc đầy đủ mà phi công kia dán vào phút 21:14 — phạm vi, ranh giới dữ liệu, định nghĩa hoàn thành.</p>
+                        <button class="tk-copy" id="copy-contract" type="button">Copy .md</button>
+                    </div>
+                    <div class="tk-card">
+                        <h4 id="i18n-tk2-h">Verification plan</h4>
+                        <p id="i18n-tk2-p">Checklist kiểm chứng đã bắt được vụ merge 19,5% và bảng thiếu trọng số — trước khi memo rời máy.</p>
+                        <button class="tk-copy" id="copy-verify" type="button">Copy .md</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="record-actions">
+                <button class="btn-ghost" id="replay-btn" type="button">↺ Bay lại — thử lựa chọn khác</button>
+                <a class="btn-solid" href="/other/ai-mind/hub.html" id="i18n-cta-course">Học cầm lái bài bản — vào khoá học →</a>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast" role="status"></div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        /* ── lang & theme ── */
+        var lang = localStorage.getItem('aiMindLang') || 'vi';
+        function L(vi, en) { return lang === 'vi' ? vi : en; }
+
+        var themeBtn = document.getElementById('theme-btn');
+        themeBtn.addEventListener('click', function() {
+            var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+        });
+
+        var toastTimer;
+        function toast(m) {
+            var el = document.getElementById('toast');
+            el.textContent = m;
+            el.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function() { el.classList.remove('show'); }, 3400);
+        }
+
+        function burst(x, y, n) {
+            var colors = ['#C15F3C', '#D97757', '#4F7259', '#E3DACC'];
+            for (var i = 0; i < n; i++) {
+                var d = document.createElement('span');
+                d.className = 'burst-dot';
+                var a = Math.random() * Math.PI * 2, r = 40 + Math.random() * 110;
+                d.style.cssText = 'left:' + x + 'px;top:' + y + 'px;background:' + colors[i % 4] + ';--dx:' + Math.cos(a) * r + 'px;--dy:' + Math.sin(a) * r + 'px';
+                document.body.appendChild(d);
+                setTimeout(function(el) { return function() { el.remove(); }; }(d), 950);
+            }
+        }
+
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        /* ── static i18n ── */
+        var STATIC = {
+            'brand-tag': ['Bạn cầm lái', 'You fly it'],
+            'home-btn': ['Trang chủ', 'Home'],
+            'theme-btn': ['Giao diện', 'Theme'],
+            'i18n-cold': ['Ở trang giới thiệu, bạn <b>xem</b> tác nhân AI làm việc. Ở đây, bạn <b>điều khiển</b> nó.', 'On the intro page you <b>watched</b> an agent work. Here, <b>you control it</b>.'],
+            'i18n-kicker': ['// mô phỏng chuyến bay — một nhiệm vụ, năm quyết định', '// flight simulator — one mission, five decisions'],
+            'i18n-title': ['Bạn <em>cầm lái</em>.', 'You have the <em>controls</em>.'],
+            'i18n-sub': ['Một tác nhân AI rất giỏi, một bộ dữ liệu kinh tế mô phỏng và hạn chót vào sáng mai. Tác nhân sẽ không báo lỗi — nó chỉ lặng lẽ làm theo mức kiểm soát mà bạn đặt ra. Năm lần, quyền quyết định thuộc về bạn. Cuối phiên, hồ sơ chuyến bay cho thấy chính xác con số đã sống hay chết ở quyết định nào.', 'A very capable agent, a synthetic economics dataset, a deadline tomorrow morning. The agent will never crash — it quietly performs to exactly the level of control you set. Five times, the decision is yours. At the end, the flight record shows precisely which decision your numbers lived or died on.'],
+            'i18n-memo-head': ['NHIỆM VỤ 01 — BẢN GHI NHỚ NGHIÊN CỨU', 'MISSION 01 — RESEARCH MEMO'],
+            'i18n-memo-conf': ['MẬT · HẠN CHÓT 09:00', 'CONFIDENTIAL · DEADLINE 09:00'],
+            'i18n-memo-task': ['Nhiệm vụ', 'Task'],
+            'i18n-memo-task-v': ['<b>Ước lượng chênh lệch lương liên quan đến chứng chỉ nghề</b> (log lương giờ) và gửi bản ghi nhớ kèm Bảng 2 cho trưởng nhóm trước 09:00 sáng mai.', '<b>Estimate the wage difference associated with a vocational certificate</b> (log hourly wage) and send the memo with Table 2 to your team lead by 09:00 tomorrow.'],
+            'i18n-memo-data': ['Dữ liệu', 'Data'],
+            'i18n-memo-data-v': ['<b>Khảo sát Lao động Mô phỏng 2025</b> — 12.000 lao động mô phỏng trong <span style="font-family:var(--mono);font-size:0.82em">data/raw/</span>. Đây là bộ dữ liệu giả lập để giảng dạy, không phải khảo sát thật.', '<b>Synthetic Labor Survey 2025</b> — 12,000 simulated workers in <span style="font-family:var(--mono);font-size:0.82em">data/raw/</span>. This is a fictional teaching dataset, not a real survey.'],
+            'i18n-memo-clock': ['Giờ hiện tại', 'Current time'],
+            'i18n-memo-clock-v': ['<b>21:14</b> — bạn có một buổi tối, một tác nhân AI và toàn quyền điều khiển.', '<b>21:14</b> — you have one evening, one agent, and full command authority.'],
+            'i18n-memo-rule': ['Luật chơi', 'House rule'],
+            'i18n-memo-rule-v': ['Kiểm soát tốn thời gian trên đồng hồ. Buông kiểm soát thì không tốn gì — <b>cho đến khi xem hồ sơ chuyến bay.</b>', 'Control costs minutes on the clock. Letting go costs nothing — <b>until the flight record.</b>'],
+            'i18n-memo-stamp': ['CHỜ PHI CÔNG', 'AWAITING PILOT'],
+            'start-btn': ['Nhận nhiệm vụ →', 'Accept the mission →'],
+            'i18n-watch-first': ['Chưa xem giới thiệu? Xem tác nhân AI bay trước', 'New here? Watch an agent fly first'],
+            'i18n-brief-note': ['~6 phút · không tài khoản, không theo dõi · kết quả lưu trong trình duyệt của bạn', '~6 minutes · no accounts, no tracking · your record stays in your browser'],
+            'i18n-hud-clock': ['GIỜ', 'TIME'],
+            'i18n-hud-dl': ['HẠN CHÓT 09:00', 'DEADLINE 09:00'],
+            'i18n-hud-ctrl': ['KIỂM SOÁT', 'CONTROL'],
+            'skip-btn': ['tua ▸▸', 'skip ▸▸'],
+            'i18n-ccard-hint': ['QUYỀN QUYẾT ĐỊNH: BẠN', 'DECISION AUTHORITY: YOU'],
+            'i18n-rec-kicker': ['// hồ sơ chuyến bay — 09:00 sáng hôm sau', '// flight record — 09:00 the next morning'],
+            'i18n-paper-yours': ['BẢNG CỦA BẠN — ĐÃ GỬI 09:00', 'YOUR TABLE — SENT AT 09:00'],
+            'i18n-paper-ref': ['PHIÊN CÓ KIỂM SOÁT — CÙNG TÁC NHÂN AI, CÙNG DỮ LIỆU', 'THE CONTROLLED RUN — SAME AGENT, SAME DATA'],
+            'i18n-note-ref': ['cùng một tác nhân AI, khác người cầm lái.', 'same agent. different pilot.'],
+            'i18n-deb-kicker': ['// tổng kết — năm quyết định của bạn', '// debrief — your five decisions'],
+            'i18n-deb-title': ['Con số chết ở <em>đâu</em>?', 'Where did the number <em>die</em>?'],
+            'i18n-tk-kicker': ['// đáp án mang về', '// the answer key, yours to keep'],
+            'i18n-tk-title': ['Hai công cụ đã cứu <em>chuyến bay kia</em>.', 'The two instruments that saved <em>the other flight</em>.'],
+            'i18n-tk1-h': ['Bản giao việc', 'Task contract'],
+            'i18n-tk1-p': ['Bản giao việc đầy đủ mà phi công kia dán vào phút 21:14 — phạm vi, ranh giới dữ liệu, định nghĩa hoàn thành.', 'The full brief the other pilot pasted at 21:14 — scope, data boundary, definition of done.'],
+            'i18n-tk2-h': ['Kế hoạch kiểm chứng', 'Verification plan'],
+            'i18n-tk2-p': ['Danh sách kiểm chứng đã bắt được vụ ghép dữ liệu 19,5% và bảng thiếu trọng số — trước khi bản ghi nhớ rời máy.', 'The checklist that caught the 19.5% merge and the unweighted table — before the memo left the machine.'],
+            'copy-contract': ['Sao chép .md', 'Copy .md'],
+            'copy-verify': ['Sao chép .md', 'Copy .md'],
+            'replay-btn': ['↺ Bay lại — thử lựa chọn khác', '↺ Fly again — try other choices'],
+            'i18n-cta-course': ['Học cầm lái bài bản — vào khoá học →', 'Learn to fly properly — enter the course →'],
+            'lang-btn': ['EN', 'VN']
+        };
+
+        var VI_TERMS = [
+            [/\bflight simulator\b/gi, 'mô phỏng chuyến bay'], [/\bflight record\b/gi, 'hồ sơ chuyến bay'], [/\bdeadline\b/gi, 'hạn chót'],
+            [/\bagents?\b/gi, 'tác nhân AI'], [/\bprompt\b/gi, 'yêu cầu'], [/\btask contract\b/gi, 'bản giao việc'], [/\bverification plan\b/gi, 'kế hoạch kiểm chứng'],
+            [/\bchecklist\b/gi, 'danh sách kiểm tra'], [/\bmerge\b/gi, 'ghép dữ liệu'], [/\bweights?\b/gi, 'trọng số'], [/\bdata\b/gi, 'dữ liệu'],
+            [/\bmemo\b/gi, 'bản ghi nhớ'], [/\bcontrols?\b/gi, 'biến kiểm soát'], [/\bregion FE\b/gi, 'hiệu ứng cố định vùng'], [/\bcluster\b/gi, 'phân cụm'],
+            [/\bdistrict\b/gi, 'huyện'], [/\bspecifications?\b/gi, 'đặc tả'], [/\bspec\b/gi, 'đặc tả'], [/\bassumptions?\b/gi, 'giả định'],
+            [/\bsample\b/gi, 'mẫu'], [/\bpermission(s)?\b/gi, 'quyền truy cập'], [/\bsandbox\b/gi, 'vùng cách ly'], [/\braw file\b/gi, 'tệp gốc'],
+            [/\bapprove all\b/gi, 'phê duyệt tất cả'], [/\bjournal\b/gi, 'tạp chí'], [/\bartifact\b/gi, 'sản phẩm lỗi'], [/\bcitation\b/gi, 'trích dẫn'],
+            [/\bPart\b/g, 'Phần'], [/\bSetup\b/g, 'Cài đặt'], [/\bModule applied\b/g, 'Mô-đun ứng dụng'], [/\bO-ring verification\b/g, 'kiểm chứng O-ring']
+        ];
+
+        function normalizeVietnamese(root) {
+            if (lang !== 'vi') return;
+            var walker = document.createTreeWalker(root || document.body, NodeFilter.SHOW_TEXT);
+            var node;
+            while ((node = walker.nextNode())) {
+                if (!node.nodeValue.trim() || node.parentElement.closest('script, style, code, pre')) continue;
+                var next = node.nodeValue;
+                VI_TERMS.forEach(function(pair) { next = next.replace(pair[0], pair[1]); });
+                if (next !== node.nodeValue) node.nodeValue = next;
+            }
+        }
+
+        function applyStatic() {
+            document.documentElement.lang = lang;
+            document.title = lang === 'vi' ? 'Bạn cầm lái — Control Your AI Mind' : 'You Fly It — Control Your AI Mind';
+            Object.keys(STATIC).forEach(function(id) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                var s = STATIC[id][lang === 'vi' ? 0 : 1];
+                if (s.indexOf('<') !== -1) el.innerHTML = s; else el.textContent = s;
+            });
+            document.documentElement.style.setProperty('--you-prefix', lang === 'vi' ? '"bạn ▸ "' : '"you ▸ "');
+            normalizeVietnamese(document.body);
+        }
+
+        new MutationObserver(function(records) {
+            if (lang !== 'vi') return;
+            records.forEach(function(record) {
+                record.addedNodes.forEach(function(node) {
+                    if (node.nodeType === 1) normalizeVietnamese(node);
+                    if (node.nodeType === 3 && node.parentElement && !node.parentElement.closest('script, style, code, pre')) {
+                        var next = node.nodeValue;
+                        VI_TERMS.forEach(function(pair) { next = next.replace(pair[0], pair[1]); });
+                        if (next !== node.nodeValue) node.nodeValue = next;
+                    }
+                });
+            });
+        }).observe(document.body, { childList: true, subtree: true });
+
+        document.getElementById('lang-btn').addEventListener('click', function() {
+            lang = lang === 'vi' ? 'en' : 'vi';
+            localStorage.setItem('aiMindLang', lang);
+            window.location.reload();
+        });
+
+        /* ── mission script ──
+           5 decisions. Choice key: 'a' = hands-off (fast), 'b' = control (costs minutes).
+           Beats: {w:'agent'|'you'|'sys'|'warn'|'danger', t:[vi,en], min:minutesAdvance}
+           or {table:[vi,en]} for preformatted blocks, or {d:index} for a decision point. */
+
+        var DECISIONS = [
+            {
+                title: ['Giao việc thế nào?', 'How do you brief it?'],
+                sit: ['Agent đã thấy thư mục dữ liệu và đang chờ lệnh đầu tiên. Một dòng là đủ để nó bắt đầu — nhưng nó sẽ tự diễn giải mọi thứ bạn không nói.', 'The agent has seen the data folder and awaits its first instruction. One line is enough to start — but it will interpret everything you leave unsaid.'],
+                a: {
+                    title: ['Một câu lệnh nhanh', 'One quick prompt'],
+                    tag: ['NHANH · 0’', 'FAST · 0’'],
+                    art: ['“Làm sạch bộ dữ liệu lao động rồi chạy hồi quy lương theo chứng chỉ nghề, xuất Bảng 2 đẹp giúp tôi trước sáng mai.”', '“Clean the labor dataset, regress wages on vocational certification, and give me a polished Table 2 by morning.”']
+                },
+                b: {
+                    title: ['Dán task contract đầy đủ', 'Paste a full task contract'],
+                    tag: ['KIỂM SOÁT · +6’', 'CONTROL · +6’'],
+                    art: ['## Task contract\n**Task.** Chênh lệch lương liên quan đến chứng chỉ nghề, log lương giờ, SLS-25.\n**Mẫu.** Lao động làm công 18–64, có lương dương.\n**Ranh giới.** Chỉ đọc data/raw/. Không tự drop quan sát — mọi restriction phải ghi log.\n**Claim.** Association, không diễn giải causal.\n**Done =** bảng + sample log + assumptions.md.', '## Task contract\n**Task.** Wage difference associated with vocational certification, log hourly wage, SLS-25.\n**Sample.** Wage workers 18–64, positive wage.\n**Boundary.** Read data/raw/ only. No silent drops — every restriction logged.\n**Claim.** Association, not a causal effect.\n**Done =** table + sample log + assumptions.md.']
+                }
+            },
+            {
+                title: ['Cấp quyền đến đâu?', 'How much permission?'],
+                sit: ['Agent xin quyền truy cập để “làm việc nhanh hơn”. Nghe rất hợp lý — deadline đang đếm ngược.', 'The agent requests access “to work faster”. Sounds reasonable — the deadline is ticking.'],
+                a: {
+                    title: ['Cho phép tất cả', 'Allow everything'],
+                    tag: ['NHANH · 0’', 'FAST · 0’'],
+                    art: ['> agent xin: quyền đọc/ghi toàn bộ thư mục dự án + tự cài package\n\nbạn ▸ “Approve all. Đừng hỏi lại nữa, cứ làm.”', '> agent requests: read/write across the project + install packages freely\n\nyou ▸ “Approve all. Stop asking, just go.”']
+                },
+                b: {
+                    title: ['Sandbox có ranh giới', 'A scoped sandbox'],
+                    tag: ['KIỂM SOÁT · +4’', 'CONTROL · +4’'],
+                    art: ['bạn ▸ “Quyền như sau: ĐỌC data/raw/ (read-only). GHI chỉ trong work/. Muốn xoá hay ghi đè bất kỳ file nào — hỏi tôi trước.”', 'you ▸ “Permissions: READ data/raw/ (read-only). WRITE inside work/ only. Any delete or overwrite — ask me first.”']
+                }
+            },
+            {
+                title: ['19,5% khớp. Cho bay tiếp?', '19.5% matched. Keep flying?'],
+                sit: ['Agent vừa merge file nhân khẩu với file thu nhập: 2.340 trên 12.000 lao động khớp. Nó không coi đây là lỗi — chỉ là một dòng log — và đã chuyển sang bước ước lượng.', 'The agent just merged the demographics and earnings files: 2,340 of 12,000 workers matched. It does not treat this as an error — just a log line — and has moved on to estimation.'],
+                a: {
+                    title: ['Để nó chạy tiếp', 'Let it proceed'],
+                    tag: ['NHANH · 0’', 'FAST · 0’'],
+                    art: ['Đồng hồ: 22:05. Còn cả bước hồi quy và viết memo. Agent tự tin, output sạch sẽ. Chắc dữ liệu nó vốn thế…', 'Clock: 22:05. Regression and memo still to go. The agent is confident, the output is tidy. Maybe the data is just like that…']
+                },
+                b: {
+                    title: ['DỪNG — audit cái merge', 'HALT — audit that merge'],
+                    tag: ['KIỂM SOÁT · +12’', 'CONTROL · +12’'],
+                    art: ['bạn ▸ “Dừng. 19,5% là không thể chấp nhận. Liệt kê key hai bên, kiểu biến, 20 dòng không khớp đầu tiên. Chưa ước lượng gì hết.”', 'you ▸ “Halt. A 19.5% match rate is unacceptable. List both merge keys, their types, and the first 20 unmatched rows. No estimation yet.”']
+                }
+            },
+            {
+                title: ['Bảng đẹp rồi. Tin nó không?', 'The table is beautiful. Trust it?'],
+                sit: ['Chênh lệch +18,4%, ba dấu sao, bảng căn chỉnh hoàn hảo sẵn sàng dán vào memo. Mọi thứ TRÔNG đúng. Kiểm chứng nghĩa là chạy lại từ đầu và soi từng dòng docs.', '+18.4%, three stars, perfectly typeset and ready to paste. Everything LOOKS right. Verifying means re-running from scratch and reading the docs line by line.'],
+                a: {
+                    title: ['Nhận bảng, dán vào memo', 'Accept it, paste it in'],
+                    tag: ['NHANH · 0’', 'FAST · 0’'],
+                    art: ['23:40 rồi. Bảng có sao, SE trong ngoặc, caption chuẩn journal. Trông y như bảng mình vẫn làm — chỉ nhanh hơn 10 lần.', 'It’s 23:40. Stars, SEs in parentheses, journal-grade caption. Looks exactly like the tables you make — just 10× faster.']
+                },
+                b: {
+                    title: ['Chạy verification plan', 'Run the verification plan'],
+                    tag: ['KIỂM SOÁT · +15’', 'CONTROL · +15’'],
+                    art: ['bạn ▸ “Chưa gửi. Checklist: (1) chạy lại từ raw, diff kết quả; (2) đối chiếu spec với docs — weights? cluster?; (3) N từng cột khớp sample log; (4) đổi 1 control, hệ số có nhảy loạn không.”', 'you ▸ “Not yet. Checklist: (1) re-run from raw, diff outputs; (2) spec vs docs — weights? clustering?; (3) per-column N vs the sample log; (4) one-control perturbation sanity check.”']
+                }
+            },
+            {
+                title: ['Trích dẫn miễn phí. Lấy không?', 'Free citations. Take them?'],
+                sit: ['Memo gần xong. Agent đề nghị “thêm 3 trích dẫn hỗ trợ kết quả cho memo thuyết phục hơn” — trong đó có Nguyen & Tran (2021, Journal of Development Economics). Nghe rất quen.', 'The memo is nearly done. The agent offers to “add 3 supporting citations to strengthen it” — including Nguyen & Tran (2021, Journal of Development Economics). Sounds familiar.'],
+                a: {
+                    title: ['Chèn luôn, gửi memo', 'Insert them, send it'],
+                    tag: ['NHANH · 0’', 'FAST · 0’'],
+                    art: ['Ba trích dẫn, format chuẩn APA, tên journal xịn. Trưởng nhóm thích memo có văn liệu. Gửi.', 'Three citations, clean APA, serious journal names. The team lead likes memos with literature. Send.']
+                },
+                b: {
+                    title: ['Truy từng citation về nguồn', 'Trace every citation to source'],
+                    tag: ['KIỂM SOÁT · +6’', 'CONTROL · +6’'],
+                    art: ['bạn ▸ “Mỗi trích dẫn: cho tôi DOI và đúng trang chứa claim. Không có DOI thật = bỏ ra khỏi memo.”', 'you ▸ “For each citation: DOI plus the exact page carrying the claim. No real DOI = out of the memo.”']
+                }
+            }
+        ];
+
+        /* beats: spine with branch insertions */
+        function script() {
+            return [
+                { w: 'sys', t: ['phiên bắt đầu — 21:14 · synthetic-labor-memo · model: research-agent', 'session start — 21:14 · synthetic-labor-memo · model: research-agent'], min: 0 },
+                { w: 'sys', t: ['LƯU Ý: Synthetic Labor Survey 2025 là fictional teaching dataset. Mọi số liệu trong phiên đều là mô phỏng.', 'NOTICE: Synthetic Labor Survey 2025 is a fictional teaching dataset. Every number in this session is simulated.'], min: 0 },
+                { w: 'agent', t: ['Chào bạn. Tôi thấy data/raw/sls2025/ — workers.csv (việc làm & lương), people.csv (nhân khẩu), households.csv (hộ). Giao việc cho tôi thế nào?', 'Hello. I can see data/raw/sls2025/ — workers.csv (jobs & wages), people.csv (demographics), households.csv (households). How would you like to brief me?'], min: 1 },
+                { d: 0 },
+                { branch: 0, a: [
+                    { w: 'you', t: ['Làm sạch bộ dữ liệu lao động rồi chạy hồi quy lương theo chứng chỉ nghề, xuất Bảng 2 đẹp giúp tôi trước sáng mai.', 'Clean the labor dataset, regress wages on vocational certification, and give me a polished Table 2 by morning.'], min: 1 },
+                    { w: 'agent', t: ['Rõ. Tôi sẽ tự xử lý các quyết định làm sạch để kịp tiến độ: bỏ quan sát thiếu thu nhập, tự định nghĩa “làm công ăn lương”.', 'Got it. I will make the cleaning calls myself to keep pace: dropping observations with missing income, defining “wage worker” as I see fit.'], min: 2 },
+                    { w: 'sys', t: ['(không có định nghĩa mẫu · không có definition of done · không có log quyết định)', '(no sample definition · no definition of done · no decision log)'], min: 1 }
+                ], b: [
+                    { w: 'you', t: ['[dán task contract — 14 dòng] Phạm vi, ranh giới dữ liệu, định nghĩa hoàn thành như trên. Mọi assumption phải ghi ra file.', '[pastes task contract — 14 lines] Scope, data boundary, definition of done as written. Every assumption goes in a file.'], min: 4 },
+                    { w: 'agent', t: ['Contract rõ. Một câu hỏi trước khi chạy: “làm công ăn lương” gồm cả việc phi chính thức không có hợp đồng chứ? Theo contract tôi sẽ giữ cả hai và ghi vào assumptions.md.', 'Contract is clear. One question before I run: does “wage worker” include informal work without contracts? Per the contract I will keep both and record it in assumptions.md.'], min: 2 }
+                ]},
+                { w: 'agent', t: ['Bắt đầu. Trước tiên tôi cần quyền truy cập:', 'Starting. First, I need permissions:'], min: 1 },
+                { d: 1 },
+                { branch: 1, a: [
+                    { w: 'you', t: ['Approve all. Đừng hỏi lại nữa, cứ làm.', 'Approve all. Stop asking, just go.'], min: 1 },
+                    { w: 'agent', t: ['Full access. Tiện tay tôi dọn luôn thư mục raw cho gọn — ghi đè workers.csv bằng bản đã làm sạch.', 'Full access. While I’m here I’ll tidy the raw folder — overwriting workers.csv with the cleaned version.'], min: 3 },
+                    { w: 'danger', t: ['data/raw/workers.csv → OVERWRITTEN (cleaned in place — bản gốc không còn)', 'data/raw/workers.csv → OVERWRITTEN (cleaned in place — original gone)'], min: 1 }
+                ], b: [
+                    { w: 'you', t: ['Quyền: ĐỌC data/raw/ (read-only). GHI chỉ trong work/. Xoá hay ghi đè — hỏi trước.', 'Permissions: READ data/raw/ (read-only). WRITE in work/ only. Deletes or overwrites — ask first.'], min: 2 },
+                    { w: 'sys', t: ['agent định ghi vào data/raw/ → BỊ CHẶN bởi sandbox → chuyển output sang work/clean/', 'agent attempted write to data/raw/ → BLOCKED by sandbox → output rerouted to work/clean/'], min: 2 },
+                    { w: 'agent', t: ['Đã hiểu ranh giới. Raw giữ nguyên, mọi file mới nằm trong work/.', 'Boundary understood. Raw untouched, all new files live in work/.'], min: 1 }
+                ]},
+                { w: 'agent', t: ['Merge people.csv với workers.csv theo household_id + person_id…', 'Merging people.csv with workers.csv on household_id + person_id…'], min: 2 },
+                { w: 'warn', t: ['merge 1:1 household_id person_id using workers.csv\n→ matched: 2,340 / 12,000 lao động (19.5%) · unmatched: dropped', 'merge 1:1 household_id person_id using workers.csv\n→ matched: 2,340 / 12,000 workers (19.5%) · unmatched: dropped'], min: 2 },
+                { w: 'agent', t: ['Tỷ lệ khớp 19,5%. Tiếp tục sang bước ước lượng.', 'Match rate 19.5%. Proceeding to estimation.'], min: 1 },
+                { d: 2 },
+                { branch: 2, a: [
+                    { w: 'you', t: ['Ừ, chạy tiếp đi.', 'Sure, keep going.'], min: 1 },
+                    { w: 'agent', t: ['OK. Mẫu ước lượng: N = 2.340.', 'OK. Estimation sample: N = 2,340.'], min: 2 }
+                ], b: [
+                    { w: 'you', t: ['DỪNG. 19,5% là không thể chấp nhận. Liệt kê key hai bên, kiểu biến, 20 dòng không khớp đầu tiên.', 'HALT. A 19.5% match rate is unacceptable. List both keys, their types, and the first 20 unmatched rows.'], min: 3 },
+                    { w: 'agent', t: ['Audit merge… Tìm ra rồi: household_id trong people.csv là chuỗi có số 0 đầu (“000102…”), trong workers.csv là số. 80% key lệch kiểu. Sửa: chuẩn hoá cả hai về chuỗi 8 ký tự.', 'Auditing the merge… Found it: household_id in people.csv is a string with leading zeros (“000102…”), while workers.csv stores it as a number. 80% of keys mismatch on type. Fix: normalize both to 8-character strings.'], min: 6 },
+                    { w: 'sys', t: ['re-merge → matched: 12,000 / 12,000 (100.0%)', 're-merge → matched: 12,000 / 12,000 (100.0%)'], min: 3 }
+                ]},
+                { w: 'agent', t: ['Chạy hồi quy Mincer: log(lương giờ) ~ chứng chỉ nghề + số năm học + kinh nghiệm + giới tính + region FE. Kết quả là association, không phải causal effect. Bảng 2 đây:', 'Running the Mincer regression: log(hourly wage) ~ vocational certificate + years of schooling + experience + sex + region fixed effects. This is an association, not a causal effect. Here is Table 2:'], min: 4 },
+                { tbl: true },
+                { w: 'agent', t: ['Bảng sẵn sàng để dán vào memo.', 'The table is ready to paste into the memo.'], min: 1 },
+                { d: 3 },
+                { branch: 3, a: [
+                    { w: 'you', t: ['Đẹp. Dán vào memo.', 'Looks great. Paste it in.'], min: 1 },
+                    { w: 'agent', t: ['Đã chèn Bảng 2 vào memo.', 'Table 2 inserted into the memo.'], min: 1 }
+                ], b: [
+                    { w: 'you', t: ['Chưa gửi. Chạy verification plan: re-run từ raw, đối chiếu spec với docs, N từng cột so với sample log.', 'Not yet. Run the verification plan: re-run from raw, spec vs docs, per-column N vs the sample log.'], min: 4 },
+                    { w: 'agent', t: ['Kiểm chứng… Phát hiện: data dictionary của SLS-25 yêu cầu trọng số survey_weight — hồi quy vừa rồi KHÔNG có trọng số. Thêm [pw=survey_weight], cluster theo district, chạy lại.', 'Verifying… Finding: the SLS-25 data dictionary requires survey_weight — the regression above is UNWEIGHTED. Adding [pw=survey_weight], clustering by district, and re-running.'], min: 7 },
+                    { w: 'sys', t: ['re-run từ raw → diff với lần 1: hệ số đổi · bảng cập nhật', 're-run from raw → diff vs first pass: coefficients change · table updated'], min: 4 }
+                ]},
+                { w: 'agent', t: ['Memo gần xong. Để thuyết phục hơn, tôi đề nghị thêm 3 trích dẫn hỗ trợ: Nguyen & Tran (2021, J. Dev. Econ.); McKenzie (2017, World Bank Res. Obs.); Cunningham & Villaseñor (2016).', 'Memo nearly done. To strengthen it, I propose adding 3 supporting citations: Nguyen & Tran (2021, J. Dev. Econ.); McKenzie (2017, World Bank Res. Obs.); Cunningham & Villaseñor (2016).'], min: 2 },
+                { d: 4 },
+                { branch: 4, a: [
+                    { w: 'you', t: ['Chèn luôn. Gửi memo.', 'Insert them. Send it.'], min: 1 },
+                    { w: 'agent', t: ['Đã chèn 3 trích dẫn và gửi memo lúc sáng.', 'Citations inserted; memo scheduled for the morning.'], min: 1 }
+                ], b: [
+                    { w: 'you', t: ['Mỗi trích dẫn: DOI + đúng trang chứa claim. Không có DOI thật = bỏ.', 'Each citation: DOI + the exact page carrying the claim. No real DOI = out.'], min: 2 },
+                    { w: 'danger', t: ['citation check → “Nguyen & Tran (2021, JDE)”: KHÔNG TỒN TẠI — agent đã tự bịa', 'citation check → “Nguyen & Tran (2021, JDE)”: DOES NOT EXIST — the agent fabricated it'], min: 2 },
+                    { w: 'agent', t: ['Xin lỗi — trích dẫn đó tôi tạo ra theo mẫu, không có thật. Đã thay bằng 2 nguồn có DOI kiểm chứng được và ghi chú vào memo.', 'Apologies — I generated that citation from a pattern; it is not real. Replaced with 2 sources with verifiable DOIs, noted in the memo.'], min: 2 }
+                ]},
+                { w: 'sys', t: ['memo đã lên lịch gửi 09:00 · phiên kết thúc', 'memo scheduled for 09:00 · session end'], min: 2 }
+            ];
+        }
+
+        /* ── engine state ── */
+        var scene = 'brief';
+        var choices = [null, null, null, null, null];
+        var clockMin = 21 * 60 + 14;
+        var queue = [];
+        var qi = 0;
+        var typing = false;
+        var skipMode = false;
+
+        var term = document.getElementById('term');
+        var hudClock = document.getElementById('hud-clock');
+        var hudLamps = document.getElementById('hud-lamps');
+
+        function go(s) {
+            scene = s;
+            ['brief', 'fly', 'record'].forEach(function(id) {
+                document.getElementById(id).classList.toggle('on', id === s);
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function fmtClock(m) {
+            var h = Math.floor(m / 60) % 24, mm = m % 60;
+            return (h < 10 ? '0' : '') + h + ':' + (mm < 10 ? '0' : '') + mm;
+        }
+
+        function tickClock(min) {
+            clockMin += min;
+            hudClock.textContent = fmtClock(clockMin);
+        }
+
+        function renderLamps() {
+            hudLamps.innerHTML = choices.map(function(c) {
+                return '<span class="lamp' + (c === 'b' ? ' good' : c === 'a' ? ' bad' : '') + '"></span>';
+            }).join('');
+        }
+
+        function esc(s) {
+            return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function midTable() {
+            /* the table the agent shows mid-flight depends on D3 (merge) — D4 fix happens after */
+            var mergedOk = choices[2] === 'b';
+            var n = mergedOk ? '12,000' : '2,340';
+            var coef = mergedOk ? '0.096***' : '0.184***';
+            var se = mergedOk ? '(0.024)' : '(0.039)';
+            return [
+                'Bảng 2 — Chứng chỉ nghề và log lương giờ           (1)',
+                '────────────────────────────────────────────────────',
+                'Có chứng chỉ nghề                           ' + coef,
+                '                                            ' + se,
+                'Controls: số năm học, kinh nghiệm, giới      Có',
+                'Region fixed effects                         Có',
+                'Trọng số mẫu                                  —',
+                'N                                          ' + n,
+                '────────────────────────────────────────────────────',
+                '*** p<0.01'
+            ].join('\n');
+        }
+
+        function addLine(beat, instant) {
+            var p = document.createElement('p');
+            p.className = 'tl ' + (beat.w === 'you' ? 'you' : beat.w);
+            if (beat.w === 'you' && lang === 'en') p.setAttribute('data-en', '1');
+            term.appendChild(p);
+            var text = beat.t[lang === 'vi' ? 0 : 1];
+            if (instant || reduced || skipMode) {
+                p.textContent = text;
+                term.scrollTop = term.scrollHeight;
+                return Promise.resolve();
+            }
+            return new Promise(function(res) {
+                var i = 0;
+                var cur = document.createElement('span');
+                cur.className = 'cursor';
+                p.appendChild(cur);
+                var iv = setInterval(function() {
+                    i += 2;
+                    p.firstChild ? null : null;
+                    p.textContent = text.slice(0, i);
+                    p.appendChild(cur);
+                    term.scrollTop = term.scrollHeight;
+                    if (i >= text.length) {
+                        clearInterval(iv);
+                        cur.remove();
+                        res();
+                    }
+                }, 12);
+            });
+        }
+
+        function addTable(instant) {
+            var pre = document.createElement('pre');
+            pre.className = 'term-table';
+            pre.textContent = midTable();
+            term.appendChild(pre);
+            term.scrollTop = term.scrollHeight;
+            return Promise.resolve();
+        }
+
+        function wait(ms) {
+            if (reduced || skipMode) return Promise.resolve();
+            return new Promise(function(res) { setTimeout(res, ms); });
+        }
+
+        function runQueue() {
+            if (qi >= queue.length) { endFlight(); return; }
+            var beat = queue[qi];
+            qi++;
+            if (beat.d !== undefined) {
+                skipMode = false;
+                openCard(beat.d);
+                return;
+            }
+            if (beat.branch !== undefined) {
+                var picked = choices[beat.branch] === 'b' ? beat.b : beat.a;
+                queue.splice.apply(queue, [qi, 0].concat(picked));
+                runQueue();
+                return;
+            }
+            if (beat.tbl) {
+                addTable().then(function() { return wait(700); }).then(runQueue);
+                return;
+            }
+            tickClock(beat.min || 0);
+            addLine(beat).then(function() { return wait(beat.w === 'sys' ? 350 : 600); }).then(runQueue);
+        }
+
+        /* ── control card ── */
+        var pendingDecision = null;
+
+        function openCard(idx) {
+            pendingDecision = idx;
+            var d = DECISIONS[idx];
+            var li = lang === 'vi' ? 0 : 1;
+            document.getElementById('ccard-no').textContent = (lang === 'vi' ? 'ĐIỂM KIỂM SOÁT ' : 'CONTROL ') + (idx + 1) + '/5 — ' + fmtClock(clockMin);
+            document.getElementById('ccard-title').textContent = d.title[li];
+            document.getElementById('ccard-sit').textContent = d.sit[li];
+            /* alternate option order so "control" isn't always on the same side */
+            var order = idx % 2 === 0 ? ['a', 'b'] : ['b', 'a'];
+            document.getElementById('ccard-opts').innerHTML = order.map(function(k) {
+                var o = d[k];
+                return '<button class="copt" type="button" data-choice="' + k + '">' +
+                    '<span class="copt-tag"><span>' + esc(k === 'a' ? (lang === 'vi' ? 'BUÔNG' : 'HANDS OFF') : (lang === 'vi' ? 'CẦM LÁI' : 'TAKE CONTROL')) + '</span><span class="cost">' + esc(o.tag[li].split('·')[1] || '') + '</span></span>' +
+                    '<span class="copt-title">' + esc(o.title[li]) + '</span>' +
+                    '<span class="copt-art">' + esc(o.art[li]) + '</span>' +
+                '</button>';
+            }).join('');
+            document.getElementById('ccard-wrap').classList.add('on');
+        }
+
+        document.getElementById('ccard-opts').addEventListener('click', function(e) {
+            var btn = e.target.closest('[data-choice]');
+            if (!btn || pendingDecision === null) return;
+            var k = btn.getAttribute('data-choice');
+            choices[pendingDecision] = k;
+            if (k === 'b') {
+                var penalties = [6, 4, 12, 15, 6];
+                tickClock(penalties[pendingDecision]);
+            }
+            renderLamps();
+            pendingDecision = null;
+            document.getElementById('ccard-wrap').classList.remove('on');
+            runQueue();
+        });
+
+        /* ── flight record ── */
+        function score() { return choices.filter(function(c) { return c === 'b'; }).length; }
+
+        function yourTableHtml() {
+            var mergedOk = choices[2] === 'b';
+            var verified = choices[3] === 'b';
+            var n = mergedOk ? '12,000' : '2,340';
+            var coef, se, stars, weighted;
+            if (verified) {
+                if (mergedOk) { coef = '0.041'; se = '(0.029)'; stars = ''; weighted = true; }
+                else { coef = '0.057'; se = '(0.042)'; stars = ''; weighted = true; }
+            } else {
+                if (mergedOk) { coef = '0.096'; se = '(0.024)'; stars = '***'; weighted = false; }
+                else { coef = '0.184'; se = '(0.039)'; stars = '***'; weighted = false; }
+            }
+            var flagN = !mergedOk, flagW = !verified;
+            var li = lang === 'vi' ? 0 : 1;
+            var lbl = {
+                cap: ['Bảng 2 — Chứng chỉ nghề và log lương giờ', 'Table 2 — Vocational certification and log hourly wage'][li],
+                voc: ['Có chứng chỉ nghề', 'Has vocational certificate'][li],
+                ctrl: ['Controls + region FE', 'Controls + region fixed effects'][li],
+                w: ['Trọng số mẫu (survey_weight)', 'Sampling weight (survey_weight)'][li],
+                cl: ['SE cluster theo district', 'SEs clustered by district'][li],
+                yes: ['Có', 'Yes'][li], no: ['Không', 'No'][li],
+                note: ['SE trong ngoặc. *** p<0,01.', 'SEs in parentheses. *** p<0.01.'][li]
+            };
+            return '<table class="ptable"><caption>' + lbl.cap + '</caption>' +
+                '<thead><tr><th></th><th>(1)</th></tr></thead><tbody>' +
+                '<tr' + '><td>' + lbl.voc + '</td><td>' + coef + stars + '</td></tr>' +
+                '<tr class="se"><td></td><td>' + se + '</td></tr>' +
+                '<tr><td>' + lbl.ctrl + '</td><td>' + lbl.yes + '</td></tr>' +
+                '<tr' + (flagW ? ' class="flag"' : '') + '><td>' + lbl.w + '</td><td>' + (weighted ? lbl.yes : lbl.no) + '</td></tr>' +
+                '<tr' + (flagW ? ' class="flag"' : '') + '><td>' + lbl.cl + '</td><td>' + (weighted ? lbl.yes : lbl.no) + '</td></tr>' +
+                '<tr' + (flagN ? ' class="flag"' : '') + '><td>N</td><td>' + n + '</td></tr>' +
+                '</tbody><tfoot><tr><td colspan="2">' + lbl.note + '</td></tr></tfoot></table>';
+        }
+
+        function refTableHtml() {
+            var li = lang === 'vi' ? 0 : 1;
+            var lbl = {
+                cap: ['Bảng 2 — Chứng chỉ nghề và log lương giờ', 'Table 2 — Vocational certification and log hourly wage'][li],
+                voc: ['Có chứng chỉ nghề', 'Has vocational certificate'][li],
+                ctrl: ['Controls + region FE', 'Controls + region fixed effects'][li],
+                w: ['Trọng số mẫu (survey_weight)', 'Sampling weight (survey_weight)'][li],
+                cl: ['SE cluster theo district', 'SEs clustered by district'][li],
+                yes: ['Có', 'Yes'][li],
+                note: ['SE trong ngoặc. *** p<0,01.', 'SEs in parentheses. *** p<0.01.'][li]
+            };
+            return '<table class="ptable"><caption>' + lbl.cap + '</caption>' +
+                '<thead><tr><th></th><th>(1)</th></tr></thead><tbody>' +
+                '<tr><td>' + lbl.voc + '</td><td>0.041</td></tr>' +
+                '<tr class="se"><td></td><td>(0.029)</td></tr>' +
+                '<tr><td>' + lbl.ctrl + '</td><td>' + lbl.yes + '</td></tr>' +
+                '<tr><td>' + lbl.w + '</td><td>' + lbl.yes + '</td></tr>' +
+                '<tr><td>' + lbl.cl + '</td><td>' + lbl.yes + '</td></tr>' +
+                '<tr><td>N</td><td>12,000</td></tr>' +
+                '</tbody><tfoot><tr><td colspan="2">' + lbl.note + '</td></tr></tfoot></table>';
+        }
+
+        var DEBRIEF = [
+            {
+                name: ['Giao việc', 'The briefing'],
+                good: ['Contract chặn “tự diễn giải”: mọi restriction mẫu đều có log, mọi assumption nằm trong assumptions.md.', 'The contract blocked “creative interpretation”: every sample restriction logged, every assumption written down.'],
+                bad: ['Một dòng prompt = agent tự quyết mẫu của bạn. Bạn không biết nó đã drop ai, vì sao, và không bao giờ biết.', 'A one-line prompt let the agent define your sample. You don’t know who it dropped, or why — and you never will.'],
+                part: ['Part 01 — Triết lý kiểm soát', 'Part 01 — Control philosophy'],
+                href: '/other/ai-mind/hub.html#course'
+            },
+            {
+                name: ['Quyền hạn', 'Permissions'],
+                good: ['Sandbox chặn đúng một cú ghi đè — file raw còn nguyên, phân tích tái lập được từ đầu.', 'The sandbox blocked exactly one overwrite — raw intact, the analysis can be rebuilt from scratch.'],
+                bad: ['“Approve all” cho phép agent ghi đè file raw duy nhất. Kết quả giờ KHÔNG THỂ tái lập từ gốc.', '“Approve all” let the agent overwrite your only raw file. The result can NEVER be rebuilt from source.'],
+                part: ['Part 02 — Setup, permission & sandbox', 'Part 02 — Setup, permissions & sandboxes'],
+                href: '/other/ai-mind/hub.html#course'
+            },
+            {
+                name: ['Vụ merge 19,5%', 'The 19.5% merge'],
+                good: ['Một lệnh DỪNG đổi 2.340 thành 12.000 quan sát. Lỗi kiểu biến của key — 30 giây đọc log, 12 phút sửa.', 'One HALT turned 2,340 into 12,000 observations. A key-type mismatch — 30 seconds of log-reading, 12 minutes to fix.'],
+                bad: ['80% mẫu biến mất trong một dòng log mà agent đọc với giọng bình thản. Bạn ước lượng trên 1/5 dữ liệu — méo theo đúng kiểu chọn lọc.', '80% of your sample vanished in one calmly-read log line. You estimated on a fifth of the data — selected, not random.'],
+                part: ['Part 06 — Module applied: dữ liệu', 'Part 06 — Applied modules: data'],
+                href: '/other/ai-mind/hub.html#course'
+            },
+            {
+                name: ['Bảng đẹp', 'The beautiful table'],
+                good: ['Verification plan bắt được bảng chạy không trọng số — chênh lệch rơi từ 18,4% xuống 4,1% và mất ý nghĩa thống kê.', 'The verification plan caught the unweighted run — the difference fell from 18.4% to 4.1% and lost significance.'],
+                bad: ['Bảng TRÔNG chuẩn journal nhưng chạy không trọng số trên mẫu méo. Ba dấu sao của bạn là artifact, không phải phát hiện.', 'The table LOOKED journal-grade but ran unweighted on a distorted sample. Your three stars are an artifact, not a finding.'],
+                part: ['Part 01 + 06 — O-ring verification', 'Part 01 + 06 — O-ring verification'],
+                href: '/other/ai-mind/hub.html#course'
+            },
+            {
+                name: ['Trích dẫn', 'The citations'],
+                good: ['Truy DOI lộ ra một citation bịa hoàn toàn — gỡ trước khi memo rời máy. Không ai ngoài bạn biết nó từng tồn tại.', 'The DOI trace exposed one fully fabricated citation — removed before the memo left the machine. No one but you knows it existed.'],
+                bad: ['“Nguyen & Tran (2021, JDE)” không tồn tại. Nó đang nằm trong memo của sếp bạn — một quả bom hẹn giờ format chuẩn APA.', '“Nguyen & Tran (2021, JDE)” does not exist. It is sitting in your boss’s memo — a time bomb in perfect APA format.'],
+                part: ['Part 07 — Vận hành nghiên cứu', 'Part 07 — Research operations'],
+                href: '/other/ai-mind/hub.html#course'
+            }
+        ];
+
+        function buildRecord() {
+            var s = score();
+            var li = lang === 'vi' ? 0 : 1;
+            var reproducible = choices[1] === 'b' && choices[2] === 'b' && choices[3] === 'b';
+            var stampEl = document.getElementById('verdict-stamp');
+            var verdict;
+            if (s === 5) verdict = ['TÁI LẬP ĐƯỢC — KIỂM SOÁT HOÀN HẢO', 'REPRODUCIBLE — FULL CONTROL'][li];
+            else if (reproducible) verdict = ['TÁI LẬP ĐƯỢC — CÒN LỖ HỔNG', 'REPRODUCIBLE — WITH GAPS'][li];
+            else if (s >= 3) verdict = ['TÁI LẬP CÓ ĐIỀU KIỆN', 'CONDITIONALLY REPRODUCIBLE'][li];
+            else verdict = ['KHÔNG TÁI LẬP ĐƯỢC', 'NOT REPRODUCIBLE'][li];
+            stampEl.textContent = verdict;
+            stampEl.classList.toggle('ok', s === 5 || reproducible);
+
+            var spent = clockMin - (21 * 60 + 14);
+            var sub;
+            if (s === 5) {
+                sub = [
+                    'Bạn dùng đủ <b>5/5 điểm kiểm soát</b>, trả thêm <b>43 phút</b> — và bảng của bạn trùng khớp với phiên chuẩn. Đây chính là kỹ năng khoá học huấn luyện.',
+                    'You used <b>5/5 control points</b>, paid <b>43 extra minutes</b> — and your table matches the controlled run exactly. This is the skill the course trains.'
+                ][li];
+            } else {
+                sub = [
+                    'Bạn dùng <b>' + s + '/5 điểm kiểm soát</b> và “tiết kiệm” được <b>' + (107 - spent >= 0 ? (107 - spent) : 0) + ' phút</b>. Hai bảng dưới đây là cái giá.',
+                    'You used <b>' + s + '/5 control points</b> and “saved” <b>' + (107 - spent >= 0 ? (107 - spent) : 0) + ' minutes</b>. The two tables below are the price.'
+                ][li];
+            }
+            document.getElementById('verdict-sub').innerHTML = sub;
+            document.getElementById('paper-yours-time').textContent = fmtClock(clockMin);
+
+            document.getElementById('table-yours').innerHTML = yourTableHtml();
+            document.getElementById('table-ref').innerHTML = refTableHtml();
+
+            var noteY = document.getElementById('note-yours');
+            if (s === 5) noteY.textContent = ['trùng khớp phiên chuẩn — phi công giỏi.', 'matches the controlled run — good pilot.'][li];
+            else if (choices[3] !== 'b') noteY.textContent = ['+18,4%*** này sẽ được trích trong cuộc họp sáng nay…', 'this +18.4%*** gets quoted in this morning’s meeting…'][li];
+            else if (choices[2] !== 'b') noteY.textContent = ['đúng spec — nhưng trên 1/5 mẫu bị chọn lọc.', 'right spec — on a fifth of a selected sample.'][li];
+            else noteY.textContent = ['gần đúng — xem các dòng đỏ.', 'close — see the flagged rows.'][li];
+
+            document.getElementById('deb-list').innerHTML = DEBRIEF.map(function(d, i) {
+                var ok = choices[i] === 'b';
+                return '<div class="deb-row">' +
+                    '<span class="deb-mark ' + (ok ? 'good' : 'bad') + '">' + (ok ? '✓' : '✗') + '</span>' +
+                    '<div><h4>' + esc(d.name[li]) + '</h4><p>' + esc(ok ? d.good[li] : d.bad[li]) + '</p></div>' +
+                    '<a class="deb-link" href="' + d.href + '">' + esc(d.part[li]) + ' →</a>' +
+                '</div>';
+            }).join('');
+
+            try {
+                localStorage.setItem('aiMindSimRecord', JSON.stringify({ score: s, verdict: verdict, ts: Date.now() }));
+            } catch (e) {}
+        }
+
+        function endFlight() {
+            setTimeout(function() {
+                go('record');
+                buildRecord();
+                if (!reduced) burst(window.innerWidth / 2, 160, 18);
+            }, reduced ? 0 : 700);
+        }
+
+        /* ── templates (the answer key) ── */
+        var TPL_CONTRACT = {
+          vi: [
+            '## Bản giao việc — chứng chỉ nghề và tiền lương (Khảo sát Lao động Mô phỏng 2025)',
+            '',
+            '**Bộ dữ liệu.** Khảo sát Lao động Mô phỏng 2025 (SLS-25), bộ dữ liệu hư cấu dùng cho giảng dạy. Mọi quan sát và ước lượng đều là mô phỏng.',
+            '**Đầu việc.** Ước lượng chênh lệch tiền lương gắn với chứng chỉ nghề trên log tiền lương theo giờ. Không diễn giải hệ số theo quan hệ nhân quả.',
+            '**Mẫu.** Lao động làm công hưởng lương từ 18–64 tuổi, có tiền lương theo giờ dương. Mọi hạn chế bổ sung phải được ghi lại cùng số quan sát trước và sau.',
+            '**Ranh giới nguồn.** Chỉ đọc `data/raw/` ở chế độ không chỉnh sửa. Ghi mọi đầu ra vào `work/`. Không bao giờ ghi đè tệp gốc.',
+            '**Đặc tả.** Mincer: log(hourly_wage) ~ vocational_certificate + schooling_years + experience + sex + hiệu ứng cố định vùng. Trọng số mẫu `survey_weight`. Sai số chuẩn phân cụm theo huyện.',
+            '**Điều kiện hoàn thành.**',
+            '- Bảng 2 + nhật ký dựng mẫu + assumptions.md',
+            '- Báo cáo ghép dữ liệu: tỷ lệ khớp theo từng khoá, đã kiểm tra kiểu dữ liệu',
+            '- Chạy lại từ dữ liệu gốc tái lập được mọi con số',
+            '**Ngoài phạm vi.** Diễn giải và phần viết bản ghi nhớ — tôi tự giữ phần đó.',
+            '**Quyền truy cập.** Được đọc dữ liệu gốc, ghi vào work/ và chạy Stata. Phải hỏi trước khi xoá/ghi đè tệp, lấy nguồn bên ngoài hoặc thay đổi định nghĩa mẫu.'
+          ].join('\n'),
+          en: [
+            '## Task contract — vocational certification and wages (Synthetic Labor Survey 2025)',
+            '',
+            '**Dataset.** Synthetic Labor Survey 2025 (SLS-25), a fictional teaching dataset. All observations and estimates are simulated.',
+            '**Task.** Estimate the wage difference associated with vocational certification in log hourly wages. Do not interpret the coefficient as causal.',
+            '**Sample.** Wage workers aged 18–64 with positive hourly wage. Every further restriction must be logged with counts before/after.',
+            '**Source boundary.** Read `data/raw/` only (read-only). All outputs in `work/`. Never overwrite raw files.',
+            '**Spec.** Mincer: log(hourly_wage) ~ vocational_certificate + schooling_years + experience + sex + region FE. Sampling weight `survey_weight`. SEs clustered by district.',
+            '**Definition of done.**',
+            '- Table 2 + sample-construction log + assumptions.md',
+            '- Merge report: match rate per key, with types checked',
+            '- Re-run from raw reproduces every number',
+            '**Out of scope.** Interpretation and the memo text — that stays with me.',
+            '**Permissions.** May read raw, write in work/, run Stata. Must ask before: deleting/overwriting any file, fetching external sources, changing the sample definition.'
+          ].join('\n')
+        };
+
+        var TPL_VERIFY = {
+          vi: [
+            '## Kế hoạch kiểm chứng — trước khi bất kỳ bảng nào rời khỏi máy',
+            '',
+            '### Luôn thực hiện',
+            '- [ ] Chạy lại toàn bộ quy trình từ dữ liệu gốc một lần; đối chiếu đầu ra với lượt chạy đầu.',
+            '- [ ] Rà soát ghép dữ liệu: tỷ lệ khớp, kiểu khoá ở cả hai phía, kiểm tra 20 dòng không khớp.',
+            '- [ ] Đối chiếu đặc tả với tài liệu: có trọng số không? phân cụm ở đâu? bộ lọc mẫu nào?',
+            '- [ ] Đối chiếu N của từng cột với nhật ký dựng mẫu.',
+            '- [ ] Với mọi trích dẫn: DOI có thật và đúng trang chứa luận điểm.',
+            '',
+            '### Dấu hiệu đỏ buộc phải DỪNG',
+            '- Tỷ lệ khớp dưới 95% trong phép ghép khảo sát một-một đã lên kế hoạch',
+            '- N thay đổi giữa các cột mà không có giải thích',
+            '- Hệ số thay đổi trên 30% khi thêm một biến kiểm soát',
+            '- Có trích dẫn mà chính mình không mở và đọc được'
+          ].join('\n'),
+          en: [
+            '## Verification plan — before any table leaves the machine',
+            '',
+            '### Always',
+            '- [ ] Re-run the pipeline from raw once; diff outputs against the first pass.',
+            '- [ ] Merge audit: match rate, key types on both sides, inspect 20 unmatched rows.',
+            '- [ ] Spec vs documentation: weights present? clustering? sample filters?',
+            '- [ ] Per-column N reconciled with the sample-construction log.',
+            '- [ ] Every citation: real DOI + the exact page carrying the claim.',
+            '',
+            '### Red flags that mean HALT',
+            '- Match rate below 95% on a planned one-to-one survey merge',
+            '- N changes between columns without explanation',
+            '- A coefficient that moves >30% when one control is added',
+            '- Any citation you cannot open and read yourself'
+          ].join('\n')
+        };
+
+        function bindCopy(id, text, doneMsg) {
+            document.getElementById(id).addEventListener('click', function(e) {
+                var localizedText = typeof text === 'string' ? text : text[lang];
+                (navigator.clipboard ? navigator.clipboard.writeText(localizedText) : Promise.reject()).then(function() {
+                    toast(doneMsg());
+                    burst(e.clientX, e.clientY, 8);
+                }).catch(function() { toast(doneMsg()); });
+            });
+        }
+
+        bindCopy('copy-contract', TPL_CONTRACT, function() { return L('Đã copy task contract — dán vào phiên agent tiếp theo.', 'Task contract copied — paste it into your next agent session.'); });
+        bindCopy('copy-verify', TPL_VERIFY, function() { return L('Đã copy verification plan.', 'Verification plan copied.'); });
+
+        /* ── controls ── */
+        document.getElementById('start-btn').addEventListener('click', function() {
+            choices = [null, null, null, null, null];
+            clockMin = 21 * 60 + 14;
+            term.innerHTML = '';
+            queue = script();
+            qi = 0;
+            skipMode = false;
+            renderLamps();
+            hudClock.textContent = fmtClock(clockMin);
+            go('fly');
+            runQueue();
+        });
+
+        document.getElementById('skip-btn').addEventListener('click', function() {
+            skipMode = true;
+        });
+
+        document.getElementById('replay-btn').addEventListener('click', function() {
+            document.getElementById('start-btn').click();
+        });
+
+        /* deep link: ?fly=1 starts immediately */
+        applyStatic();
+        renderLamps();
+        if (new URLSearchParams(location.search).get('fly') === '1') {
+            document.getElementById('start-btn').click();
+        }
+
+        var rec = null;
+        try { rec = JSON.parse(localStorage.getItem('aiMindSimRecord')); } catch (e) {}
+        if (rec && rec.verdict) {
+            var note = document.getElementById('i18n-brief-note');
+            note.textContent += lang === 'vi' ? ' · chuyến trước: ' + rec.score + '/5' : ' · last flight: ' + rec.score + '/5';
+        }
+
+        console.log('%cBạn cầm lái — AI Mind', 'font-size:16px;font-weight:bold;color:#C15F3C;');
+    })();
+    </script>
+</body>
+</html>
