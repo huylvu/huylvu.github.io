@@ -1,6 +1,9 @@
 .DS_Store
 .playwright-cli/
+.superpowers/
+logs/*.log
 other/bookshelf-src/.claude/
 other/bookshelf-src/dist/
 other/bookshelf-src/node_modules/
+other/ai-mind/new_idea/
 other/research-experts/bookmarks-private.js
