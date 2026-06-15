@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">Thiên Bàn icon</title>
+  <desc id="desc">A dark ink celestial chart with brass orbit rings, constellations, a red seal, and a vermilion star.</desc>
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="44%" r="70%">
+      <stop offset="0%" stop-color="#18302b"/>
+      <stop offset="48%" stop-color="#071412"/>
+      <stop offset="100%" stop-color="#020706"/>
+    </radialGradient>
+    <radialGradient id="wheelGlow" cx="50%" cy="50%" r="54%">
+      <stop offset="0%" stop-color="#d5b76f" stop-opacity=".18"/>
+      <stop offset="66%" stop-color="#c79a52" stop-opacity=".055"/>
+      <stop offset="100%" stop-color="#c79a52" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brass" x1="20%" y1="7%" x2="86%" y2="95%">
+      <stop offset="0%" stop-color="#f1d79d"/>
+      <stop offset="42%" stop-color="#a98242"/>
+      <stop offset="100%" stop-color="#e0bd75"/>
+    </linearGradient>
+    <linearGradient id="sealRed" x1="20%" y1="10%" x2="82%" y2="92%">
+      <stop offset="0%" stop-color="#f36a45"/>
+      <stop offset="55%" stop-color="#b83425"/>
+      <stop offset="100%" stop-color="#6f1b16"/>
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="4" seed="8"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 .24"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="redGlow" x="-160%" y="-160%" width="420%" height="420%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <clipPath id="cardClip">
+      <rect x="28" y="28" width="968" height="968" rx="190"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#cardClip)">
+    <rect width="1024" height="1024" fill="url(#bgGlow)"/>
+    <rect width="1024" height="1024" filter="url(#grain)" opacity=".42"/>
+    <path d="M0 742c130-40 204-18 286-50 86-33 164-105 296-82 101 18 180 88 290 60 74-19 116-68 152-90v444H0Z" fill="#0c1714" opacity=".74"/>
+    <path d="M34 748c132-38 198-18 286-47 94-32 153-88 282-68 96 15 186 82 294 55 58-15 92-44 128-72v408H34Z" fill="#1a241d" opacity=".25"/>
+    <path d="M138 730c92-80 206-72 288-43 61 22 121 58 200 43 88-16 139-67 220-62 48 3 84 22 128 47v309H138Z" fill="#090f0e" opacity=".46"/>
+
+    <g transform="translate(512 500)">
+      <circle r="353" fill="url(#wheelGlow)"/>
+      <g fill="none" stroke="url(#brass)" stroke-width="4" opacity=".9">
+        <circle r="316"/>
+        <circle r="287" opacity=".74"/>
+        <circle r="255" opacity=".58"/>
+        <circle r="190" opacity=".48"/>
+        <circle r="121" opacity=".38"/>
+        <circle r="58" opacity=".34"/>
+      </g>
+      <g fill="none" stroke="#c8a260" stroke-width="2.2" opacity=".38">
+        <ellipse rx="454" ry="118" transform="rotate(17)"/>
+        <ellipse rx="430" ry="143" transform="rotate(-31)"/>
+        <ellipse rx="392" ry="78" transform="rotate(62)"/>
+      </g>
+      <g stroke="#b99555" stroke-width="2" opacity=".44">
+        <line x1="0" y1="-255" x2="0" y2="255"/>
+        <line x1="-128" y1="-221.7" x2="128" y2="221.7"/>
+        <line x1="-221.7" y1="-128" x2="221.7" y2="128"/>
+        <line x1="-255" y1="0" x2="255" y2="0"/>
+        <line x1="-221.7" y1="128" x2="221.7" y2="-128"/>
+        <line x1="-128" y1="221.7" x2="128" y2="-221.7"/>
+      </g>
+      <g stroke="#d2ad68" stroke-linecap="round" opacity=".58">
+        <line x1="0" y1="-286" x2="0" y2="-316" stroke-width="5"/>
+        <line x1="143" y1="-247.7" x2="158" y2="-273.7" stroke-width="5"/>
+        <line x1="247.7" y1="-143" x2="273.7" y2="-158" stroke-width="5"/>
+        <line x1="286" y1="0" x2="316" y2="0" stroke-width="5"/>
+        <line x1="247.7" y1="143" x2="273.7" y2="158" stroke-width="5"/>
+        <line x1="143" y1="247.7" x2="158" y2="273.7" stroke-width="5"/>
+        <line x1="0" y1="286" x2="0" y2="316" stroke-width="5"/>
+        <line x1="-143" y1="247.7" x2="-158" y2="273.7" stroke-width="5"/>
+        <line x1="-247.7" y1="143" x2="-273.7" y2="158" stroke-width="5"/>
+        <line x1="-286" y1="0" x2="-316" y2="0" stroke-width="5"/>
+        <line x1="-247.7" y1="-143" x2="-273.7" y2="-158" stroke-width="5"/>
+        <line x1="-143" y1="-247.7" x2="-158" y2="-273.7" stroke-width="5"/>
+      </g>
+      <g font-family="serif" font-size="48" fill="#d6bd83" opacity=".85" text-anchor="middle" dominant-baseline="middle">
+        <text x="0" y="-258">子</text>
+        <text x="129" y="-224">丑</text>
+        <text x="224" y="-129">寅</text>
+        <text x="258" y="0">卯</text>
+        <text x="224" y="129">辰</text>
+        <text x="129" y="224">巳</text>
+        <text x="0" y="258">午</text>
+        <text x="-129" y="224">未</text>
+        <text x="-224" y="129">申</text>
+        <text x="-258" y="0">酉</text>
+        <text x="-224" y="-129">戌</text>
+        <text x="-129" y="-224">亥</text>
+      </g>
+      <g fill="none" stroke="#f1d99c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity=".86" filter="url(#softGlow)">
+        <path d="M-182-44-126-92-64-35-8-49 52 5 128-21 201 41"/>
+        <path d="M-116 126-58 170 18 137 75 185 143 138"/>
+        <path d="M-38-164 26-132 76-78 147-104 198-66"/>
+        <path d="M-222 42-164 11-104 48-48 86 18 65"/>
+      </g>
+      <g fill="#f4dfad" filter="url(#softGlow)">
+        <circle cx="-182" cy="-44" r="5"/>
+        <circle cx="-126" cy="-92" r="4"/>
+        <circle cx="-64" cy="-35" r="5"/>
+        <circle cx="-8" cy="-49" r="3.6"/>
+        <circle cx="52" cy="5" r="5"/>
+        <circle cx="128" cy="-21" r="4"/>
+        <circle cx="201" cy="41" r="5.4"/>
+        <circle cx="-116" cy="126" r="4.5"/>
+        <circle cx="-58" cy="170" r="3.8"/>
+        <circle cx="18" cy="137" r="4.8"/>
+        <circle cx="75" cy="185" r="3.6"/>
+        <circle cx="143" cy="138" r="4.4"/>
+        <circle cx="-38" cy="-164" r="4.4"/>
+        <circle cx="26" cy="-132" r="3.5"/>
+        <circle cx="76" cy="-78" r="5"/>
+        <circle cx="147" cy="-104" r="4.1"/>
+        <circle cx="198" cy="-66" r="4.3"/>
+        <circle cx="-222" cy="42" r="4.4"/>
+        <circle cx="-164" cy="11" r="3.8"/>
+        <circle cx="-104" cy="48" r="4.6"/>
+        <circle cx="-48" cy="86" r="3.7"/>
+        <circle cx="18" cy="65" r="4.2"/>
+      </g>
+      <circle cx="205" cy="-18" r="19" fill="#de3b26" filter="url(#redGlow)"/>
+      <circle cx="205" cy="-18" r="8" fill="#ff714d"/>
+    </g>
+
+    <g transform="translate(129 143)">
+      <rect x="-50" y="-55" width="104" height="116" rx="16" fill="none" stroke="url(#sealRed)" stroke-width="9"/>
+      <g fill="none" stroke="#d9432d" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="-26" y1="-26" x2="-3" y2="-26"/>
+        <line x1="-16" y1="-40" x2="-16" y2="-7"/>
+        <line x1="4" y1="-35" x2="31" y2="-35"/>
+        <line x1="15" y1="-40" x2="15" y2="-14"/>
+        <polyline points="4,-15 18,-17 38,-26"/>
+        <polyline points="-28,0 -4,2 30,-5"/>
+        <polyline points="-6,-5 -17,9 -36,26"/>
+        <polyline points="4,-2 21,11 39,29"/>
+        <polyline points="-6,21 -12,38 -21,50"/>
+        <line x1="7" y1="18" x2="7" y2="52"/>
+        <polyline points="21,20 32,36 41,51"/>
+      </g>
+      <g fill="none" stroke="#c9422d" stroke-width="3" opacity=".5">
+        <polyline points="-38,-39 -8,-35 40,-37"/>
+        <polyline points="-39,43 -5,40 41,43"/>
+        <polyline points="-38,-38 -35,6 -40,46"/>
+        <polyline points="41,-39 44,4 42,47"/>
+      </g>
+    </g>
+
+    <path d="M116 858c78-34 168-37 242-6 90 39 176 44 254 6 84-41 176-48 296-5" fill="none" stroke="#98764a" stroke-width="3" opacity=".22"/>
+    <rect x="28" y="28" width="968" height="968" rx="190" fill="none" stroke="#cba96a" stroke-opacity=".28" stroke-width="3"/>
+  </g>
+</svg>

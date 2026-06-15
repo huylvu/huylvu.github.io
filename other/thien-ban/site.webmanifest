@@ -1,0 +1,23 @@
+{
+  "name": "Thiên Bàn",
+  "short_name": "Thiên Bàn",
+  "description": "Lập lá số Tử Vi, tra cứu cung sao và đọc luận giải cơ bản.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#020706",
+  "theme_color": "#071412",
+  "icons": [
+    {
+      "src": "icons/thien-ban-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/thien-ban-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
