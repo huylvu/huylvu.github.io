@@ -1,0 +1,2 @@
+::1 - - [15/Jun/2026 18:09:46] "HEAD /other/app/ HTTP/1.1" 200 -
+::1 - - [15/Jun/2026 18:09:46] "HEAD /other/app/images/thien-ban-icon.png HTTP/1.1" 200 -
