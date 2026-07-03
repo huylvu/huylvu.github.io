@@ -1990,7 +1990,7 @@ body.manual-modal-open {
 
 .manual-access-panel {
     position: relative;
-    width: min(100%, 560px);
+    width: min(100%, 760px);
     max-height: calc(100vh - 48px);
     overflow: auto;
     padding: 40px;
@@ -2039,47 +2039,123 @@ body.manual-modal-open {
     line-height: 1.65;
 }
 
-.manual-access-price {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 18px;
-    margin: 26px 0 18px;
-    padding: 18px 0;
-    border-block: 1px solid var(--line);
-}
-
-.manual-access-price span {
-    color: var(--muted);
-    font-size: 0.85rem;
-}
-
-.manual-access-price strong {
-    color: var(--accent);
-    font-size: 1.2rem;
-}
-
-.manual-bank-details {
-    margin: 0;
-}
-
-.manual-bank-details div {
+.manual-plan-list {
     display: grid;
-    grid-template-columns: 140px 1fr;
-    gap: 18px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--line);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin: 28px 0 20px;
 }
 
-.manual-bank-details dt {
+.manual-plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 210px;
+    padding: 18px 18px 20px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0)),
+        var(--panel);
+    box-shadow: 0 18px 54px rgba(20, 20, 19, 0.06);
+    overflow: hidden;
+    transition: transform 200ms var(--ease-out), border-color 180ms ease, box-shadow 200ms ease, background 180ms ease;
+}
+
+[data-theme="dark"] .manual-plan {
+    background:
+        linear-gradient(180deg, rgba(250, 249, 245, 0.05), rgba(250, 249, 245, 0)),
+        var(--panel);
+}
+
+.manual-plan::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--oat);
+}
+
+.manual-plan:nth-child(2)::before {
+    background: var(--green);
+}
+
+.manual-plan:hover {
+    transform: translateY(-3px);
+    border-color: rgba(193, 95, 60, 0.45);
+    box-shadow: 0 24px 70px rgba(20, 20, 19, 0.12);
+}
+
+.manual-plan-featured {
+    border-color: var(--accent);
+    background:
+        linear-gradient(180deg, rgba(193, 95, 60, 0.12), rgba(193, 95, 60, 0.02) 58%),
+        var(--panel-strong);
+    box-shadow: 0 26px 80px rgba(193, 95, 60, 0.16);
+}
+
+.manual-plan-featured::before {
+    background: var(--accent);
+}
+
+.manual-plan-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 34px;
+}
+
+.manual-plan-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 0 9px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
     color: var(--muted);
-    font-size: 0.82rem;
+    background: rgba(255, 255, 255, 0.34);
+    font: 800 0.62rem var(--mono, monospace);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
-.manual-bank-details dd {
+.manual-plan-price {
+    display: inline-flex;
+    color: var(--accent);
+    font: 800 1.08rem var(--mono, monospace);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.manual-plan h3 {
+    margin: 0 0 10px;
+    max-width: 12ch;
+    font: 700 1.22rem/1.08 var(--serif);
+}
+
+.manual-plan p {
     margin: 0;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.manual-plan p::after {
+    content: "";
+    display: block;
+    width: 34px;
+    height: 1px;
+    margin-top: 18px;
+    background: var(--line);
+}
+
+.manual-plan-featured p::after {
+    background: var(--accent);
 }
 
 .manual-access-note {
@@ -2090,12 +2166,21 @@ body.manual-modal-open {
 .manual-access-confirm {
     width: 100%;
     min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--accent);
     border-radius: 4px;
     background: var(--accent);
     color: #fff;
     cursor: pointer;
     font: 700 0.9rem var(--sans);
+    text-decoration: none;
+}
+
+.manual-access-confirm:hover {
+    background: var(--accent-dark);
+    text-decoration: none;
 }
 
 @media (max-width: 640px) {
@@ -2108,15 +2193,21 @@ body.manual-modal-open {
         padding: 34px 22px 24px;
     }
 
-    .manual-access-price {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 6px;
+    .manual-plan-list {
+        grid-template-columns: 1fr;
     }
 
-    .manual-bank-details div {
-        grid-template-columns: 1fr;
-        gap: 4px;
+    .manual-plan {
+        min-height: 0;
+        padding: 16px;
+    }
+
+    .manual-plan-head {
+        margin-bottom: 20px;
+    }
+
+    .manual-plan h3 {
+        max-width: none;
     }
 }
 

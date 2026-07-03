@@ -105,15 +105,15 @@ a{color:inherit}
 .roles-kicker{font-family:var(--mono); font-size:11.5px; letter-spacing:.24em; color:var(--clay); text-transform:uppercase; margin-bottom:14px}
 .roles-head h1{font-size:clamp(1.7rem,4.4vw,3rem); font-weight:500; letter-spacing:-.01em; max-width:22ch; margin-inline:auto; line-height:1.15}
 .roles-head h1 em{color:var(--clay); font-style:italic}
-.roles-grid{display:flex; gap:clamp(12px,2vw,22px); width:min(1060px,100%)}
+.roles-grid{display:flex; flex-wrap:wrap; gap:clamp(12px,2vw,22px); width:min(1180px,100%)}
 .role-card{
-  flex:1; text-align:left; background:var(--card); border:1px solid var(--bd); border-radius:18px;
+  flex:1 1 min(250px,100%); text-align:left; background:var(--card); border:1px solid var(--bd); border-radius:18px;
   padding:clamp(20px,3vw,34px); position:relative; overflow:hidden;
   transition:flex .5s var(--ease), transform .35s var(--ease), box-shadow .35s, border-color .3s;
-  box-shadow:0 10px 36px -22px var(--shadow); min-height:clamp(300px,44vh,420px);
+  box-shadow:0 10px 36px -22px var(--shadow); min-height:clamp(280px,40vh,390px);
   display:flex; flex-direction:column;
 }
-.role-card:hover{flex:1.28; border-color:var(--clay); transform:translateY(-4px); box-shadow:0 30px 60px -28px var(--shadow)}
+.role-card:hover{flex:1.06 1 min(250px,100%); border-color:var(--clay); transform:translateY(-4px); box-shadow:0 30px 60px -28px var(--shadow)}
 .role-card::before{
   content:""; position:absolute; top:-12px; left:50%; transform:translateX(-50%) rotate(-2deg);
   width:92px; height:24px; background:var(--oat); opacity:.9; border-radius:2px;
@@ -462,7 +462,7 @@ a{color:inherit}
       <span class="role-key">1</span>
       <span class="role-tag">role: <b>economic_researcher</b></span>
       <h2 data-i18n="roleRtitle">Nhà nghiên cứu kinh tế</h2>
-      <p data-i18n="roleRline">Crawl dữ liệu, quét văn liệu, làm sạch, hồi quy, dựng bảng, compile LaTeX, phản biện.</p>
+      <p data-i18n="roleRline">Từ câu hỏi nghiên cứu đến văn liệu, dữ liệu, bảng kết quả, bản thảo và phản biện.</p>
       <span class="role-art" aria-hidden="true">
         <svg viewBox="0 0 320 96" id="artR">
           <line class="ch-axis" x1="14" y1="84" x2="310" y2="84"/>
@@ -475,9 +475,29 @@ a{color:inherit}
       <span class="role-key">2</span>
       <span class="role-tag">role: <b>project_implementer</b></span>
       <h2 data-i18n="roleOtitle">Điều phối và quản lý dự án</h2>
-      <p data-i18n="roleOline">Email &amp; việc cần xử lý, bảng hỏi Kobo, kiểm tra dữ liệu thực địa, báo cáo tuần tự động.</p>
+      <p data-i18n="roleOline">Bảng hỏi, lịch thu thập, dữ liệu khảo sát, đầu việc và báo cáo tiến độ.</p>
       <span class="role-art" aria-hidden="true">
         <svg viewBox="0 0 320 96" id="artO"></svg>
+      </span>
+      <span class="role-go">chọn vai này →</span>
+    </button>
+    <button class="role-card" id="cardLecturer" data-role="lecturer">
+      <span class="role-key">3</span>
+      <span class="role-tag">role: <b>lecturer</b></span>
+      <h2 data-i18n="roleLtitle">Giảng viên / người dạy</h2>
+      <p data-i18n="roleLline">Soạn buổi học, slide, bài tập, câu hỏi kiểm tra và phản hồi cho người học.</p>
+      <span class="role-art" aria-hidden="true">
+        <svg viewBox="0 0 320 96" id="artL"></svg>
+      </span>
+      <span class="role-go">chọn vai này →</span>
+    </button>
+    <button class="role-card" id="cardStudent" data-role="student">
+      <span class="role-key">4</span>
+      <span class="role-tag">role: <b>undergrad_grad_student</b></span>
+      <h2 data-i18n="roleStitle">Sinh viên đại học / cao học</h2>
+      <p data-i18n="roleSline">Đọc tài liệu khó, lập kế hoạch bài tập, ghi chú, kiểm tra code và chuẩn bị trình bày.</p>
+      <span class="role-art" aria-hidden="true">
+        <svg viewBox="0 0 320 96" id="artS"></svg>
       </span>
       <span class="role-go">chọn vai này →</span>
     </button>
@@ -556,8 +576,12 @@ const I18N={
   rolesTitle:{vi:'Bạn sẽ điều khiển <em>trí tuệ AI</em> cho việc gì?',en:'What will you control an <em>AI mind</em> for?'},
   roleRtitle:{vi:'Nhà nghiên cứu kinh tế',en:'Economic Researcher'},
   roleOtitle:{vi:'Điều phối và quản lý dự án',en:'Project Implementer / Manager'},
-  roleRline:{vi:'Thu thập dữ liệu web, quét văn liệu, làm sạch, hồi quy, dựng bảng, biên dịch LaTeX và phản biện.',en:'Crawl data, sweep literature, clean, run regressions, build tables, compile LaTeX, get refereed.'},
-  roleOline:{vi:'Phân loại thư và đầu việc, dựng bảng hỏi Kobo, kiểm tra dữ liệu thực địa, tự động soạn báo cáo tuần.',en:'Email & task triage, Kobo questionnaires, daily field-data checks, automated weekly reports.'},
+  roleLtitle:{vi:'Giảng viên / người dạy',en:'Lecturer / Instructor'},
+  roleStitle:{vi:'Sinh viên đại học / cao học',en:'Undergrad / Grad Student'},
+  roleRline:{vi:'Từ câu hỏi nghiên cứu đến văn liệu, dữ liệu, bảng kết quả, bản thảo và phản biện.',en:'From research question to literature, data, result tables, draft and review.'},
+  roleOline:{vi:'Bảng hỏi, lịch thu thập, dữ liệu khảo sát, đầu việc và báo cáo tiến độ.',en:'Questionnaires, collection schedules, survey data, tasks and progress reporting.'},
+  roleLline:{vi:'Soạn buổi học, slide, bài tập, câu hỏi kiểm tra và phản hồi cho người học.',en:'Plan lessons, slides, exercises, quizzes and feedback for learners.'},
+  roleSline:{vi:'Đọc tài liệu khó, lập kế hoạch bài tập, ghi chú, kiểm tra code và chuẩn bị trình bày.',en:'Read hard material, plan assignments, take structured notes, check code and prepare presentations.'},
   rolesFoot:{vi:'đã biết mình cần gì?',en:'already know what you need?'},
   rolesFootLink:{vi:'đi thẳng vào khoá học →',en:'skip straight to the course →'},
   ctaHand:{vi:'đó là hai tuần công việc được nén lại trong vài phút ↑',en:'that was two weeks of work, compressed into minutes ↑'},
@@ -565,7 +589,7 @@ const I18N={
   ctaSub:{vi:'Khoá học Control Your AI Mind dạy bạn xây dựng, giao việc và giám sát tác nhân AI theo đúng vai trò và dự án thật của mình. Toàn bộ chương trình được mở để xem miễn phí.',en:'The Control Your AI Mind course teaches you to build, brief and supervise AI agents — for your exact role, on your real projects. The full curriculum is free to browse.'},
   ctaCourse:{vi:'Control your AI mind — vào khoá học →',en:'Control your AI mind — enter the course →'},
   ctaHub:{vi:'Phòng mô phỏng →',en:'AI Mind Studio →'},
-  ctaReplay:{vi:'↺ xem vai còn lại',en:'↺ replay as the other role'},
+  ctaReplay:{vi:'↺ xem vai tiếp theo',en:'↺ replay as the next role'},
   bootSub:{vi:'bấm để bỏ qua',en:'click to skip'},
   chooseRole:{vi:'chọn vai này →',en:'pick this role →'},
 };
@@ -666,38 +690,60 @@ function drawRoleArt(){
     d.setAttribute('cx',b[0]+b[2]+10);d.setAttribute('cy',b[1]+6.5);d.setAttribute('r',3.4);
     d.setAttribute('class','pt');d.style.animationDelay=(.4+i*.16)+'s';O.appendChild(d);
   });
+  const Lg=$('#artL');
+  [[22,14,276],[22,34,210],[22,54,244],[22,74,168]].forEach((b,i)=>{
+    const r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',b[0]);r.setAttribute('y',b[1]);r.setAttribute('width',b[2]);r.setAttribute('height',10);
+    r.setAttribute('rx',3);r.setAttribute('class','gbar');r.style.animationDelay=(.12+i*.14)+'s';Lg.appendChild(r);
+  });
+  [[236,30],[260,46],[284,62]].forEach((p,i)=>{
+    const c=document.createElementNS(NS,'circle');
+    c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r',4);
+    c.setAttribute('class','pt');c.style.animationDelay=(.35+i*.12)+'s';Lg.appendChild(c);
+  });
+  const Sg=$('#artS');
+  [[18,18,48],[18,42,78],[18,66,60]].forEach((b,i)=>{
+    const r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',b[0]);r.setAttribute('y',b[1]);r.setAttribute('width',b[2]);r.setAttribute('height',12);
+    r.setAttribute('rx',4);r.setAttribute('class','gbar');r.style.animationDelay=(.12+i*.16)+'s';Sg.appendChild(r);
+  });
+  [[118,24,160],[118,48,132],[118,72,184]].forEach((b,i)=>{
+    const r=document.createElementNS(NS,'rect');
+    r.setAttribute('x',b[0]);r.setAttribute('y',b[1]);r.setAttribute('width',b[2]);r.setAttribute('height',7);
+    r.setAttribute('rx',3);r.setAttribute('class','gbar');r.style.animationDelay=(.42+i*.16)+'s';Sg.appendChild(r);
+  });
 }
 /* ================== VIGNETTE DATA ================== */
 const VIG={
 researcher:[
- {tag:{vi:'01 / THU THẬP DỮ LIỆU WEB',en:'01 / CRAWL DATA'},win:{vi:'tác nhân: thu thập web — dòng lệnh',en:'agent: web-crawler — terminal'},agent:{vi:'tác nhân thu thập web · đang chạy',en:'web-crawler · running'},
-  title:{vi:'Dữ liệu trên web tự chảy về máy bạn.',en:'Web data flows itself onto your machine.'},
-  line:{vi:'Tác nhân AI đọc trang, bóc bảng, chuẩn hoá đơn vị rồi ghi vào data/raw/ — kèm nhật ký từng nguồn để bạn kiểm tra lại.',en:'The agent reads pages, extracts tables, normalises units and writes straight to data/raw/ — with a per-source log you can audit.'},
-  anim:'crawl'},
- {tag:{vi:'02 / VĂN LIỆU',en:'02 / LITERATURE'},win:{vi:'tác nhân: quét văn liệu — kết quả xếp hạng',en:'agent: lit-scout — ranked results'},agent:{vi:'tác nhân quét văn liệu · đang xếp hạng',en:'lit-scout · ranking'},
-  title:{vi:'Quét 60 bài báo một buổi sáng — kèm hệ số chính.',en:'Sixty papers swept in a morning — key coefficients included.'},
-  line:{vi:'Tìm nhanh, đọc kỹ: mỗi bài được trích câu hỏi nghiên cứu, dữ liệu, thiết kế và hệ số chính, rồi xếp hạng theo độ liên quan.',en:'Search fast, read deep: each paper gets its question, data, design and headline coefficient extracted, then ranked by relevance.'},
+ {tag:{vi:'01 / CÂU HỎI & VĂN LIỆU',en:'01 / QUESTION & LITERATURE'},win:{vi:'tác nhân: trợ lý văn liệu — bản đồ nghiên cứu',en:'agent: lit-scout — research map'},agent:{vi:'tác nhân trợ lý văn liệu · đang xếp hạng',en:'lit-scout · ranking'},
+  title:{vi:'Bắt đầu từ câu hỏi nghiên cứu, không phải từ công cụ.',en:'Start from the research question, not the tool.'},
+  line:{vi:'Tác nhân AI tách câu hỏi, biến số, dữ liệu, thiết kế nhận diện và các bài nền tảng liên quan — để bạn biết mình đang đứng ở đâu trước khi làm tiếp.',en:'The agent separates the question, variables, data, identification design and anchor papers — so you know where the project stands before moving on.'},
   anim:'lit'},
- {tag:{vi:'03 / LÀM SẠCH DỮ LIỆU',en:'03 / CLEAN DATA'},win:{vi:'tác nhân: kiểm toán dữ liệu — lượt làm sạch',en:'agent: data-auditor — cleaning pass'},agent:{vi:'tác nhân kiểm toán dữ liệu · có giám sát',en:'data-auditor · supervised'},
-  title:{vi:'Làm sạch có log — không phải làm sạch theo trí nhớ.',en:'Cleaning with a log — not cleaning from memory.'},
-  line:{vi:'Tác nhân AI soi giá trị thiếu, mã lỗi và đứt gãy định nghĩa biến rồi đề xuất sửa. Mỗi ô được sửa đều truy vết được — bạn duyệt trước khi ghi.',en:'It flags missingness, bad codes and definition breaks, then proposes fixes. Every repaired cell is traceable — you approve before writes.'},
+ {tag:{vi:'02 / KIỂM TRA DỮ LIỆU',en:'02 / DATA AUDIT'},win:{vi:'tác nhân: kiểm toán dữ liệu — lượt kiểm tra',en:'agent: data-auditor — audit pass'},agent:{vi:'tác nhân kiểm toán dữ liệu · có giám sát',en:'data-auditor · supervised'},
+  title:{vi:'Biết dữ liệu có gánh được câu hỏi không.',en:'Find out whether the data can carry the question.'},
+  line:{vi:'Tác nhân AI soi đơn vị quan sát, giá trị thiếu, mã lỗi và biến được dựng thế nào. Việc làm sạch vẫn có log và chờ bạn duyệt trước khi ghi.',en:'It checks the unit of observation, missingness, bad codes and variable construction. Cleaning stays logged and waits for your approval before any write.'},
   anim:'clean'},
- {tag:{vi:'04 / PHÂN TÍCH VÀ TRỰC QUAN HOÁ',en:'04 / ANALYZE & VISUALIZE'},win:{vi:'tác nhân: phân tích — biểu đồ',en:'agent: analyst — figures'},agent:{vi:'tác nhân phân tích · đang vẽ',en:'analyst · drawing'},
-  title:{vi:'Mười hai biểu đồ mô tả trong lúc bạn đọc email.',en:'Twelve descriptive figures while you read email.'},
-  line:{vi:'Phân phối, xu hướng, phân rã theo nhóm — tác nhân AI vẽ trước mọi hồi quy để bạn nhìn thấy dữ liệu thật sự nói gì.',en:'Distributions, trends, group breakdowns — drawn before any regression so you see what the data actually says.'},
+ {tag:{vi:'03 / MÔ TẢ DỮ LIỆU',en:'03 / DESCRIPTIVE ANALYSIS'},win:{vi:'tác nhân: phân tích — biểu đồ',en:'agent: analyst — figures'},agent:{vi:'tác nhân phân tích · đang vẽ',en:'analyst · drawing'},
+  title:{vi:'Nhìn dữ liệu trước khi chạy mô hình.',en:'Look at the data before running models.'},
+  line:{vi:'Phân phối, xu hướng và phân rã theo nhóm được vẽ trước mọi hồi quy — để bạn không viết một câu chuyện mà dữ liệu không ủng hộ.',en:'Distributions, trends and group breakdowns are drawn before any regression — so you do not write a story the data cannot support.'},
   anim:'chart'},
- {tag:{vi:'05 / HỒI QUY',en:'05 / REGRESSION'},win:{vi:'tác nhân: chạy đặc tả — cửa sổ Stata',en:'agent: spec-runner — stata console'},agent:{vi:'tác nhân chạy đặc tả · 12 mô hình',en:'spec-runner · 12 specs'},
-  title:{vi:'Mười hai đặc tả, một bảng so sánh.',en:'Twelve specifications, one comparison table.'},
-  line:{vi:'Hiệu ứng cố định, phân cụm và trọng số chạy đúng theo kế hoạch đã duyệt. Kết quả gom thành bản ghi nhớ — bạn đọc một trang thay vì mười hai tệp nhật ký.',en:'FE, clustering, weights run exactly to the approved plan. Results land in one memo — you read a page, not twelve log files.'},
+ {tag:{vi:'04 / HỒI QUY',en:'04 / REGRESSION'},win:{vi:'tác nhân: chạy đặc tả — cửa sổ Stata',en:'agent: spec-runner — stata console'},agent:{vi:'tác nhân chạy đặc tả · 12 mô hình',en:'spec-runner · 12 specs'},
+  title:{vi:'Đặc tả chạy theo kế hoạch đã duyệt.',en:'Specifications run from an approved plan.'},
+  line:{vi:'Hiệu ứng cố định, phân cụm và trọng số chạy đúng theo kế hoạch. Kết quả gom thành bản ghi nhớ — bạn đọc một trang thay vì mười hai tệp nhật ký.',en:'FE, clustering and weights run exactly to plan. Results land in one memo — you read a page, not twelve log files.'},
   anim:'reg'},
- {tag:{vi:'06 / BẢNG VÀ LATEX',en:'06 / TABLES & LATEX'},win:{vi:'tác nhân: dàn trang — pdflatex',en:'agent: typesetter — pdflatex'},agent:{vi:'tác nhân dàn trang · đang biên dịch',en:'typesetter · compiling'},
-  title:{vi:'Từ kết quả đến PDF, không cần mở Overleaf.',en:'From results to PDF without opening Overleaf.'},
-  line:{vi:'Bảng hồi quy tự sinh đúng chuẩn tạp chí, chèn vào bản thảo và biên dịch sạch lỗi — số trong bảng luôn khớp số trong nhật ký.',en:'Journal-grade tables are generated, inserted, and compiled clean — numbers in the table always match numbers in the log.'},
+ {tag:{vi:'05 / BẢNG & BẢN THẢO',en:'05 / TABLES & DRAFT'},win:{vi:'tác nhân: dàn trang — pdflatex',en:'agent: typesetter — pdflatex'},agent:{vi:'tác nhân dàn trang · đang biên dịch',en:'typesetter · compiling'},
+  title:{vi:'Từ kết quả đến bảng và đoạn draft đầu tiên.',en:'From results to tables and the first draft block.'},
+  line:{vi:'Bảng hồi quy được tạo đúng nguồn số, chèn vào bản thảo và kiểm tra lại với log. Tác nhân hỗ trợ trình bày; lập luận vẫn do bạn quyết định.',en:'Regression tables are generated from the right source, inserted into the draft and checked against logs. The agent helps with presentation; the argument stays yours.'},
   anim:'latex'},
- {tag:{vi:'07 / PHẢN BIỆN BÀI',en:'07 / REVIEW PAPER'},win:{vi:'tác nhân: phản biện số 2 — báo cáo',en:'agent: referee-2 — report'},agent:{vi:'phản biện số 2 · khó tính',en:'referee-2 · tough'},
+ {tag:{vi:'06 / PHẢN BIỆN TRƯỚC KHI NỘP',en:'06 / PRE-SUBMISSION REVIEW'},win:{vi:'tác nhân: phản biện số 2 — báo cáo',en:'agent: referee-2 — report'},agent:{vi:'phản biện số 2 · khó tính',en:'referee-2 · tough'},
   title:{vi:'Bị phản biện trước khi nộp — ở nhà, miễn phí.',en:'Get refereed before you submit — at home, for free.'},
   line:{vi:'Một tác nhân AI đóng vai phản biện số 2: tấn công chiến lược nhận diện, soi bảng số và đòi kiểm tra độ vững. Chỉ nộp bài sau khi đã xử lý hết các đòn phản biện ở nhà.',en:'An agent plays Referee 2: attacks identification, audits tables, demands robustness. Submit only after surviving the rehearsal.'},
   anim:'review'},
+ {tag:{vi:'07 / THU THẬP WEB NÂNG CAO',en:'07 / ADVANCED WEB COLLECTION'},win:{vi:'tác nhân: thu thập web — dòng lệnh',en:'agent: web-crawler — terminal'},agent:{vi:'tác nhân thu thập web · đang chạy',en:'web-crawler · running'},
+  title:{vi:'Khi cần dữ liệu ngoài, tác nhân mới đi thu thập.',en:'When outside data is needed, the agent goes to collect it.'},
+  line:{vi:'Tác nhân AI đọc trang, bóc bảng, chuẩn hoá đơn vị rồi ghi vào data/raw/ — kèm nhật ký từng nguồn để bạn kiểm tra lại. Đây là bước nâng cao, không phải điểm bắt đầu.',en:'The agent reads pages, extracts tables, normalises units and writes to data/raw/ — with a per-source log you can audit. This is an advanced step, not the starting point.'},
+  anim:'crawl'},
  {tag:{vi:'08 / TOÀN BỘ QUY TRÌNH',en:'08 / THE WHOLE PIPELINE'},win:{vi:'phòng điều khiển — toàn cảnh',en:'control room — overview'},agent:{vi:'bạn · người cầm lái',en:'you · at the wheel'},
   title:{vi:'Cả quy trình chạy — nhưng bạn vẫn cầm lái.',en:'The whole pipeline runs — you stay at the wheel.'},
   line:{vi:'Mỗi chặng đều có điểm dừng chờ bạn duyệt. Tác nhân AI làm việc tay chân; phán đoán nghiên cứu vẫn là của bạn.',en:'Every stage has a checkpoint waiting for you. Agents do the legwork; the research judgment stays yours.'},
@@ -712,9 +758,9 @@ operator:[
   title:{vi:'Một bản tổng hợp việc — thay 40 phút lục thread.',en:'One work digest — instead of 40 minutes of thread-digging.'},
   line:{vi:'Hạn chót hôm nay, việc đang chờ người khác và rủi ro mới phát sinh — được gom từ thư điện tử, bảng theo dõi và ghi chú họp thành một trang.',en:'Today’s deadlines, items blocked on others, fresh risks — pulled from email, sheets and meeting notes into one page.'},
   anim:'brief'},
- {tag:{vi:'03 / XLSFORM → KOBO',en:'03 / XLSFORM → KOBO'},win:{vi:'tác nhân: dựng biểu mẫu — XLSForm',en:'agent: form-builder — xlsform'},agent:{vi:'tác nhân dựng biểu mẫu · đang triển khai',en:'form-builder · deploy'},
-  title:{vi:'Bảng hỏi 60 câu lên KoboToolbox trong một buổi.',en:'A 60-question form live on KoboToolbox in one sitting.'},
-  line:{vi:'Bạn mô tả mô-đun, tác nhân AI viết XLSForm gồm ràng buộc, logic bỏ qua và bản dịch — rồi triển khai lên Kobo, sẵn sàng cho thực địa.',en:'You describe the module; the agent writes the XLSForm — constraints, skip logic, translations — then deploys it to Kobo, field-ready.'},
+ {tag:{vi:'03 / BẢNG HỎI ĐIỆN TỬ',en:'03 / DIGITAL QUESTIONNAIRE'},win:{vi:'tác nhân: dựng bảng hỏi — bản xem trước',en:'agent: form-builder — preview'},agent:{vi:'tác nhân dựng bảng hỏi · đang kiểm tra',en:'form-builder · checking'},
+  title:{vi:'Từ module câu hỏi đến form khảo sát sẵn dùng.',en:'From question modules to a field-ready survey form.'},
+  line:{vi:'Bạn mô tả nhóm câu hỏi; tác nhân AI dựng form điện tử với ràng buộc, logic bỏ qua và bản dịch. Bạn kiểm tra nội dung trước khi đưa cho nhóm thực địa.',en:'You describe the question blocks; the agent builds a digital form with constraints, skip logic and translations. You review the content before field use.'},
   anim:'kobo'},
  {tag:{vi:'04 / KIỂM TRA DỮ LIỆU HẰNG NGÀY',en:'04 / DAILY DATA CHECK'},win:{vi:'tác nhân: giám sát chất lượng — dữ liệu thực địa',en:'agent: qa-monitor — field data'},agent:{vi:'tác nhân giám sát chất lượng · 06:00 hằng ngày',en:'qa-monitor · daily 06:00'},
   title:{vi:'Mỗi sáng: tải dữ liệu, soi lỗi, khớp bảng quản lý.',en:'Every morning: download, error-check, reconcile with the tracker.'},
@@ -732,6 +778,58 @@ operator:[
   title:{vi:'Bạn không làm thay máy — bạn điều khiển máy.',en:'You don’t do the machine’s work — you direct it.'},
   line:{vi:'Tám giờ việc lặp mỗi tuần co lại còn 45 phút giám sát. Quyết định vẫn của bạn — tác nhân AI chỉ là đôi tay nhanh.',en:'Eight hours of weekly busywork shrinks to 45 minutes of oversight. Decisions stay yours — agents are just fast hands.'},
   anim:'flowO'},
+],
+lecturer:[
+ {tag:{vi:'01 / KẾ HOẠCH BUỔI HỌC',en:'01 / LESSON PLAN'},win:{vi:'tác nhân: thiết kế buổi học — outline',en:'agent: lesson planner — outline'},agent:{vi:'tác nhân thiết kế buổi học · đang dựng khung',en:'lesson planner · structuring'},
+  title:{vi:'Một buổi học rõ mục tiêu, ví dụ và nhịp kiểm tra.',en:'A class session with clear goals, examples and checks.'},
+  line:{vi:'Bạn đưa chủ đề và trình độ lớp; tác nhân AI dựng mục tiêu học tập, ví dụ dẫn nhập, hoạt động trên lớp và câu hỏi kiểm tra hiểu bài.',en:'You provide the topic and student level; the agent drafts learning goals, opening examples, class activities and comprehension checks.'},
+  anim:'lesson'},
+ {tag:{vi:'02 / SLIDE & HANDOUT',en:'02 / SLIDES & HANDOUT'},win:{vi:'tác nhân: trợ lý slide — bản nháp',en:'agent: slide assistant — draft'},agent:{vi:'tác nhân trợ lý slide · đang dàn ý',en:'slide assistant · outlining'},
+  title:{vi:'Slide phục vụ bài giảng, không thay bài giảng.',en:'Slides that support the lecture, not replace it.'},
+  line:{vi:'Tác nhân AI chuyển outline thành slide ngắn, handout một trang và ví dụ minh hoạ. Bạn giữ mạch giảng và chỉnh độ khó cho đúng lớp.',en:'The agent turns the outline into concise slides, a one-page handout and examples. You keep the teaching arc and tune the difficulty.'},
+  anim:'slides'},
+ {tag:{vi:'03 / BÀI TẬP & MINI QUIZ',en:'03 / EXERCISE & MINI QUIZ'},win:{vi:'tác nhân: tạo bài tập — kiểm tra nhanh',en:'agent: assessment builder — quick check'},agent:{vi:'tác nhân tạo bài tập · đang cân độ khó',en:'assessment builder · calibrating'},
+  title:{vi:'Bài tập nhỏ để biết sinh viên đã hiểu đến đâu.',en:'Small exercises that reveal what students understand.'},
+  line:{vi:'Từ nội dung buổi học, tác nhân AI tạo câu hỏi dễ-trung bình-khó, đáp án mẫu và lỗi sai thường gặp để bạn bắt nhịp lớp nhanh hơn.',en:'From the lesson content, the agent creates easy-medium-hard questions, model answers and common mistakes so you can read the room faster.'},
+  anim:'quiz'},
+ {tag:{vi:'04 / CÂU HỎI SINH VIÊN',en:'04 / STUDENT QUESTIONS'},win:{vi:'tác nhân: trợ giảng — inbox lớp học',en:'agent: teaching assistant — class inbox'},agent:{vi:'tác nhân trợ giảng · đang gom câu hỏi',en:'teaching assistant · clustering'},
+  title:{vi:'Câu hỏi rải rác được gom thành nhóm cần xử lý.',en:'Scattered questions become teachable clusters.'},
+  line:{vi:'Tác nhân AI gom email, ghi chú lớp và câu hỏi sau giờ học thành nhóm: chưa hiểu khái niệm, vướng bài tập, cần đọc thêm hay cần phản hồi cá nhân.',en:'The agent clusters emails, class notes and after-class questions into concept gaps, exercise issues, extra reading needs and individual feedback.'},
+  anim:'questions'},
+ {tag:{vi:'05 / FEEDBACK THEO RUBRIC',en:'05 / RUBRIC FEEDBACK'},win:{vi:'tác nhân: chấm nháp — rubric',en:'agent: feedback assistant — rubric'},agent:{vi:'tác nhân phản hồi · chờ bạn duyệt',en:'feedback assistant · awaiting review'},
+  title:{vi:'Phản hồi nhất quán hơn, nhưng điểm vẫn do người dạy quyết.',en:'More consistent feedback, while grading stays with the instructor.'},
+  line:{vi:'Tác nhân AI đối chiếu bài nộp với rubric, chỉ ra thiếu luận điểm, thiếu bằng chứng và lỗi trình bày. Bạn duyệt nhận xét cuối trước khi gửi.',en:'The agent compares submissions with the rubric, flags missing claims, missing evidence and presentation issues. You approve final comments before sending.'},
+  anim:'rubric'},
+ {tag:{vi:'06 / CẢ HỌC PHẦN',en:'06 / COURSE LOOP'},win:{vi:'phòng điều khiển — học phần',en:'control room — course loop'},agent:{vi:'bạn · người thiết kế trải nghiệm học',en:'you · learning experience designer'},
+  title:{vi:'Mỗi tuần dạy xong là học phần tự tốt hơn.',en:'Each teaching week improves the next one.'},
+  line:{vi:'Sau mỗi buổi, tác nhân AI gom điểm vướng, quiz, phản hồi và câu hỏi để đề xuất chỉnh slide, bài tập và nhịp giảng tuần sau.',en:'After each session, the agent gathers pain points, quiz results, feedback and questions to suggest better slides, exercises and pacing for next week.'},
+  anim:'flowL'},
+],
+student:[
+ {tag:{vi:'01 / ĐỌC TÀI LIỆU KHÓ',en:'01 / HARD READINGS'},win:{vi:'tác nhân: bạn học — ghi chú đọc',en:'agent: study partner — reading notes'},agent:{vi:'tác nhân bạn học · đang tách ý',en:'study partner · unpacking'},
+  title:{vi:'Đọc để hiểu, không phải để lấy tóm tắt thay.',en:'Read to understand, not to outsource the summary.'},
+  line:{vi:'Tác nhân AI giúp tách claim, bằng chứng, giả định và chỗ chưa hiểu. Bạn vẫn phải tự quyết định phần nào đáng tin và phần nào cần hỏi lại.',en:'The agent separates claims, evidence, assumptions and confusing points. You still decide what is credible and what needs follow-up.'},
+  anim:'reading'},
+ {tag:{vi:'02 / KẾ HOẠCH BÀI TẬP',en:'02 / ASSIGNMENT PLAN'},win:{vi:'tác nhân: lập kế hoạch học — tuần này',en:'agent: study planner — this week'},agent:{vi:'tác nhân lập kế hoạch · đang chia việc',en:'study planner · breaking down'},
+  title:{vi:'Bài lớn được chia thành việc nhỏ có deadline.',en:'Large assignments become small tasks with deadlines.'},
+  line:{vi:'Bạn đưa đề bài và lịch rảnh; tác nhân AI chia bước đọc, dựng outline, chạy code, viết nháp và kiểm tra lại trước hạn nộp.',en:'You provide the prompt and available time; the agent breaks down reading, outlining, coding, drafting and checking before submission.'},
+  anim:'studyPlan'},
+ {tag:{vi:'03 / GHI CHÚ CÓ CẤU TRÚC',en:'03 / STRUCTURED NOTES'},win:{vi:'tác nhân: note taker — seminar',en:'agent: note taker — seminar'},agent:{vi:'tác nhân ghi chú · đang sắp xếp',en:'note taker · organising'},
+  title:{vi:'Ghi chú biến thành hệ thống để ôn lại được.',en:'Notes become a system you can review.'},
+  line:{vi:'Tác nhân AI gom lecture notes, reading notes và câu hỏi thành khái niệm, ví dụ, công thức, lỗi hay gặp và checklist trước kỳ thi.',en:'The agent turns lecture notes, reading notes and questions into concepts, examples, formulas, common mistakes and exam checklists.'},
+  anim:'notes'},
+ {tag:{vi:'04 / CODE & BẢNG KẾT QUẢ',en:'04 / CODE & RESULT TABLES'},win:{vi:'tác nhân: kiểm tra bài phân tích — console',en:'agent: analysis checker — console'},agent:{vi:'tác nhân kiểm tra · không làm hộ',en:'analysis checker · not doing it for you'},
+  title:{vi:'Biết code sai ở đâu trước khi nộp.',en:'Find out where the code breaks before submission.'},
+  line:{vi:'Tác nhân AI đọc lỗi, kiểm tra bảng kết quả có khớp câu hỏi không và nhắc bạn giải thích ý nghĩa kinh tế thay vì chỉ dán output.',en:'The agent reads errors, checks whether result tables answer the question and reminds you to explain economic meaning instead of pasting output.'},
+  anim:'studentCheck'},
+ {tag:{vi:'05 / VIẾT NHÁP',en:'05 / DRAFTING'},win:{vi:'tác nhân: writing coach — outline',en:'agent: writing coach — outline'},agent:{vi:'tác nhân coach viết · đang phản hồi',en:'writing coach · reviewing'},
+  title:{vi:'Viết rõ hơn mà không mất giọng của mình.',en:'Write more clearly without losing your own voice.'},
+  line:{vi:'Tác nhân AI soi cấu trúc đoạn, claim, bằng chứng và chỗ nhảy logic. Nó không viết thay bài; nó ép bạn nói rõ hơn điều bạn thật sự muốn nói.',en:'The agent checks paragraph structure, claims, evidence and logic jumps. It does not write the paper for you; it pushes you to say your own point more clearly.'},
+  anim:'draft'},
+ {tag:{vi:'06 / TRÌNH BÀY & BẢO VỆ',en:'06 / PRESENTATION & DEFENSE'},win:{vi:'phòng điều khiển — chuẩn bị trình bày',en:'control room — presentation prep'},agent:{vi:'bạn · người chịu trách nhiệm cuối',en:'you · final owner'},
+  title:{vi:'Tập trình bày trước khi lên lớp hoặc vào buổi bảo vệ.',en:'Rehearse before class or defense day.'},
+  line:{vi:'Tác nhân AI tạo câu hỏi khó, kiểm tra slide, canh thời lượng và buộc bạn trả lời bằng lập luận của mình. Người trình bày cuối cùng vẫn là bạn.',en:'The agent creates hard questions, checks slides, times the talk and makes you answer in your own reasoning. The final presenter is still you.'},
+  anim:'flowS'},
 ]};
 /* ================== ANIMATORS ================== */
 let timers=[];
@@ -851,10 +949,10 @@ review(b){
   const v=el('p','rf-verdict',L('✓ referee-report.md + response-letter draft — 2 major, 5 minor, 0 lời khen xã giao','✓ referee-report.md + response-letter draft — 2 major, 5 minor, 0 courtesy compliments'));
   rf.appendChild(v);after(400+5*430+300,()=>v.classList.add('on'));
 },
-flowR(b){ANIM._flow(b,lang==='vi'?['ý tưởng','crawl','clean','phân tích','hồi quy','bản thảo','phản biện']:['ideation','crawl','clean','analysis','regression','manuscript','review'],
+flowR(b){ANIM._flow(b,lang==='vi'?['câu hỏi','văn liệu','dữ liệu','mô tả','hồi quy','draft','review']:['question','literature','data','description','regression','draft','review'],
   {vi:'<b>3 tuần</b> việc tay chân → <b>4 ngày</b> có giám sát',en:'<b>3 weeks</b> of legwork → <b>4 days</b> with oversight'},
   {vi:'mỗi mũi tên là một checkpoint — agent dừng, bạn duyệt',en:'every arrow is a checkpoint — the agent stops, you approve'})},
-flowO(b){ANIM._flow(b,lang==='vi'?['inbox','kế hoạch','thực địa','data check','báo cáo']:['inbox','planning','fieldwork','data check','reporting'],
+flowO(b){ANIM._flow(b,lang==='vi'?['inbox','bảng hỏi','thực địa','kiểm tra data','báo cáo']:['inbox','questionnaire','fieldwork','data check','reporting'],
   {vi:'<b>≈8 giờ</b> việc lặp / tuần → <b>45 phút</b> giám sát',en:'<b>≈8 hours</b> of weekly busywork → <b>45 minutes</b> of oversight'},
   {vi:'quyết định vẫn của bạn — agent chỉ là đôi tay nhanh',en:'decisions stay yours — agents are just fast hands'})},
 _flow(b,steps,time,sub){
@@ -879,11 +977,11 @@ inbox(b){
   const buckets=defs.map(d=>{const c=el('div','ib-col',`<h4>${d[0]} <b>0</b></h4>`);cols.appendChild(c);return c});
   const mails=lang==='vi'?[
     [0,'Đối tác: chốt số liệu trước 15:00'],[2,'Newsletter — AI weekly'],[1,'Draft TOR khảo sát — góp ý'],
-    [0,'Sếp: họp đột xuất 10:30'],[1,'Kobo: 218 bản ghi mới'],[2,'CC: biên bản họp tỉnh'],
+    [0,'Sếp: họp đột xuất 10:30'],[1,'Khảo sát: 218 bản ghi mới'],[2,'CC: biên bản họp tỉnh'],
     [1,'Kế toán: bổ sung chứng từ'],[2,'FYI — lịch nghỉ lễ'],[1,'Field team: xin đổi lịch tuần sau'],
   ]:[
     [0,'Partner: confirm figures by 15:00'],[2,'Newsletter — AI weekly'],[1,'Draft survey TOR — comments needed'],
-    [0,'Manager: urgent meeting 10:30'],[1,'Kobo: 218 new submissions'],[2,'CC: provincial meeting minutes'],
+    [0,'Manager: urgent meeting 10:30'],[1,'Survey: 218 new submissions'],[2,'CC: provincial meeting minutes'],
     [1,'Finance: missing receipts'],[2,'FYI — holiday schedule'],[1,'Field team: reschedule next week'],
   ];
   let n=23;
@@ -927,19 +1025,19 @@ kobo(b){
     after(350+i*240,()=>k.classList.add('on'));
   });
   const ar=el('div','kb-arr','⟶');kb.appendChild(ar);after(2100,()=>ar.classList.add('on'));
-  const ph=el('div','kb-phone','<h6>KOBOCOLLECT — PREVIEW</h6>');kb.appendChild(ph);
+  const ph=el('div','kb-phone',`<h6>${L('FORM KHẢO SÁT — XEM TRƯỚC','SURVEY FORM — PREVIEW')}</h6>`);kb.appendChild(ph);
   const fields=lang==='vi'?
     [['Giới tính','◉ Nam ○ Nữ'],['Tuổi','[ 34 ]'],['Nguồn thu nhập','☑ Nông nghiệp ☑ Làm thuê'],['Ngày phỏng vấn','12/06/2026']]:
     [['Gender','◉ Male ○ Female'],['Age','[ 34 ]'],['Income source','☑ Agriculture ☑ Wage labor'],['Interview date','12/06/2026']];
   fields.forEach((f,i)=>{const ff=el('div','kb-f',`<b>${f[0]}</b><i>${f[1]}</i>`);ph.appendChild(ff);
     after(2350+i*300,()=>ff.classList.add('on'))});
-  const note=el('p','kb-note',L('✓ 60 câu hỏi · skip logic + ràng buộc + song ngữ — deployed lên KoboToolbox, sẵn sàng thực địa','✓ 60 questions · skip logic + constraints + bilingual — deployed to KoboToolbox, field-ready'));
+  const note=el('p','kb-note',L('✓ 60 câu hỏi · logic bỏ qua + ràng buộc + song ngữ — sẵn sàng cho nhóm thực địa kiểm thử','✓ 60 questions · skip logic + constraints + bilingual — ready for field-team testing'));
   kb.appendChild(note);after(2350+4*300+300,()=>note.classList.add('on'));
 },
 check(b){
-  b.appendChild(el('p','df-head',L('06:00 — tải 218 bản ghi mới từ Kobo · đối chiếu sheet quản lý…','06:00 — downloaded 218 new records from Kobo · reconciling management sheet…')));
+  b.appendChild(el('p','df-head',L('06:00 — tải 218 bản ghi khảo sát mới · đối chiếu sheet quản lý…','06:00 — downloaded 218 new survey records · reconciling management sheet…')));
   const df=el('div','df');b.appendChild(df);
-  const t1=el('div','df-tbl',`<h6>${L('KOBO — HÔM NAY','KOBO — TODAY')}</h6>`);df.appendChild(t1);
+  const t1=el('div','df-tbl',`<h6>${L('KHẢO SÁT — HÔM NAY','SURVEY — TODAY')}</h6>`);df.appendChild(t1);
   const t2=el('div','df-tbl',`<h6>${L('SHEET QUẢN LÝ','MANAGEMENT SHEET')}</h6>`);df.appendChild(t2);
   const rows1=lang==='vi'?
     [['#2141','Hộ 0412 — xã An Phú','ok'],['#2142','Hộ 0413 — GPS lệch 4km','flag'],['#2143','Hộ 0413 — trùng ID','flag'],['#2144','Hộ 0415 — xã An Phú','ok'],['#2145','Hộ 0416 — thiếu module D','flag']]:
@@ -986,21 +1084,197 @@ frame(b){
     $('#lfVer').classList.add('bump');$('#lfVer').textContent='v1.4 — 12/06 06:30';
     els.forEach((p,i)=>after(200+i*350,()=>{p[0].textContent=p[1];p[0].classList.add('fresh')}));
   });
-  const note=el('p','lf-note',L('✓ dữ liệu mới từ Kobo sáng nay — bảng & biểu đồ tự vẽ lại, bản cũ lưu version history','✓ fresh Kobo data this morning — tables & charts auto-redrawn, previous version saved to history'));
+  const note=el('p','lf-note',L('✓ dữ liệu khảo sát mới sáng nay — bảng & biểu đồ tự vẽ lại, bản cũ lưu version history','✓ fresh survey data this morning — tables & charts auto-redrawn, previous version saved to history'));
   lf.appendChild(note);after(900+200+rows.length*350+300,()=>note.classList.add('on'));
 },
+lesson(b){
+  const da=el('div','da');b.appendChild(da);
+  const blocks=lang==='vi'?[
+    ['MỤC TIÊU','sau 90 phút','· Phân biệt mô tả / tương quan / nhân quả<br>· Đọc được một bảng hồi quy cơ bản'],
+    ['VÍ DỤ MỞ ĐẦU','5 phút','· Vì sao lương và học vấn đi cùng nhau không tự động là causal?'],
+    ['HOẠT ĐỘNG LỚP','25 phút','· Nhóm 3 người: đọc bảng kết quả và nêu 1 claim hợp lệ'],
+    ['KIỂM TRA HIỂU','cuối buổi','· 3 câu quiz ngắn + 1 câu phản tư'],
+  ]:[
+    ['GOALS','after 90 minutes','· Distinguish descriptive / associational / causal claims<br>· Read a basic regression table'],
+    ['OPENING EXAMPLE','5 min','· Why do wages and schooling move together without proving causality?'],
+    ['CLASS ACTIVITY','25 min','· Groups of 3: read one table and state one valid claim'],
+    ['CHECK FOR UNDERSTANDING','end of class','· 3 quick quiz questions + 1 reflection prompt'],
+  ];
+  blocks.forEach((bl,i)=>{
+    const d=el('div','da-block',`<h5>${bl[0]} <em>${bl[1]}</em></h5><p>${bl[2]}</p>`);
+    da.appendChild(d);after(350+i*360,()=>d.classList.add('on'));
+  });
+},
+slides(b){
+  const lx=el('div','lx');b.appendChild(lx);
+  const code=el('div','lx-code');lx.appendChild(code);
+  const lines=lang==='vi'?['slide 1: câu hỏi buổi học','slide 2: ví dụ trực giác','slide 3: định nghĩa cần nhớ','slide 4: bảng kết quả mẫu','handout: 1 trang tóm tắt + bài tập nhỏ']:
+    ['slide 1: session question','slide 2: intuitive example','slide 3: key definitions','slide 4: sample result table','handout: one-page summary + short exercise'];
+  lines.forEach((l,i)=>{const s=el('span','ln',l);code.appendChild(s);after(300+i*280,()=>s.classList.add('on'))});
+  const out=el('div','lx-out',`<p class="lo-t">${L('Slide nháp — Causal vs Associational','Draft slides — Causal vs Associational')}</p>
+    <table><tr><th>${L('phần','section')}</th><th>${L('phút','min')}</th></tr>
+    <tr><td>${L('dẫn nhập','opening')}</td><td>10</td></tr>
+    <tr><td>${L('khái niệm','concept')}</td><td>20</td></tr>
+    <tr><td>${L('bài tập nhóm','group task')}</td><td>25</td></tr>
+    <tr><td>${L('quiz','quiz')}</td><td>10</td></tr></table>`);
+  lx.appendChild(out);after(2200,()=>out.classList.add('on'));
+},
+quiz(b){
+  const rk=el('div','rk');b.appendChild(rk);
+  const qs=lang==='vi'?[
+    ['Dễ','Claim nào chỉ là mô tả?',92],
+    ['Trung bình','Bảng này có nói được causal không?',78],
+    ['Khó','Thiết kế nào cần thêm để nhận diện?',64],
+    ['Rubric','đúng claim · đúng bằng chứng · không thổi phồng',100],
+  ]:[
+    ['Easy','Which claim is descriptive only?',92],
+    ['Medium','Can this table support a causal claim?',78],
+    ['Hard','What design is needed for identification?',64],
+    ['Rubric','valid claim · valid evidence · no overclaiming',100],
+  ];
+  qs.forEach((q,i)=>{
+    const r=el('div','rk-row',`<div class="rt"><span>${q[0]}</span><em>${q[2]}%</em></div><div class="rm">${q[1]}</div><div class="rk-bar"><i style="--s:${q[2]/100}"></i></div>`);
+    rk.appendChild(r);after(360+i*380,()=>r.classList.add('on'));
+  });
+},
+questions(b){
+  const da=el('div','da');b.appendChild(da);
+  const blocks=lang==='vi'?[
+    ['CHƯA HIỂU KHÁI NIỆM','8 câu','· “control variable” khác fixed effects thế nào?'],
+    ['VƯỚNG BÀI TẬP','5 câu','· đọc hệ số log wage · chọn cluster'],
+    ['CẦN ĐỌC THÊM','3 câu','· causal inference nhập môn · ví dụ event study'],
+    ['CẦN PHẢN HỒI RIÊNG','2 bạn','· lịch office hour đã gợi ý'],
+  ]:[
+    ['CONCEPT GAPS','8 questions','· how is a control variable different from fixed effects?'],
+    ['ASSIGNMENT ISSUES','5 questions','· reading log wage coefficients · choosing clusters'],
+    ['EXTRA READING','3 questions','· intro causal inference · event-study example'],
+    ['INDIVIDUAL FEEDBACK','2 students','· office-hour slots suggested'],
+  ];
+  blocks.forEach((bl,i)=>{
+    const d=el('div','da-block',`<h5>${bl[0]} <em>${bl[1]}</em></h5><p>${bl[2]}</p>`);
+    da.appendChild(d);after(350+i*380,()=>d.classList.add('on'));
+  });
+},
+rubric(b){
+  const rf=el('div','rf');b.appendChild(rf);
+  const doc=el('div','rf-doc');rf.appendChild(doc);
+  for(let i=0;i<11;i++)doc.appendChild(el('i'));
+  const tags=el('div','rf-tags');rf.appendChild(tags);
+  const items=lang==='vi'?[
+    ['rubric — claim chưa rõ',''],
+    ['rubric — thiếu bằng chứng',''],
+    ['gợi ý — thêm diễn giải bảng',' minor'],
+    ['gợi ý — rút ngắn mở bài',' minor'],
+    ['chờ giảng viên duyệt',' minor'],
+  ]:[
+    ['rubric — claim unclear',''],
+    ['rubric — evidence missing',''],
+    ['suggestion — explain the table',' minor'],
+    ['suggestion — shorten opening',' minor'],
+    ['awaiting instructor review',' minor'],
+  ];
+  items.forEach((tg,i)=>{const g=el('span','rf-tag'+tg[1],tg[0]);tags.appendChild(g);after(400+i*380,()=>g.classList.add('on'))});
+},
+reading(b){
+  termLines(b,[
+    {t:L('$ agent.read("paper.pdf", mode="study_partner")','$ agent.read("paper.pdf", mode="study_partner")'),c:'cmd'},
+    {t:L('✓ claim chính: schooling liên quan tới wage premium','✓ main claim: schooling relates to wage premium'),c:'ok'},
+    {t:L('✓ bằng chứng: bảng 2, cột 3; cần đọc phần identification','✓ evidence: table 2, col 3; read identification carefully'),c:'ok'},
+    {t:L('⚠ chưa được gọi là nhân quả nếu chỉ là OLS','⚠ do not call it causal if it is only OLS'),c:'warn'},
+    {t:L('→ câu hỏi cần hỏi thầy/cô: biến omitted nào đáng lo nhất?','→ question for class: which omitted variable worries us most?'),c:'art'},
+  ]);
+},
+studyPlan(b){
+  const da=el('div','da');b.appendChild(da);
+  const blocks=lang==='vi'?[
+    ['THỨ 2','đọc đề','· tách yêu cầu · xác định output phải nộp'],
+    ['THỨ 3-4','làm phần chính','· outline · code · bảng kết quả'],
+    ['THỨ 5','viết nháp','· claim · bằng chứng · giới hạn'],
+    ['THỨ 6','kiểm tra','· citation · format · nộp trước hạn'],
+  ]:[
+    ['MON','read prompt','· parse requirements · define deliverables'],
+    ['TUE-WED','main work','· outline · code · result tables'],
+    ['THU','draft','· claim · evidence · limitations'],
+    ['FRI','check','· citations · format · submit before deadline'],
+  ];
+  blocks.forEach((bl,i)=>{
+    const d=el('div','da-block',`<h5>${bl[0]} <em>${bl[1]}</em></h5><p>${bl[2]}</p>`);
+    da.appendChild(d);after(350+i*380,()=>d.classList.add('on'));
+  });
+},
+notes(b){
+  const rk=el('div','rk');b.appendChild(rk);
+  const rows=lang==='vi'?[
+    ['Khái niệm','fixed effects · omitted variables',90],
+    ['Ví dụ','Vietnam household survey · wage equation',82],
+    ['Công thức','y = βx + controls + ε',74],
+    ['Câu hỏi mở','khi nào cluster ở tỉnh?',68],
+  ]:[
+    ['Concepts','fixed effects · omitted variables',90],
+    ['Example','Vietnam household survey · wage equation',82],
+    ['Formula','y = βx + controls + ε',74],
+    ['Open question','when should we cluster by province?',68],
+  ];
+  rows.forEach((r,i)=>{
+    const x=el('div','rk-row',`<div class="rt"><span>${r[0]}</span><em>${r[2]}%</em></div><div class="rm">${r[1]}</div><div class="rk-bar"><i style="--s:${r[2]/100}"></i></div>`);
+    rk.appendChild(x);after(360+i*360,()=>x.classList.add('on'));
+  });
+},
+studentCheck(b){
+  termLines(b,[
+    {t:'$ agent.check("assignment.do", "results_table.docx")',c:'cmd'},
+    {t:L('✓ code chạy lại từ đầu: không lỗi','✓ code reruns from scratch: no errors'),c:'ok'},
+    {t:L('⚠ bảng 1 thiếu N và đơn vị đo','⚠ table 1 missing N and measurement unit'),c:'warn'},
+    {t:L('⚠ đoạn kết luận đang nói quá causal claim','⚠ conclusion overstates the causal claim'),c:'warn'},
+    {t:L('→ sửa trước khi nộp: thêm N, giải thích hệ số, hạ claim','→ fix before submission: add N, explain coefficient, soften claim'),c:'art'},
+  ]);
+},
+draft(b){
+  const rf=el('div','rf');b.appendChild(rf);
+  const doc=el('div','rf-doc');rf.appendChild(doc);
+  for(let i=0;i<11;i++)doc.appendChild(el('i'));
+  const tags=el('div','rf-tags');rf.appendChild(tags);
+  const items=lang==='vi'?[
+    ['claim chính chưa ở câu đầu',''],
+    ['bằng chứng bảng 2 cần nối rõ hơn',''],
+    ['minor — câu quá dài',' minor'],
+    ['minor — thiếu citation',' minor'],
+    ['giọng văn giữ nguyên',' minor'],
+  ]:[
+    ['main claim not in first sentence',''],
+    ['table 2 evidence needs clearer link',''],
+    ['minor — sentence too long',' minor'],
+    ['minor — citation missing',' minor'],
+    ['voice preserved',' minor'],
+  ];
+  items.forEach((tg,i)=>{const g=el('span','rf-tag'+tg[1],tg[0]);tags.appendChild(g);after(400+i*380,()=>g.classList.add('on'))});
+},
+flowL(b){ANIM._flow(b,lang==='vi'?['mục tiêu','slide','bài tập','quiz','feedback','tuần sau']:['goals','slides','exercise','quiz','feedback','next week'],
+  {vi:'<b>1 buổi</b> chuẩn bị rời rạc → <b>1 vòng dạy-học</b> có dữ liệu',en:'<b>1 class</b> of scattered prep → <b>1 teaching loop</b> with evidence'},
+  {vi:'người dạy vẫn quyết định chuẩn mực, ví dụ và điểm số',en:'the instructor still decides standards, examples and grades'})},
+flowS(b){ANIM._flow(b,lang==='vi'?['đọc','outline','code','draft','slide','Q&A']:['reading','outline','code','draft','slides','Q&A'],
+  {vi:'<b>deadline lớn</b> → <b>chuỗi bước nhỏ</b> có kiểm tra',en:'<b>big deadline</b> → <b>small checked steps</b>'},
+  {vi:'AI là bạn học khó tính — không phải người làm bài hộ',en:'AI is a demanding study partner — not someone doing the work for you'})},
 };
 /* ================== PLAYER ================== */
 let role=null, vi=0, autoT=null, autoStart=0, rafP=null;
 const AUTO_MS=7000;
+const ROLE_ORDER=['researcher','operator','lecturer','student'];
+const ROLE_META={
+  researcher:{chip:'researcher',toast:{vi:'Vai: Nhà nghiên cứu kinh tế',en:'Role: Economic Researcher'}},
+  operator:{chip:'implementer',toast:{vi:'Vai: Điều phối và quản lý dự án',en:'Role: Project Implementer'}},
+  lecturer:{chip:'lecturer',toast:{vi:'Vai: Giảng viên / người dạy',en:'Role: Lecturer / Instructor'}},
+  student:{chip:'student',toast:{vi:'Vai: Sinh viên đại học / cao học',en:'Role: Undergrad / Grad Student'}},
+};
 function setRole(r,fromUser){
+  if(!VIG[r])return;
   role=r;localStorage.setItem('aiMindRole',r);
   $('#roleChip').hidden=false;
-  $('#roleChip').innerHTML=(r==='researcher'?'role: <b>researcher</b>':'role: <b>implementer</b>');
+  $('#roleChip').innerHTML='role: <b>'+ROLE_META[r].chip+'</b>';
   $('#courseLink').href='./hub.html';
   $('#ctaCourse').href='./hub.html';
   buildDots();vi=0;go('show');renderVig(0);
-  if(fromUser)toast(r==='researcher'?(lang==='vi'?'Vai: Nhà nghiên cứu kinh tế':'Role: Economic Researcher'):(lang==='vi'?'Vai: Điều phối và quản lý dự án':'Role: Project Implementer'));
+  if(fromUser)toast(ROLE_META[r].toast[lang]);
 }
 function buildDots(){
   const d=$('#dots');d.innerHTML='';
@@ -1051,7 +1325,10 @@ swin.addEventListener('mouseleave',()=>{if(scene==='show'&&!autoT&&!reduced){aut
   rafP=requestAnimationFrame(tick);autoT=setTimeout(()=>next(),AUTO_MS)}});
 // keys
 addEventListener('keydown',e=>{
-  if(scene==='roles'){if(e.key==='1')setRole('researcher',true);if(e.key==='2')setRole('operator',true)}
+  if(scene==='roles'){
+    const idx=parseInt(e.key,10)-1;
+    if(ROLE_ORDER[idx])setRole(ROLE_ORDER[idx],true);
+  }
   if(scene==='show'){if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();if(e.key==='Escape')go('cta')}
 });
 // wheel / swipe advance
@@ -1069,12 +1346,11 @@ addEventListener('touchend',e=>{
   if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev()}
 },{passive:true});
 /* ================== ROLE CARDS ================== */
-$('#cardResearcher').onclick=()=>setRole('researcher',true);
-$('#cardOperator').onclick=()=>setRole('operator',true);
+$$('.role-card[data-role]').forEach(card=>card.onclick=()=>setRole(card.dataset.role,true));
 $('#roleChip').onclick=()=>{stopAuto();go('roles')};
 $('#replayBtn').onclick=()=>{
-  const other=role==='researcher'?'operator':'researcher';
-  setRole(other,true);
+  const i=Math.max(0,ROLE_ORDER.indexOf(role));
+  setRole(ROLE_ORDER[(i+1)%ROLE_ORDER.length],true);
 };
 function stopAuto(){if(autoT){clearTimeout(autoT);autoT=null}if(rafP)cancelAnimationFrame(rafP);clearTimers()}
 /* ================== EASTER EGGS ================== */

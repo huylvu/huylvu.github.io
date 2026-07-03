@@ -45,6 +45,7 @@
     var manualAccessButtons = Array.prototype.slice.call(document.querySelectorAll('[data-manual-access]'));
     var manualAccessModal = document.getElementById('manual-access-modal');
     var manualCloseButtons = Array.prototype.slice.call(document.querySelectorAll('[data-manual-close]'));
+    var formPlaceholderLinks = Array.prototype.slice.call(document.querySelectorAll('[data-form-placeholder]'));
     var manualLastTrigger = null;
     var keyBuffer = '';
     var coreClicks = 0;
@@ -67,6 +68,7 @@
             randomPull: 'Random pull from the stacks.',
             catalogCard: 'Catalog card',
             allStatuses: 'All',
+            formPending: 'Registration form link will be added here soon.',
             static: {
                 '#hero-title': 'Control Your AI Mind',
                 '.hero-subtitle': 'Agentic workflows for economists and research people.',
@@ -86,14 +88,22 @@
                 '#closing-enroll': 'Enroll the course',
                 '#closing-manual': 'Read our manual',
                 '#closing-map': 'Start with the map',
-                '#manual-access-title': 'Manual access',
-                '#manual-access-description': 'The complete manual is reserved for enrolled students. Course access is also available by bank transfer.',
-                '#manual-price-label': 'Course access',
-                '#manual-bank-label': 'Bank',
-                '#manual-account-label': 'Account number',
-                '#manual-holder-label': 'Account holder',
-                '#manual-access-note': 'After transferring, send the payment confirmation to Huy to receive access.',
-                '#manual-close-label': 'Close'
+                '#manual-access-title': 'Enroll the course',
+                '#manual-access-description': 'Choose the level of support that matches the problem you need to solve. Registration will go through a short form.',
+                '#manual-plan-basic-label': 'Self-paced',
+                '#manual-plan-basic-price': '500k',
+                '#manual-plan-basic-title': 'Manual access',
+                '#manual-plan-basic-copy': 'Receive the course manual and follow the setup guidance on your own.',
+                '#manual-plan-guided-label': 'Guided',
+                '#manual-plan-guided-price': '1000k',
+                '#manual-plan-guided-title': 'Guide + direct call',
+                '#manual-plan-guided-copy': 'Get the manual, practical guidance, and one live call to walk through your setup.',
+                '#manual-plan-training-label': 'Tailored',
+                '#manual-plan-training-price': '2000k',
+                '#manual-plan-training-title': 'Problem-focused training',
+                '#manual-plan-training-copy': 'Train around the specific issue you face, using your current knowledge, constraints, and workflow gaps.',
+                '#manual-access-note': 'The registration form link will be added here. It should ask which plan you choose, what problem you are facing, your current context, and your contact email so Huy can follow up via huymaeco@gmail.com.',
+                '#manual-form-label': 'Open registration form'
             }
         },
         vi: {
@@ -110,6 +120,7 @@
             randomPull: 'Rút ngẫu nhiên một phiếu từ kho.',
             catalogCard: 'Phiếu thư mục',
             allStatuses: 'Tất cả',
+            formPending: 'Link form đăng ký sẽ được gắn ở đây sau.',
             static: {
                 '#hero-title': 'Control Your AI Mind',
                 '.hero-subtitle': 'Quy trình tác nhân AI cho nhà kinh tế và người làm nghiên cứu.',
@@ -129,14 +140,22 @@
                 '#closing-enroll': 'Đăng ký khoá học',
                 '#closing-manual': 'Đọc giáo trình của khoá',
                 '#closing-map': 'Bắt đầu từ bản đồ',
-                '#manual-access-title': 'Quyền truy cập giáo trình',
-                '#manual-access-description': 'Bản giáo trình đầy đủ chỉ dành cho học viên tham gia khóa học. Anh cũng có thể đăng ký quyền truy cập bằng chuyển khoản.',
-                '#manual-price-label': 'Phí tham gia khóa học',
-                '#manual-bank-label': 'Ngân hàng',
-                '#manual-account-label': 'Số tài khoản',
-                '#manual-holder-label': 'Chủ tài khoản',
-                '#manual-access-note': 'Sau khi chuyển khoản, gửi xác nhận thanh toán cho Huy để nhận quyền truy cập.',
-                '#manual-close-label': 'Đóng'
+                '#manual-access-title': 'Đăng ký khoá học',
+                '#manual-access-description': 'Chọn mức hỗ trợ phù hợp với vấn đề anh đang cần xử lý. Đăng ký sẽ đi qua một form ngắn.',
+                '#manual-plan-basic-label': 'Tự học',
+                '#manual-plan-basic-price': '500k',
+                '#manual-plan-basic-title': 'Nhận manual hướng dẫn',
+                '#manual-plan-basic-copy': 'Nhận giáo trình của khoá và tự làm theo hướng dẫn cài đặt, vận hành, kiểm chứng.',
+                '#manual-plan-guided-label': 'Có người kèm',
+                '#manual-plan-guided-price': '1000k',
+                '#manual-plan-guided-title': 'Guide + call trực tiếp',
+                '#manual-plan-guided-copy': 'Có manual, phần hướng dẫn thực hành và một buổi call trực tiếp để đi qua setup của anh.',
+                '#manual-plan-training-label': 'Theo vấn đề',
+                '#manual-plan-training-price': '2000k',
+                '#manual-plan-training-title': 'Training theo vấn đề thật',
+                '#manual-plan-training-copy': 'Training đúng vấn đề anh đang gặp, dựa trên kiến thức sẵn có, ràng buộc và điểm nghẽn trong workflow hiện tại.',
+                '#manual-access-note': 'Link Google Form sẽ được gắn ở đây sau. Form cần hỏi: chọn gói nào, đang gặp vấn đề gì, bối cảnh/kiến thức hiện tại, và email liên hệ để Huy phản hồi qua huymaeco@gmail.com.',
+                '#manual-form-label': 'Điền form đăng ký'
             }
         }
     };
@@ -164,7 +183,7 @@
         'Relevance': 'Độ liên quan', 'Newest': 'Mới nhất', 'Title A-Z': 'Tiêu đề A-Z', 'Engagement': 'Tương tác', 'Loading library...': 'Đang tải thư viện...',
         'Open full X Repost Atlas': 'Mở toàn bộ bản đồ bài đăng X', 'Begin': 'Bắt đầu', 'psst — type': 'gợi ý — hãy gõ', 'anywhere.': 'ở bất kỳ đâu.',
         'Enroll the course': 'Đăng ký khoá học', 'Read our manual': 'Đọc giáo trình', 'Start with the map': 'Bắt đầu từ bản đồ', 'Open library': 'Mở thư viện', 'Read manual': 'Đọc giáo trình',
-        'Course access': 'Quyền truy cập khoá học', 'Bank': 'Ngân hàng', 'Account number': 'Số tài khoản', 'Account holder': 'Chủ tài khoản', 'Close': 'Đóng',
+        'Open registration form': 'Điền form đăng ký', 'Manual access': 'Nhận manual hướng dẫn', 'Guide + direct call': 'Guide + call trực tiếp', 'Problem-focused training': 'Training theo vấn đề thật',
         'Map · Live': 'Bản đồ · Trực tuyến', 'Dashboard · Live': 'Bảng điều khiển · Trực tuyến', 'Tracker · Live': 'Theo dõi · Trực tuyến', 'Library · Live': 'Thư viện · Trực tuyến', 'App · Internal': 'Ứng dụng · Nội bộ', 'Map · Internal': 'Bản đồ · Nội bộ',
         'Vietnam Grid Atlas': 'Bản đồ Lưới điện Việt Nam', 'X Repost Atlas': 'Bản đồ Bài đăng X', 'Research Experts I Follow': 'Chuyên gia nghiên cứu tôi theo dõi',
         'Bookshelf': 'Giá sách', 'Tax Simulation': 'Mô phỏng thuế', 'Tobacco Mapping 2025': 'Bản đồ thuốc lá 2025',
@@ -793,7 +812,8 @@
             'About Huy — huylvu.github.io': 'Giới thiệu Huy — huylvu.github.io', 'Target audience': 'Đối tượng học',
             'Agentic research workflow map': 'Bản đồ quy trình nghiên cứu với tác nhân AI', 'Course and library preview': 'Xem trước khoá học và thư viện',
             'Knowledge base summary': 'Tóm tắt kho kiến thức', 'Library filters': 'Bộ lọc thư viện', 'Filter library by topic': 'Lọc thư viện theo chủ đề',
-            'Selected library item': 'Mục thư viện đang chọn', 'Filter sources by status': 'Lọc nguồn theo trạng thái', 'Close manual access dialog': 'Đóng hộp quyền truy cập giáo trình'
+            'Selected library item': 'Mục thư viện đang chọn', 'Filter sources by status': 'Lọc nguồn theo trạng thái', 'Close manual access dialog': 'Đóng hộp quyền truy cập giáo trình',
+            'Course enrollment options': 'Các lựa chọn đăng ký khoá học'
         };
         document.querySelectorAll('[aria-label]').forEach(function(el) {
             var en = el.getAttribute('data-aria-en') || el.getAttribute('aria-label');
@@ -842,6 +862,13 @@
 
         manualCloseButtons.forEach(function(button) {
             button.addEventListener('click', closeManualAccess);
+        });
+
+        formPlaceholderLinks.forEach(function(link) {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                showToast(copy[state.lang].formPending);
+            });
         });
 
         document.addEventListener('keydown', function(event) {
