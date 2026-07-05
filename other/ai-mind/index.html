@@ -1359,7 +1359,7 @@ addEventListener('keydown',e=>{
   if(e.key.length===1){keyBuf=(keyBuf+e.key.toLowerCase()).slice(-8);
     if(keyBuf.endsWith('mind')){keyBuf='';document.body.classList.toggle('control-mode');
       burst(innerWidth/2,innerHeight/2,26);
-      toast(lang==='vi'?'Đã mở chế độ kiểm soát — anh gõ đúng từ khoá':'Control mode unlocked')}}
+      toast(lang==='vi'?'Đã mở chế độ kiểm soát — bạn gõ đúng từ khoá':'Control mode unlocked')}}
 });
 let astClicks=0,astTimer;
 $('#brandAst').parentElement.addEventListener('click',e=>{

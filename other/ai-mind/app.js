@@ -44,6 +44,7 @@
     var navAnchors = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
     var manualAccessButtons = Array.prototype.slice.call(document.querySelectorAll('[data-manual-access]'));
     var manualAccessModal = document.getElementById('manual-access-modal');
+    var mainContent = document.querySelector('.mind-shell');
     var manualCloseButtons = Array.prototype.slice.call(document.querySelectorAll('[data-manual-close]'));
     var formPlaceholderLinks = Array.prototype.slice.call(document.querySelectorAll('[data-form-placeholder]'));
     var manualLastTrigger = null;
@@ -75,7 +76,7 @@
                 '.hero-text': 'Learn to design, run, and verify AI agent workflows for economic research. Build agents that read, code, retrieve, analyze, and write under your control.',
                 '.primary-action': 'Start with the map',
                 '.secondary-action': 'Open library',
-                '.manual-action': 'Read manual',
+                '.manual-action': 'Course options',
                 '#manual-title': 'Thirteen part covers, one operating system for agentic research.',
                 '#principles-title': 'Mindset first, tools second.',
                 '#course-title': "A researcher's path from prompt user to agent controller.",
@@ -84,20 +85,20 @@
                 '#sources-title': 'A working <em>backlog</em> for the course knowledge base.',
                 '#library-random': 'Random pull',
                 '#closing-title': 'Take back the controls.',
-                '.closing-text': 'Thirteen parts, one manual, and a library that keeps growing. Start from the map, or read the full training manual first.',
+                '.closing-text': 'Thirteen parts, one workflow map, and a library that keeps growing. Start from the map, or choose the support level that matches your work.',
                 '#closing-enroll': 'Enroll the course',
-                '#closing-manual': 'Read our manual',
+                '#closing-manual': 'Course options',
                 '#closing-map': 'Start with the map',
                 '#manual-access-title': 'Enroll the course',
                 '#manual-access-description': 'Choose the level of support that matches the problem you need to solve. Registration will go through a short form.',
                 '#manual-plan-basic-label': 'Self-paced',
                 '#manual-plan-basic-price': '500k',
-                '#manual-plan-basic-title': 'Manual access',
-                '#manual-plan-basic-copy': 'Receive the course manual and follow the setup guidance on your own.',
+                '#manual-plan-basic-title': 'Self-paced setup',
+                '#manual-plan-basic-copy': 'Follow the course path and setup guidance at your own pace.',
                 '#manual-plan-guided-label': 'Guided',
                 '#manual-plan-guided-price': '1000k',
                 '#manual-plan-guided-title': 'Guide + direct call',
-                '#manual-plan-guided-copy': 'Get the manual, practical guidance, and one live call to walk through your setup.',
+                '#manual-plan-guided-copy': 'Get practical guidance and one live call to walk through your setup.',
                 '#manual-plan-training-label': 'Tailored',
                 '#manual-plan-training-price': '2000k',
                 '#manual-plan-training-title': 'Problem-focused training',
@@ -116,7 +117,7 @@
             unlocked: 'Đã mở chế độ kiểm soát. Hỏi sắc hơn, kiểm chứng kỹ hơn.',
             overdriveOn: 'Đã bật chế độ tăng tốc. Các tác nhân AI quay nhanh hơn — nhớ giữ quyền kiểm soát.',
             overdriveOff: 'Đã tắt chế độ tăng tốc. Quay lại làm việc cẩn thận, kiểm chứng được.',
-            archivist: 'Đã mở khóa huy hiệu Lưu trữ. Mười con dấu — anh đọc kỹ thật.',
+            archivist: 'Đã mở khóa huy hiệu Lưu trữ. Mười con dấu — bạn đọc kỹ thật.',
             randomPull: 'Rút ngẫu nhiên một phiếu từ kho.',
             catalogCard: 'Phiếu thư mục',
             allStatuses: 'Tất cả',
@@ -127,7 +128,7 @@
                 '.hero-text': 'Học cách thiết kế, vận hành và kiểm chứng quy trình tác nhân AI cho nghiên cứu kinh tế. Xây tác nhân biết đọc, lập trình, truy xuất, phân tích và viết dưới quyền kiểm soát của mình.',
                 '.primary-action': 'Bắt đầu từ bản đồ',
                 '.secondary-action': 'Mở thư viện',
-                '.manual-action': 'Đọc giáo trình',
+                '.manual-action': 'Xem gói học',
                 '#manual-title': 'Mười ba phần, một hệ điều hành cho nghiên cứu với tác nhân AI.',
                 '#principles-title': 'Tư duy trước, công cụ sau.',
                 '#course-title': 'Lộ trình từ người viết yêu cầu thành người điều khiển tác nhân nghiên cứu.',
@@ -136,24 +137,24 @@
                 '#sources-title': 'Danh sách chờ <em>nguồn tư liệu</em> cho kho kiến thức khóa học.',
                 '#library-random': 'Rút ngẫu nhiên',
                 '#closing-title': 'Giành lại quyền điều khiển.',
-                '.closing-text': 'Mười ba phần, một giáo trình và một thư viện vẫn đang lớn dần. Bắt đầu từ bản đồ hoặc đọc trọn bộ giáo trình trước.',
+                '.closing-text': 'Mười ba phần, một bản đồ workflow và một thư viện vẫn đang lớn dần. Bắt đầu từ bản đồ hoặc chọn mức hỗ trợ phù hợp với việc của bạn.',
                 '#closing-enroll': 'Đăng ký khoá học',
-                '#closing-manual': 'Đọc giáo trình của khoá',
+                '#closing-manual': 'Xem gói học',
                 '#closing-map': 'Bắt đầu từ bản đồ',
                 '#manual-access-title': 'Đăng ký khoá học',
-                '#manual-access-description': 'Chọn mức hỗ trợ phù hợp với vấn đề anh đang cần xử lý. Đăng ký sẽ đi qua một form ngắn.',
+                '#manual-access-description': 'Chọn mức hỗ trợ phù hợp với vấn đề bạn đang cần xử lý. Đăng ký sẽ đi qua một form ngắn.',
                 '#manual-plan-basic-label': 'Tự học',
                 '#manual-plan-basic-price': '500k',
-                '#manual-plan-basic-title': 'Nhận manual hướng dẫn',
-                '#manual-plan-basic-copy': 'Nhận giáo trình của khoá và tự làm theo hướng dẫn cài đặt, vận hành, kiểm chứng.',
+                '#manual-plan-basic-title': 'Tự học theo lộ trình',
+                '#manual-plan-basic-copy': 'Đi theo lộ trình khoá học và tự làm theo hướng dẫn cài đặt, vận hành, kiểm chứng.',
                 '#manual-plan-guided-label': 'Có người kèm',
                 '#manual-plan-guided-price': '1000k',
                 '#manual-plan-guided-title': 'Guide + call trực tiếp',
-                '#manual-plan-guided-copy': 'Có manual, phần hướng dẫn thực hành và một buổi call trực tiếp để đi qua setup của anh.',
+                '#manual-plan-guided-copy': 'Có hướng dẫn thực hành và một buổi call trực tiếp để đi qua setup của bạn.',
                 '#manual-plan-training-label': 'Theo vấn đề',
                 '#manual-plan-training-price': '2000k',
                 '#manual-plan-training-title': 'Training theo vấn đề thật',
-                '#manual-plan-training-copy': 'Training đúng vấn đề anh đang gặp, dựa trên kiến thức sẵn có, ràng buộc và điểm nghẽn trong workflow hiện tại.',
+                '#manual-plan-training-copy': 'Training đúng vấn đề bạn đang gặp, dựa trên kiến thức sẵn có, ràng buộc và điểm nghẽn trong workflow hiện tại.',
                 '#manual-access-note': 'Link Google Form sẽ được gắn ở đây sau. Form cần hỏi: chọn gói nào, đang gặp vấn đề gì, bối cảnh/kiến thức hiện tại, và email liên hệ để Huy phản hồi qua huymaeco@gmail.com.',
                 '#manual-form-label': 'Điền form đăng ký'
             }
@@ -182,8 +183,8 @@
         'Operating frame': 'Khung vận hành', 'Applied labs': 'Bài thực hành ứng dụng', 'Skill library': 'Thư viện kỹ năng', 'Search': 'Tìm kiếm', 'Sort': 'Sắp xếp',
         'Relevance': 'Độ liên quan', 'Newest': 'Mới nhất', 'Title A-Z': 'Tiêu đề A-Z', 'Engagement': 'Tương tác', 'Loading library...': 'Đang tải thư viện...',
         'Open full X Repost Atlas': 'Mở toàn bộ bản đồ bài đăng X', 'Begin': 'Bắt đầu', 'psst — type': 'gợi ý — hãy gõ', 'anywhere.': 'ở bất kỳ đâu.',
-        'Enroll the course': 'Đăng ký khoá học', 'Read our manual': 'Đọc giáo trình', 'Start with the map': 'Bắt đầu từ bản đồ', 'Open library': 'Mở thư viện', 'Read manual': 'Đọc giáo trình',
-        'Open registration form': 'Điền form đăng ký', 'Manual access': 'Nhận manual hướng dẫn', 'Guide + direct call': 'Guide + call trực tiếp', 'Problem-focused training': 'Training theo vấn đề thật',
+        'Enroll the course': 'Đăng ký khoá học', 'Course options': 'Xem gói học', 'Start with the map': 'Bắt đầu từ bản đồ', 'Open library': 'Mở thư viện',
+        'Open registration form': 'Điền form đăng ký', 'Self-paced setup': 'Tự học theo lộ trình', 'Guide + direct call': 'Guide + call trực tiếp', 'Problem-focused training': 'Training theo vấn đề thật',
         'Map · Live': 'Bản đồ · Trực tuyến', 'Dashboard · Live': 'Bảng điều khiển · Trực tuyến', 'Tracker · Live': 'Theo dõi · Trực tuyến', 'Library · Live': 'Thư viện · Trực tuyến', 'App · Internal': 'Ứng dụng · Nội bộ', 'Map · Internal': 'Bản đồ · Nội bộ',
         'Vietnam Grid Atlas': 'Bản đồ Lưới điện Việt Nam', 'X Repost Atlas': 'Bản đồ Bài đăng X', 'Research Experts I Follow': 'Chuyên gia nghiên cứu tôi theo dõi',
         'Bookshelf': 'Giá sách', 'Tax Simulation': 'Mô phỏng thuế', 'Tobacco Mapping 2025': 'Bản đồ thuốc lá 2025',
@@ -206,39 +207,6 @@
     ];
 
     var viPhrases = {
-        'Economics task contract': 'Bản giao việc nghiên cứu kinh tế',
-        'A compact prompt contract for empirical tasks: data, sample, output, assumptions, checks, and non-goals.': 'Bản giao việc ngắn gọn cho nghiên cứu thực nghiệm, gồm dữ liệu, mẫu, đầu ra, giả định, bước kiểm tra và phần không thực hiện.',
-        'AGENTS.md project instructions': 'Chỉ dẫn dự án trong AGENTS.md',
-        'Project-level instructions that tell coding agents how to work inside a repo, what to verify, and what not to touch.': 'Chỉ dẫn cấp dự án cho tác nhân lập trình: cách làm việc trong kho mã, phần phải kiểm chứng và phần không được chạm tới.',
-        'Codex skills': 'Kỹ năng Codex',
-        'Reusable local procedures for recurring tasks such as literature review, Stata auditing, frontend QA, or citation checks.': 'Quy trình cục bộ có thể tái sử dụng cho các việc lặp lại như tổng quan văn liệu, rà soát Stata, kiểm thử giao diện và kiểm tra trích dẫn.',
-        'Claude memory and CLAUDE.md': 'Trí nhớ Claude và CLAUDE.md',
-        'A reference pattern for hierarchical memory files and project instructions.': 'Mẫu tham khảo cho hệ thống tệp trí nhớ phân cấp và chỉ dẫn dự án.',
-        'Context engineering for agents': 'Thiết kế ngữ cảnh cho tác nhân AI',
-        'A framing for treating context as a designed system rather than dumping files into a prompt.': 'Cách tiếp cận coi ngữ cảnh là một hệ thống cần thiết kế, thay vì đổ hàng loạt tệp vào yêu cầu.',
-        'AI Research Skills Library': 'Thư viện kỹ năng nghiên cứu AI',
-        'A public skill collection aimed at research workflows and reusable agent behavior.': 'Bộ kỹ năng công khai dành cho quy trình nghiên cứu và hành vi tác nhân có thể tái sử dụng.',
-        'Mental models and critical-thinking routines for agents: first principles, Bayesian thinking, systems thinking, OODA, and premortems.': 'Mô hình tư duy và quy trình phản biện cho tác nhân AI: nguyên lý đầu tiên, tư duy Bayes, tư duy hệ thống, OODA và phân tích thất bại trước.',
-        'Obsidian second brain skill': 'Kỹ năng bộ não thứ hai trên Obsidian',
-        'Cross-CLI skill for turning an Obsidian vault into an AI-first second brain across coding agents.': 'Kỹ năng dùng trên nhiều công cụ dòng lệnh để biến kho Obsidian thành bộ não thứ hai ưu tiên AI cho các tác nhân lập trình.',
-        'Search, scrape, and convert web pages into agent-usable source material at scale.': 'Tìm kiếm, thu thập và chuyển trang web thành tư liệu mà tác nhân AI có thể sử dụng ở quy mô lớn.',
-        'Open-source AI memory system that can act as an external retrieval layer when memory must be queryable.': 'Hệ thống trí nhớ AI mã nguồn mở, đóng vai trò lớp truy xuất bên ngoài khi cần tìm kiếm lại trí nhớ.',
-        'Markdown-only skills for autonomous research loops, idea discovery, review, and experiment automation.': 'Bộ kỹ năng chỉ dùng Markdown cho vòng lặp nghiên cứu tự động, khám phá ý tưởng, rà soát và tự động hoá thí nghiệm.',
-        'Compresses tool outputs, logs, files, and RAG chunks before they reach the model.': 'Nén đầu ra công cụ, nhật ký, tệp và các đoạn RAG trước khi chúng được đưa vào mô hình.',
-        'Claude Code for Applied Economists': 'Claude Code cho nhà kinh tế ứng dụng',
-        "Paul Goldsmith-Pinkham's economist-facing sequence: setup, empty folder to figure, web/EDGAR scraping, structured databases, writing, skills, and sandboxes.": 'Chuỗi hướng dẫn của Paul Goldsmith-Pinkham cho nhà kinh tế: cài đặt, đi từ thư mục trống đến biểu đồ, thu thập web/EDGAR, cơ sở dữ liệu có cấu trúc, viết, kỹ năng và vùng cách ly.',
-        'AI Agents for Economics Research': 'Tác nhân AI cho nghiên cứu kinh tế',
-        "Aniket Panjwani's practical framing for literature review, coding, data work, replication, writing, and slides with budget-aware agent workflows.": 'Khung thực hành của Aniket Panjwani cho tổng quan văn liệu, lập trình, xử lý dữ liệu, tái lập, viết và làm slide bằng quy trình tác nhân có kiểm soát ngân sách.',
-        "Chris Blattman's applied workflow library for schedules, communication, project management, deep research, plan review, and CLAUDE.md setup.": 'Thư viện quy trình thực hành của Chris Blattman cho lịch làm việc, giao tiếp, quản lý dự án, nghiên cứu sâu, rà soát kế hoạch và thiết lập CLAUDE.md.',
-        'Claude Code for quantitative social scientists': 'Claude Code cho nhà khoa học xã hội định lượng',
-        "Scott Cunningham's running Claude Code field notes, with emphasis on checklists, applied econometrics, AI disclosure, and research production.": 'Ghi chép thực địa liên tục của Scott Cunningham về Claude Code, nhấn mạnh danh sách kiểm tra, kinh tế lượng ứng dụng, công bố việc dùng AI và quy trình sản xuất nghiên cứu.',
-        "Pedro Sant'Anna Claude Code workflow": "Quy trình Claude Code của Pedro Sant'Anna",
-        'A production-grade academic template for papers, slides, data analysis, replication packages, multi-agent review, and quality gates.': 'Mẫu học thuật sẵn sàng cho sản xuất, bao gồm bài nghiên cứu, slide, phân tích dữ liệu, gói tái lập, rà soát đa tác nhân và cổng kiểm định chất lượng.',
-        'A collaborative AI workflow for producing statistical software in R, Python, C++, Julia, and Stata from natural language.': 'Quy trình AI cộng tác để xây phần mềm thống kê bằng R, Python, C++, Julia và Stata từ ngôn ngữ tự nhiên.',
-        'Empirical Work in the Age of AI': 'Nghiên cứu thực nghiệm trong thời đại AI',
-        'Stanford IRiSS panel on how AI is changing empirical work and what social scientists should treat as durable judgment versus automatable work.': 'Tọa đàm Stanford IRiSS về cách AI thay đổi nghiên cứu thực nghiệm và phần nào cần giữ lại như phán đoán chuyên môn, phần nào có thể tự động hoá.',
-        'Andrej Karpathy: English as programming language': 'Andrej Karpathy: tiếng Anh như một ngôn ngữ lập trình',
-        'Useful north-star framing: natural language is now part of the control surface, but understanding remains non-transferable.': 'Một định hướng hữu ích: ngôn ngữ tự nhiên đã trở thành một phần của bảng điều khiển, nhưng sự thấu hiểu vẫn không thể chuyển giao.',
         'Template': 'Khuôn mẫu', 'Guide': 'Hướng dẫn', 'Library': 'Thư viện', 'GitHub repo': 'Kho mã GitHub',
         'Starred repo': 'Kho mã đã đánh dấu', 'X repost': 'Bài đăng X được tuyển chọn',
         'Course series': 'Chuỗi khoá học', 'Webinar/tutorial': 'Hội thảo và hướng dẫn', 'Workflow library': 'Thư viện quy trình',
@@ -367,7 +335,7 @@
             : String(row.tags || '').split(/[;,]/).map(function(tag) { return tag.trim(); }).filter(Boolean);
         var stats = row.stats || {};
         return Object.assign({}, row, {
-            id: row.id || 'seed-' + String(index || hashString(row.title || row.url || 'library')),
+            id: row.id || 'seed-' + String(index || hashString((row.title && row.title.en) || row.title || row.url || 'library')),
             sourceType: row.sourceType || row.type || 'Course source',
             author: row.author || row.audience || 'Course corpus',
             date: row.date || row.updated || row.generatedAt || '',
@@ -482,7 +450,7 @@
             return [
                 '<li>',
                     '<button class="module-button' + active + '" type="button" data-module-id="' + escapeHtml(module.id) + '">',
-                        '<span>' + String(index + 1).padStart(2, '0') + '</span>',
+                        '<span>' + String(index).padStart(2, '0') + '</span>',
                         '<strong>' + escapeHtml(textOf(module.title)) + '</strong>',
                         '<em>' + escapeHtml(textOf(module.stage)) + '</em>',
                     '</button>',
@@ -500,7 +468,7 @@
         }
 
         moduleDetail.innerHTML = [
-            '<img class="detail-cover" src="' + escapeHtml(activeModule.image || '') + '" alt="">',
+            '<img class="detail-cover" src="' + escapeHtml(activeModule.image || '') + '" alt="" loading="lazy" decoding="async">',
             '<p class="detail-stage">' + escapeHtml(textOf(activeModule.stage)) + '</p>',
             '<h3>' + escapeHtml(textOf(activeModule.title)) + '</h3>',
             '<p class="detail-promise">' + escapeHtml(textOf(activeModule.promise)) + '</p>',
@@ -519,14 +487,14 @@
         if (!partStrip) return;
         partStrip.innerHTML = modules.map(function(module, index) {
             return [
-                '<article class="part-card" data-module-id="' + escapeHtml(module.id) + '">',
-                    '<img src="' + escapeHtml(module.image || '') + '" alt="">',
+                '<button class="part-card" type="button" data-module-id="' + escapeHtml(module.id) + '">',
+                    '<img src="' + escapeHtml(module.image || '') + '" alt="" loading="lazy" decoding="async">',
                     '<div>',
-                        '<span>' + (state.lang === 'vi' ? 'Phần ' : 'Part ') + index + '</span>',
+                        '<span>' + (state.lang === 'vi' ? 'Phần ' : 'Part ') + String(index).padStart(2, '0') + '</span>',
                         '<h3>' + escapeHtml(textOf(module.title)) + '</h3>',
                         '<p>' + escapeHtml(textOf(module.stage)) + '</p>',
                     '</div>',
-                '</article>'
+                '</button>'
             ].join('');
         }).join('');
     }
@@ -611,6 +579,15 @@
         return /^(x|gh)-/.test(String(row.id || '')) || Boolean(row.sourceUrl);
     }
 
+    // X-repost rows only: their title/summary/relevance/tags are raw EN text pulled live from the
+    // repost feed with no authored Vietnamese, so VI mode still needs a generic placeholder note.
+    // gh-* rows (GitHub library records) now carry real {en,vi} content and populated tags, so they
+    // no longer need this fallback — only isImportedLibraryRow() still applies to them (for the
+    // lead-vs-curated-source framing in the inspector's "How to use it" panel).
+    function isUntranslatedImportRow(row) {
+        return /^x-/.test(String(row.id || ''));
+    }
+
     function renderLibrary() {
         var rows = filteredLibrary();
         var active = ensureActiveLibrary(rows);
@@ -626,9 +603,9 @@
         libraryList.innerHTML = visibleRows.map(function(row, index) {
             var activeClass = row.id === state.activeLibraryId ? ' active' : '';
             var delay = Math.min(index, 8) * 45;
-            var isImported = isImportedLibraryRow(row);
+            var untranslated = isUntranslatedImportRow(row);
             var visibleTitle = textOf(row.title);
-            var visibleSummary = state.lang === 'vi' && isImported ? 'Đầu mối tư liệu đã được tuyển chọn. Mở nguồn gốc để đọc nội dung đầy đủ và tự kiểm chứng.' : textOf(row.summary);
+            var visibleSummary = state.lang === 'vi' && untranslated ? 'Đầu mối tư liệu đã được tuyển chọn. Mở nguồn gốc để đọc nội dung đầy đủ và tự kiểm chứng.' : textOf(row.summary);
             return [
                 '<button class="library-row' + activeClass + '" type="button" data-library-id="' + escapeHtml(row.id) + '" style="animation-delay:' + delay + 'ms">',
                     '<span class="row-index">' + String(index + 1).padStart(2, '0') + '</span>',
@@ -677,8 +654,9 @@
         }
         var stats = row.stats || {};
         var isImported = isImportedLibraryRow(row);
+        var untranslated = isUntranslatedImportRow(row);
         var visibleTitle = textOf(row.title);
-        var visibleSummary = state.lang === 'vi' && isImported ? 'Đầu mối tư liệu đã được tuyển chọn. Mở bài gốc, kiểm tra tài liệu liên kết rồi mới quyết định cách sử dụng.' : textOf(row.summary);
+        var visibleSummary = state.lang === 'vi' && untranslated ? 'Đầu mối tư liệu đã được tuyển chọn. Mở bài gốc, kiểm tra tài liệu liên kết rồi mới quyết định cách sử dụng.' : textOf(row.summary);
         var link = row.url ? '<a class="detail-link" href="' + escapeHtml(row.url) + '" target="_blank" rel="noreferrer">' + (state.lang === 'vi' ? 'Mở nguồn' : 'Open source') + '</a>' : '<span class="detail-link muted-link">' + (state.lang === 'vi' ? 'Không có liên kết nguồn' : 'No source link') + '</span>';
         var repostLink = row.sourceUrl ? '<a class="detail-link" href="' + escapeHtml(row.sourceUrl) + '" target="_blank" rel="noreferrer">' + (state.lang === 'vi' ? 'Bài tôi đăng lại' : 'My repost') + '</a>' : '';
         libraryInspector.innerHTML = [
@@ -695,10 +673,10 @@
                     statCell(state.lang === 'vi' ? 'Phản hồi' : 'Replies', compactNumber(stats.replies)),
                 '</dl>',
                 '<h4>' + (state.lang === 'vi' ? 'Vì sao quan trọng' : 'Why it matters') + '</h4>',
-                '<p>' + escapeHtml(state.lang === 'vi' && isImported ? 'Nguồn này có thể gợi ý công cụ, kỹ năng hoặc quy trình cho khoá học; cần đọc nguồn gốc trước khi sử dụng.' : textOf(row.relevance || row.audience || (state.lang === 'vi' ? 'Tư liệu khoá học' : 'Course material'))) + '</p>',
+                '<p>' + escapeHtml(state.lang === 'vi' && untranslated ? 'Nguồn này có thể gợi ý công cụ, kỹ năng hoặc quy trình cho khoá học; cần đọc nguồn gốc trước khi sử dụng.' : textOf(row.relevance || row.audience || (state.lang === 'vi' ? 'Tư liệu khoá học' : 'Course material'))) + '</p>',
                 '<h4>' + (state.lang === 'vi' ? 'Cách sử dụng' : 'How to use it') + '</h4>',
                 '<p>' + escapeHtml(state.lang === 'vi' ? (isImported ? 'Xem đây là một đầu mối. Mở bài gốc, kiểm tra tài liệu liên kết, rồi quyết định đưa nó thành nguồn, kỹ năng, tình huống nghiên cứu hay mục lưu trữ.' : 'Dùng đây như nguồn của khoá học. Rút ra mẫu quy trình, dẫn liên kết gốc và chuyển các bước tái sử dụng thành kỹ năng hoặc bài tập.') : (isImported ? 'Treat this as a lead. Open the original post, inspect the linked material, then decide whether it becomes a source, skill, case study, or archive item.' : 'Use this as a course source. Extract the workflow pattern, cite the original link, and convert reusable steps into skills or assignments.')) + '</p>',
-                '<div class="tag-row">' + (state.lang === 'vi' && isImported ? '' : (row.tags || []).slice(0, 10).map(function(tag) { return '<span>' + escapeHtml(textOf(tag)) + '</span>'; }).join('')) + '</div>',
+                '<div class="tag-row">' + (state.lang === 'vi' && untranslated ? '' : (row.tags || []).slice(0, 10).map(function(tag) { return '<span>' + escapeHtml(textOf(tag)) + '</span>'; }).join('')) + '</div>',
             '</div>'
         ].join('');
     }
@@ -845,6 +823,7 @@
                 manualAccessModal.classList.add('open');
                 manualAccessModal.setAttribute('aria-hidden', 'false');
                 document.body.classList.add('manual-modal-open');
+                if (mainContent) mainContent.setAttribute('inert', '');
                 var closeButton = manualAccessModal.querySelector('.manual-access-close');
                 if (closeButton) {
                     window.setTimeout(function() { closeButton.focus(); }, 0);
@@ -857,6 +836,7 @@
             manualAccessModal.classList.remove('open');
             manualAccessModal.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('manual-modal-open');
+            if (mainContent) mainContent.removeAttribute('inert');
             if (manualLastTrigger) manualLastTrigger.focus();
         }
 

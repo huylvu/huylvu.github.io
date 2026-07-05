@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="AI Mind course-linked workflow simulator">
+  <meta property="og:title" content="AI Mind — Mô phỏng">
+  <meta property="og:description" content="AI Mind course-linked workflow simulator">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://huylvu.github.io/other/ai-mind/studio/simulator.html">
+  <meta property="og:image" content="https://huylvu.github.io/docs/ai-mind/assets/control-your-ai-mind-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
   <title>AI Mind — Mô phỏng</title>
   <link rel="icon" type="image/jpeg" href="/avt.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +25,7 @@
   <main>
     <section class="screen on" id="brief-screen">
       <div class="mission-line"><span id="mission-code"></span><span id="mission-duration"></span></div>
-      <h1 id="mission-title"></h1>
+      <h1 id="mission-title" tabindex="-1"></h1>
       <p class="subtitle" id="mission-subtitle"></p>
       <div class="brief-card">
         <div class="brief-head"><span data-t="briefing">TÓM TẮT NHIỆM VỤ</span><b id="mission-deadline"></b></div>
@@ -34,7 +40,7 @@
       <div class="hud"><span id="hud-code"></span><div class="progress" id="progress"></div><span id="hud-score">0/4</span></div>
       <div class="decision-wrap">
         <p class="step" id="decision-step"></p>
-        <h2 id="decision-title"></h2>
+        <h2 id="decision-title" tabindex="-1"></h2>
         <p class="situation" id="decision-situation"></p>
         <div class="choices">
           <button class="choice fast" type="button" data-choice="fast"><span data-t="fast">NHANH · BUÔNG</span><strong id="fast-label"></strong><small id="fast-detail"></small></button>
@@ -44,18 +50,18 @@
     </section>
 
     <section class="screen" id="effect-screen">
-      <div class="effect-card"><p class="step" data-t="consequence">HỆ QUẢ</p><div class="effect-mark" id="effect-mark"></div><h2 id="effect-title"></h2><p id="effect-text"></p><button class="primary" id="continue-btn" type="button" data-t="continue">Quyết định tiếp theo →</button></div>
+      <div class="effect-card" aria-live="polite"><p class="step" data-t="consequence">HỆ QUẢ</p><div class="effect-mark" id="effect-mark"></div><h2 id="effect-title" tabindex="-1"></h2><p id="effect-text"></p><button class="primary" id="continue-btn" type="button" data-t="continue">Quyết định tiếp theo →</button></div>
     </section>
 
-    <section class="screen" id="result-screen">
-      <div class="result-head"><p class="step" data-t="record">HỒ SƠ NHIỆM VỤ</p><div class="stamp" id="result-stamp"></div><p id="result-summary"></p></div>
+    <section class="screen" id="result-screen" tabindex="-1">
+      <div class="result-head" aria-live="polite"><p class="step" data-t="record">HỒ SƠ NHIỆM VỤ</p><div class="stamp" id="result-stamp"></div><p id="result-summary"></p></div>
       <div class="score-grid"><div><span data-t="controlPoints">ĐIỂM KIỂM SOÁT</span><strong id="result-score"></strong></div><div><span data-t="riskCount">RỦI RO ĐÃ CHẤP NHẬN</span><strong id="result-risks"></strong></div><div><span data-t="courseParts">PHẦN HỌC LIÊN QUAN</span><strong id="result-parts"></strong></div></div>
       <div class="ledger"><h2 data-t="ledger">Sổ rủi ro</h2><div id="ledger-list"></div></div>
       <div class="artifacts"><div class="section-head"><h2 data-t="takeHome">Sản phẩm mang về</h2><p data-t="takeHomeSub">Sao chép và dùng trong dự án thật.</p></div><div class="artifact-grid" id="artifact-grid"></div></div>
       <div class="result-actions"><button id="replay-btn" type="button" data-t="replay">↺ Chơi lại</button><a href="/other/ai-mind/studio/" data-t="otherMissions">Xem nhiệm vụ khác →</a></div>
     </section>
   </main>
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status"></div>
   <script src="/other/ai-mind/studio/scenarios.js"></script>
   <script src="/other/ai-mind/studio/simulator.js"></script>
 </body>

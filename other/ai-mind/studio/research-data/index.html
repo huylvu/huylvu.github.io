@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Bạn cầm lái — a playable agent-control simulator. One synthetic economics mission, five control decisions, and a flight record that shows exactly where you lost the numbers.">
+    <meta property="og:title" content="Bạn cầm lái — Control Your AI Mind">
+    <meta property="og:description" content="A playable agent-control simulator. One synthetic economics mission, five control decisions, and a flight record that shows exactly where you lost the numbers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://huylvu.github.io/other/ai-mind/studio/research-data/">
+    <meta property="og:image" content="https://huylvu.github.io/docs/ai-mind/assets/control-your-ai-mind-cover.png">
+    <meta name="twitter:card" content="summary_large_image">
     <title>Bạn cầm lái — Control Your AI Mind</title>
     <link rel="icon" type="image/jpeg" href="/avt.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -444,7 +450,7 @@
         margin: 0 0 10px;
     }
 
-    .ccard h3 { margin: 0 0 8px; font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.15; }
+    .ccard h2 { margin: 0 0 8px; font-size: clamp(1.3rem, 2.6vw, 1.7rem); font-weight: 600; line-height: 1.15; }
     .ccard-sit { margin: 0 0 18px; font-family: var(--sans); font-size: 0.95rem; color: var(--t3); line-height: 1.6; max-width: 64ch; }
 
     .ccard-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
@@ -683,6 +689,10 @@
         .bar { flex-wrap: wrap; padding: 10px 16px; }
     }
 
+    @media (max-width: 480px) {
+        .deb-link { white-space: normal; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .ccard, .verdict-stamp, .burst-dot { animation: none; }
         html { scroll-behavior: auto; }
@@ -705,7 +715,7 @@
         <section class="scene on" id="brief">
             <p class="cold-open" id="i18n-cold">Ở trang intro, bạn <b>xem</b> agent làm việc. Ở đây, bạn <b>điều khiển</b> nó.</p>
             <p class="kicker" id="i18n-kicker">// flight simulator — một nhiệm vụ, năm quyết định</p>
-            <h1 id="i18n-title">Bạn <em>cầm lái</em>.</h1>
+            <h1 id="i18n-title" tabindex="-1">Bạn <em>cầm lái</em>.</h1>
             <p class="brief-sub" id="i18n-sub">Một agent rất giỏi, một bộ dữ liệu kinh tế mô phỏng, một deadline sáng mai. Agent sẽ không bao giờ báo lỗi — nó chỉ lặng lẽ làm theo mức kiểm soát mà bạn đặt ra. Năm lần, quyền quyết định thuộc về bạn. Cuối phiên, flight record cho bạn xem chính xác con số đã sống hay chết ở quyết định nào.</p>
 
             <div class="memo" aria-label="Mission memo">
@@ -727,7 +737,7 @@
         </section>
 
         <!-- ════ SCENE 2: FLIGHT ════ -->
-        <section class="scene" id="fly">
+        <section class="scene" id="fly" tabindex="-1">
             <div class="hud">
                 <span><span class="hud-label" id="i18n-hud-clock">GIỜ</span>&nbsp; <span class="hud-clock" id="hud-clock">21:14</span></span>
                 <span class="hud-deadline" id="i18n-hud-dl">DEADLINE 09:00</span>
@@ -745,15 +755,15 @@
         <div class="ccard-wrap" id="ccard-wrap" role="dialog" aria-modal="true">
             <div class="ccard">
                 <p class="ccard-kicker"><span id="ccard-no">CONTROL 1/5</span><span id="i18n-ccard-hint">QUYỀN QUYẾT ĐỊNH: BẠN</span></p>
-                <h3 id="ccard-title"></h3>
+                <h2 id="ccard-title"></h2>
                 <p class="ccard-sit" id="ccard-sit"></p>
                 <div class="ccard-opts" id="ccard-opts"></div>
             </div>
         </div>
 
         <!-- ════ SCENE 3: FLIGHT RECORD ════ -->
-        <section class="scene" id="record">
-            <div class="verdict-wrap">
+        <section class="scene" id="record" tabindex="-1">
+            <div class="verdict-wrap" aria-live="polite">
                 <p class="kicker" id="i18n-rec-kicker">// flight record — 09:00 sáng hôm sau</p>
                 <div class="verdict-stamp" id="verdict-stamp">…</div>
                 <p class="verdict-sub" id="verdict-sub"></p>
@@ -1100,12 +1110,15 @@
         var hudClock = document.getElementById('hud-clock');
         var hudLamps = document.getElementById('hud-lamps');
 
+        var SCENE_FOCUS_TARGET = { brief: 'i18n-title', fly: 'fly', record: 'record' };
         function go(s) {
             scene = s;
             ['brief', 'fly', 'record'].forEach(function(id) {
                 document.getElementById(id).classList.toggle('on', id === s);
             });
             window.scrollTo(0, 0);
+            var focusEl = document.getElementById(SCENE_FOCUS_TARGET[s]);
+            if (focusEl) focusEl.focus();
         }
 
         function fmtClock(m) {
@@ -1166,7 +1179,6 @@
                 p.appendChild(cur);
                 var iv = setInterval(function() {
                     i += 2;
-                    p.firstChild ? null : null;
                     p.textContent = text.slice(0, i);
                     p.appendChild(cur);
                     term.scrollTop = term.scrollHeight;
